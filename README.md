@@ -1,9 +1,9 @@
-chillout
-========
-
-[![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+chillout.js
+===========
 
 Reduce JavaScript CPU usage by asynchronous iteration.
+
+[![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 
 Provides asynchronous iteration functions that runs with low CPU usage.
 Each iteration adds delay if the processing is heavy.
@@ -13,23 +13,6 @@ It can execute JavaScript without "Warning: Unresponsive Script" alert in browse
 ## Benchmarks
 
 Benchmarks the ForStatement and `chillout.repeat`.
-
-
-### ForStatement:
-
-![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-without-chillout.png)
-
-* Processing time: 51049ms.
-* CPU total average: **31.10%**
-
-### chillout.repeat
-
-![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-with-chillout.png)
-
-* Processing time: 59769ms.
-* CPU total average: **22.76%**
-
-#### Source
 
 ```javascript
 function heavyProcess() {
@@ -41,7 +24,7 @@ function heavyProcess() {
 }
 ```
 
-ForStatement:
+### ForStatement:
 
 ```javascript
 var time = Date.now();
@@ -52,7 +35,13 @@ var processingTime = Date.now() - time;
 console.log(processingTime);
 ```
 
-chillout.repeat:
+![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-without-chillout.png)
+
+* Processing time: 51049ms.
+* CPU total average: **31.10%**
+
+### chillout.repeat
+
 
 ```javascript
 var time = Date.now();
@@ -63,6 +52,18 @@ chillout.repeat(500, function(i) {
   console.log(processingTime);
 });
 ```
+
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-with-chillout.png)
+
+* Processing time: 59769ms.
+* CPU total average: **22.76%**
+
+
+chillout.js can run JavaScript with low CPU usage.
+However processing speed will a bit slowly.
+
+The most important thing of performance in JavaScript, that is not numeric speed, but is to execute without causing stress to the UI/UX.
+chillout.js is able to run JavaScript in a natural speed.
 
 ----
 
