@@ -64,6 +64,57 @@ chillout.repeat(500, function(i) {
 
 ----
 
+## Installation
+
+### Browser:
+
+```html
+<script src="chillout.js"></script>
+```
+
+or
+
+```html
+<script src="chillout.min.js"></script>
+```
+
+Object **chillout** will defined in the global scope.
+
+### Node.js:
+
+```bash
+npm install --save chillout
+```
+
+```javascript
+var chillout = require('chillout');
+```
+
+### bower:
+
+```bash
+bower install chillout
+```
+
+## Compatibility
+
+The limiting factor for browser/node support is the use of `Promise`.
+You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
+
+This results in the following minimum browser requirements (+needs `Promise`):
+
+* IE 9+
+*	Firefox 21+
+* Chrome23+
+* Opera 15+
+*	Android 4.4+
+*	iOS7/8
+
+### Prerequisites
+
+* Promise
+
+
 ## iteration functions
 
 ### each
