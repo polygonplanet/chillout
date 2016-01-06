@@ -176,7 +176,7 @@ The iteration will break if the callback function returns `false`.
   @param {_Function_} _callback_ Function to execute for each times, taking an argument:
   - i: The current number.
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
   @return {_Promise_} Return new Promise.
 
 Example of specify number:
@@ -219,7 +219,7 @@ The iteration will break if the callback function returns `false`.
 * chillout.**forever** ( callback [, context ] )  
   @param {_Function_} _callback_ The function that is executed for each iteration.  
   @param {_Object_} [_context_] Value to use as `this` when executing callback.  
-  @return {Promise} Return new Promise.
+  @return {_Promise_} Return new Promise.
 
 ```javascript
 var i = 0;
@@ -239,6 +239,17 @@ chillout.forever(function() {
 // 4
 // end
 ```
+
+## Comparison Table
+
+| JavaScript Statement             | chillout                                                                      |
+| ---------------------------------|-------------------------------------------------------------------------------|
+| array.forEach(function(v, i) {}) | chillout.each(array, function(v, i) {})                                       |
+| for (i = 0; i < 5; i++) {}       | chillout.repeat(5, function(i) {})                                            |
+| for (i = 10; i < 20; i += 2) {}  | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
+| while (true) {}                  | chillout.forever(function() {})                                               |
+| while (cond()) {}                | chillout.forever(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>}) |
+
 
 ## License
 
