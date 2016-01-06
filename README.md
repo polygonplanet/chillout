@@ -15,14 +15,14 @@ Benchmarks the ForStatement and `chillout.repeat`.
 
 ### ForStatement:
 
-![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/cpu-usage-without-chillout.png)
+![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-without-chillout.png)
 
 * Processing time: 51049ms.
 * CPU total average: **31.10%**
 
 ### chillout.repeat
 
-![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/cpu-usage-with-chillout.png)
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-with-chillout.png)
 
 * Processing time: 59769ms.
 * CPU total average: **22.76%**
