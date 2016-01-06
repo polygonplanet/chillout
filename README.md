@@ -100,8 +100,15 @@ bower install chillout
 
 ## Compatibility
 
-The limiting factor for browser/node support is the use of `Promise`.
+The limiting factor for browser/node support is the use of `Promise`.  
 You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
+
+Installation with es6-shim:
+
+```html
+<script src="es6-shim.min.js"></script>
+<script src="chillout.min.js"></script>
+```
 
 This results in the following minimum browser requirements (+needs `Promise`):
 
