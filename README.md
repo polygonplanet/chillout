@@ -1,6 +1,8 @@
 chillout
 ========
 
+[![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+
 Reduce JavaScript CPU usage by asynchronous iteration.
 
 Provides asynchronous iteration functions that runs with low CPU usage.
