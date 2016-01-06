@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reduce JavaScript CPU usage by asynchronous iteration",
   "main": "chillout.js",
   "directories": {
