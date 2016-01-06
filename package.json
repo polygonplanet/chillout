@@ -1,0 +1,32 @@
+{
+  "name": "chillout",
+  "version": "1.0.0",
+  "description": "Reduce JavaScript CPU usage by asynchronous iteration",
+  "main": "chillout.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "es6-shim": "",
+    "mocha": ""
+  },
+  "scripts": {
+    "test": "mocha test/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polygonplanet/chillout.git"
+  },
+  "keywords": [
+    "cpu",
+    "async",
+    "promise"
+  ],
+  "author": "polygon planet <polygon.planet.aqua@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/polygonplanet/chillout/issues"
+  },
+  "homepage": "https://github.com/polygonplanet/chillout"
+}

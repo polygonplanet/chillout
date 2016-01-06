@@ -1,0 +1,28 @@
+{
+  "name": "chillout",
+  "main": "chillout.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/polygonplanet/chillout",
+  "authors": [
+    "polygonplanet <polygon.planet.aqua@gmail.com>"
+  ],
+  "description": "Reduce JavaScript CPU usage by asynchronous iteration",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "cpu",
+    "async",
+    "promise"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

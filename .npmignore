@@ -1,0 +1,6 @@
+**/.*
+docs/
+bin/
+bower_components/
+node_modules/
+tasks/
