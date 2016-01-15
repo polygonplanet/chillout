@@ -12,7 +12,7 @@ It can execute JavaScript without "Warning: Unresponsive Script" alert in browse
 
 ## Benchmarks
 
-Benchmarks the ForStatement and `chillout.repeat`.
+Benchmarks the **ForStatement** and `chillout.repeat`.
 
 ```javascript
 function heavyProcess() {
@@ -65,6 +65,9 @@ However processing speed will a bit slowly.
 The most important thing of performance in JavaScript, that is not numeric speed, but is to execute without causing stress to the UI/UX.
 chillout.js is able to run JavaScript in a natural speed.
 
+
+(Benchmarks: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)
+
 ----
 
 ## Installation
@@ -104,7 +107,7 @@ bower install chillout
 The limiting factor for browser/node support is the use of `Promise`.  
 You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
 
-Installation with es6-shim:
+Example of Installation with es6-shim:
 
 ```html
 <script src="es6-shim.min.js"></script>
@@ -113,9 +116,9 @@ Installation with es6-shim:
 
 This results in the following minimum browser requirements (+needs `Promise`):
 
-* IE 9+
+* Chrome 23+
 *	Firefox 21+
-* Chrome23+
+* IE 11/Edge
 * Opera 15+
 *	Android 4.4+
 *	iOS7/8
@@ -242,6 +245,11 @@ chillout.forever(function() {
 ```
 
 ## Comparison Table
+
+You can reduce the CPU load by changing your JavaScript iteration to the chillout iteration.
+
+
+Examples:
 
 | JavaScript Statement             | chillout                                                                      |
 | ---------------------------------|-------------------------------------------------------------------------------|
