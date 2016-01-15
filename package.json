@@ -19,7 +19,7 @@
     "power-assert": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha test/node/test",
+    "test": "mocha test/test-node",
     "test-karma": "karma start karma.conf.js"
   },
   "repository": {

@@ -15,8 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'test/browser/vendor/es6-shim.js',
-      'test/browser/vendor/power-assert.js',
+      'test/vendor/es6-shim.js',
+      'test/vendor/power-assert.js',
       'chillout.js',
       'test/test.js'
     ],
