@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Reduce JavaScript CPU usage by asynchronous iteration",
   "main": "chillout.js",
   "directories": {
@@ -29,7 +29,8 @@
   "keywords": [
     "cpu",
     "async",
-    "promise"
+    "promise",
+    "setimmediate"
   ],
   "author": "polygon planet <polygon.planet.aqua@gmail.com>",
   "license": "MIT",
