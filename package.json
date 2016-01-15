@@ -8,11 +8,19 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "es6-shim": "",
-    "mocha": ""
+    "es6-shim": "^0.34.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-mocha": "^0.2.1",
+    "karma-mocha-reporter": "^1.1.5",
+    "mocha": "^2.3.4",
+    "power-assert": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha test/test"
+    "test": "mocha test/node/test",
+    "test-karma": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",

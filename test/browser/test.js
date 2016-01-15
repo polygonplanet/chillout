@@ -1,8 +1,12 @@
-/* global describe, it, expect, chillout */
+/* jshint node: true */
+/* global describe, it, expect, require */
+'use strict';
+
+require('es6-shim');
+var chillout = require('../chillout');
+var assert = require('assert');
 
 describe('chillout test', function() {
-  'use strict';
-
   describe('each', function() {
     it('array', function(done) {
       var values = [];
