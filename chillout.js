@@ -3,7 +3,7 @@
  *
  * @description Reduce JavaScript CPU usage by asynchronous iteration
  * @version     1.0.1
- * @date        2016-01-06
+ * @date        2016-01-15
  * @link        https://github.com/polygonplanet/chillout
  * @copyright   Copyright (c) 2016 polygon planet <polygon.planet.aqua@gmail.com>
  * @license     MIT
@@ -32,29 +32,34 @@
 
   // nextTick implementation
   if (typeof setImmediate === 'function') {
-    chillout.nextTick = function(callback) {
-      setImmediate(callback);
+    chillout.nextTick = function(task) {
+      setImmediate(task);
     };
   } else if (typeof process === 'object' && typeof process.nextTick === 'function') {
-    chillout.nextTick = function(callback) {
-      process.nextTick(callback);
+    chillout.nextTick = function(task) {
+      process.nextTick(task);
     };
   } else if (typeof MessageChannel === 'function') {
     chillout.nextTick = (function() {
-      var queue = [];
+      // http://www.nonblocking.io/2011/06/windownexttick.html
       var channel = new MessageChannel();
+      var head = {}, tail = head;
+
       channel.port1.onmessage = function() {
-        queue.shift()();
+        head = head.next;
+        var task = head.task;
+        delete head.task;
+        task();
       };
 
-      return function(callback) {
-        queue.push(callback);
-        channel.port2.postMessage('');
+      return function(task) {
+        tail = tail.next = {task: task};
+        channel.port2.postMessage(0);
       };
     }());
   } else {
-    chillout.nextTick = function(callback) {
-      setTimeout(callback, 0);
+    chillout.nextTick = function(task) {
+      setTimeout(task, 0);
     };
   }
 
