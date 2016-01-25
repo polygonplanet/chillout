@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Reduce JavaScript CPU usage by asynchronous iteration",
   "main": "chillout.js",
   "directories": {
@@ -19,7 +19,8 @@
     "power-assert": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha test/test-node && karma start karma.conf.js"
+    "test": "mocha test/test-node",
+    "test-karma": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
