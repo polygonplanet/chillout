@@ -266,7 +266,7 @@ Examples:
 ## Contributing
 
 I'm waiting for your pull requests and issues.
-Don't forget to execute `npm test` before requesting.
+Don't forget to execute `npm test` and `npm run test-karma` before requesting.
 Accepted only requests without errors.
 
 
