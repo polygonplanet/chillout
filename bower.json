@@ -1,7 +1,7 @@
 {
   "name": "chillout",
   "main": "chillout.js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "https://github.com/polygonplanet/chillout",
   "authors": [
     "polygonplanet <polygon.planet.aqua@gmail.com>"
