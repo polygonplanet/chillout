@@ -99,7 +99,7 @@
     repeat: function(count, callback, context) {
       var i, step, end;
 
-      if (typeof count === 'object') {
+      if (count && typeof count === 'object') {
         i = count.start || 0;
         step = count.step || 1;
         end = count.end;
