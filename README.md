@@ -9,7 +9,7 @@ Provides asynchronous iteration functions that have a **Promise based** interfac
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
 Iterate without delay if processing is fast.
 Therefore, it will realize friendly processing for your machine.
-It can execute JavaScript without "Warning: Unresponsive Script" alert in browser. 
+It can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
 
 You can use it in any JavaScript environment (Browser, Electron, Node.js).
 
@@ -21,7 +21,7 @@ Benchmarks the **ForStatement** and `chillout.repeat`.
 function heavyProcess() {
   for (var i = 0; i < 10000; i++) {
     for (var j = 0; j < 10000; j++) {
-      var r = Math.random();
+      var v = i*j;
     }
   }
 }
@@ -64,9 +64,9 @@ chillout.repeat(500, function(i) {
 
 You can confirm that `chillout.repeat` is running on a more low CPU usage than **ForStatement**.
 
-chillout.js can run JavaScript in a natural speed with low CPU usage, but processing speed will be a bit slowly.
+chillout.js can run JavaScript in a natural speed with low CPU usage, but processing speed will be a bit slow.
 
-A one of the most important thing of performance in JavaScript, that is not numeric speed, but is to execute without causing stress to the user experience.
+One of the most important thing of performance in JavaScript, that is not numeric speed, but is to execute without causing stress to the user experience.
 
 
 *(Benchmarks: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
@@ -87,7 +87,7 @@ or
 <script src="chillout.min.js"></script>
 ```
 
-Object **chillout** will defined in the global scope.
+Object **chillout** will be defined in the global scope.
 
 ### Node.js:
 
