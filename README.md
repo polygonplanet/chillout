@@ -5,6 +5,27 @@ Reduce JavaScript CPU usage by asynchronous iteration.
 
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 
+Table of contents
+=================
+
+* [Benchmarks](#benchmarks)
+  * [ForStatement](#forstatement)
+  * [chillout.repeat](#chillout.repeat)
+* [Installation](#installation)
+  * [Browser](#browser)
+  * [Node.js](#node.js)
+  * [Bower](#bower)
+* [Dependencies](#dependencies)
+* [Compatibility](#compatibility)
+* [Iteration Functions](#iteration-functions)
+  * [each](#each)
+  * [repeat](#repeat)
+  * [forever](#forever)
+* [Comparison Table](#comparison-table)
+* [Contributing](#contributing)
+* [License](#license)
+
+
 Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
 Iterate without delay if processing is fast.
@@ -27,7 +48,7 @@ function heavyProcess() {
 }
 ```
 
-### ForStatement:
+### ForStatement
 
 ```javascript
 var time = Date.now();
@@ -43,7 +64,7 @@ console.log(processingTime);
 * Processing time: 51049ms.
 * CPU total average: **31.10%**
 
-### chillout.repeat:
+### chillout.repeat
 
 
 ```javascript
@@ -75,7 +96,7 @@ One of the most important thing of performance in JavaScript, that is not numeri
 
 ## Installation
 
-### Browser:
+### Browser
 
 ```html
 <script src="chillout.js"></script>
@@ -89,7 +110,7 @@ or
 
 Object **chillout** will be defined in the global scope.
 
-### Node.js:
+### Node.js
 
 ```bash
 npm install --save chillout
@@ -99,7 +120,7 @@ npm install --save chillout
 var chillout = require('chillout');
 ```
 
-### bower:
+### Bower
 
 ```bash
 bower install chillout
@@ -133,7 +154,7 @@ This results in the following minimum browser requirements (+needs `Promise`):
 *	iOS 7/8+
 
 
-## iteration functions
+## Iteration Functions
 
 ### each
 
