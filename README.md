@@ -10,10 +10,10 @@ Table of contents
 
 * [Benchmarks](#benchmarks)
   * [ForStatement](#forstatement)
-  * [chillout.repeat](#chillout.repeat)
+  * [chillout.repeat](#chilloutrepeat)
 * [Installation](#installation)
   * [Browser](#browser)
-  * [Node.js](#node.js)
+  * [Node.js](#nodejs)
   * [Bower](#bower)
 * [Dependencies](#dependencies)
 * [Compatibility](#compatibility)
