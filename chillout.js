@@ -69,7 +69,7 @@
       var i = 0;
       var len;
 
-      if (Array.isArray(obj)) {
+      if (isArrayLike(obj)) {
         len = obj.length;
 
         return {
@@ -259,6 +259,10 @@
 
   function isThenable(x) {
     return x != null && typeof x.then === 'function';
+  }
+
+  function isArrayLike(x) {
+    return x != null && typeof x.length === 'number' && x.length >= 0;
   }
 
   return chillout;

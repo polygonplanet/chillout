@@ -30,6 +30,19 @@ describe('chillout test', function() {
       });
     });
 
+    it('array-like object', function(done) {
+      var values = [];
+      var keys = [];
+      chillout.each({ 0: 1, 1: 2, 2: 3, length: 3 }, function(value, i) {
+        values.push(value);
+        keys.push(i);
+      }).then(function() {
+        assert.deepEqual(values, [1, 2, 3]);
+        assert.deepEqual(keys, [0, 1, 2]);
+        done();
+      });
+    });
+
     it('array with context', function(done) {
       var context = {
         values: [],
