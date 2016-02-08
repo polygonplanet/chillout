@@ -5,7 +5,7 @@ Reduce JavaScript CPU usage by asynchronous iteration.
 
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 
-Provides asynchronous iteration functions that have a **Promise based** interface and runs with low CPU usage.
+Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
 Iterate without delay if processing is fast.
 Therefore, it will realize friendly processing for your machine.
@@ -105,6 +105,11 @@ var chillout = require('chillout');
 bower install chillout
 ```
 
+## Dependencies
+
+* ECMAScript >= 5.1
+* Promise
+
 ## Compatibility
 
 The limiting factor for browser/node support is the use of `Promise`.  
@@ -123,13 +128,9 @@ This results in the following minimum browser requirements (+needs `Promise`):
 *	Firefox 21+
 * IE 11/Edge
 * Opera 15+
+* Safari 6+
 *	Android 4.4+
-*	iOS7/8
-
-### Prerequisites
-
-* ECMAScript 5+
-* Promise
+*	iOS 7/8+
 
 
 ## iteration functions
