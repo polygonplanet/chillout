@@ -140,6 +140,28 @@ describe('chillout test', function() {
         done();
       });
     });
+
+    it('throw (array)', function(done) {
+      chillout.each([1], function(value, i) {
+        throw [i, value];
+      }).then(function() {
+        throw 'error';
+      }).catch(function(e) {
+        assert.deepEqual(e, [0, 1]);
+        done();
+      });
+    });
+
+    it('throw (object)', function(done) {
+      chillout.each({ a: 1 }, function(value, key) {
+        throw [key, value];
+      }).then(function() {
+        throw 'error';
+      }).catch(function(e) {
+        assert.deepEqual(e, ['a', 1]);
+        done();
+      });
+    });
   });
 
   describe('repeat', function() {
@@ -188,6 +210,17 @@ describe('chillout test', function() {
         done();
       });
     });
+
+    it('throw', function(done) {
+      chillout.repeat(5, function(i) {
+        throw 'ok';
+      }).then(function() {
+        throw 'error';
+      }).catch(function(e) {
+        assert.equal(e, 'ok');
+        done();
+      });
+    });
   });
 
   describe('forever', function() {
@@ -211,6 +244,17 @@ describe('chillout test', function() {
         }
       }, context).then(function() {
         assert(context.i === 10);
+        done();
+      });
+    });
+
+    it('throw', function(done) {
+      chillout.forever(function() {
+        throw 'ok';
+      }).then(function() {
+        throw 'error';
+      }).catch(function(e) {
+        assert.equal(e, 'ok');
         done();
       });
     });
