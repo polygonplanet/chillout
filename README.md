@@ -5,27 +5,6 @@ Reduce JavaScript CPU usage by asynchronous iteration.
 
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 
-Table of contents
-=================
-
-* [Benchmarks](#benchmarks)
-  * [ForStatement](#forstatement)
-  * [chillout.repeat](#chilloutrepeat)
-* [Installation](#installation)
-  * [Browser](#browser)
-  * [Node.js](#nodejs)
-  * [Bower](#bower)
-* [Dependencies](#dependencies)
-* [Compatibility](#compatibility)
-* [Iteration Functions](#iteration-functions)
-  * [each](#each)
-  * [repeat](#repeat)
-  * [forever](#forever)
-* [Comparison Table](#comparison-table)
-* [Contributing](#contributing)
-* [License](#license)
-
-
 Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
 Iterate without delay if processing is fast.
