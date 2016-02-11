@@ -151,8 +151,8 @@
         var cycleStartTime = Date.now();
         var res, risk, margin, delay, time, endTime, cycleEndTime;
 
-        for (;;) {
-          try {
+        try {
+          for (;;) {
             res = it.next();
             if (res === false) {
               resolve();
@@ -163,31 +163,31 @@
               then(res);
               return;
             }
-          } catch (e) {
-            reject(e);
-            return;
-          }
 
-          endTime = Date.now();
-          cycleEndTime = endTime - cycleStartTime;
-          totalTime += cycleEndTime;
+            endTime = Date.now();
+            cycleEndTime = endTime - cycleStartTime;
+            totalTime += cycleEndTime;
 
-          if (totalTime > 1000) {
-            // Break the loop when the process is continued for more than 1s
-            break;
-          }
+            if (totalTime > 1000) {
+              // Break the loop when the process is continued for more than 1s
+              break;
+            }
 
-          if (cycleEndTime < 10) {
-            // Delay is not required for fast iteration
-            continue;
-          }
+            if (cycleEndTime < 10) {
+              // Delay is not required for fast iteration
+              continue;
+            }
 
-          risk = Math.min(10, Math.floor(cycleEndTime / 10));
-          margin = endTime % (10 - risk);
-          if (!margin) {
-            // Break the loop if processing has exceeded the allowable
-            break;
+            risk = Math.min(10, Math.floor(cycleEndTime / 10));
+            margin = endTime % (10 - risk);
+            if (!margin) {
+              // Break the loop if processing has exceeded the allowable
+              break;
+            }
           }
+        } catch (e) {
+          reject(e);
+          return;
         }
 
         // Add delay corresponding to the processing speed
