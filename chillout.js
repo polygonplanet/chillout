@@ -2,8 +2,8 @@
  * chillout
  *
  * @description Reduce JavaScript CPU usage by asynchronous iteration
- * @version     1.1.4
- * @date        2016-02-08
+ * @version     1.1.5
+ * @date        2016-02-12
  * @link        https://github.com/polygonplanet/chillout
  * @copyright   Copyright (c) 2016 polygon planet <polygon.planet.aqua@gmail.com>
  * @license     MIT
