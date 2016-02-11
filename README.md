@@ -1,6 +1,8 @@
 chillout.js
 ===========
 
+[**README (日本語)**](README-ja.md)
+
 Reduce JavaScript CPU usage by asynchronous iteration.
 
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
