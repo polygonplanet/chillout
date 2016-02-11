@@ -92,7 +92,7 @@ Object **chillout** will be defined in the global scope.
 ### Node.js
 
 ```bash
-npm install --save chillout
+npm install chillout
 ```
 
 ```javascript
