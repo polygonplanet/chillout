@@ -64,6 +64,16 @@ chillout.repeat(500, function(i) {
 * CPU total average: **22.76%**
 
 
+## Benchmark Result
+
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-compare-arrow.png)
+
+| &nbsp;               | ForStatement | chillout.repeat |
+| -------------------- | ------------:| ---------------:|
+| Processing time      |     51049ms. |        59769ms. |
+| CPU total average    |   **31.10%** |      **22.76%** |
+
+
 You can confirm that `chillout.repeat` is running on a more low CPU usage than **ForStatement**.
 
 chillout.js can run JavaScript in a natural speed with low CPU usage, but processing speed will be a bit slow.

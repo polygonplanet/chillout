@@ -61,6 +61,15 @@ chillout.repeat(500, function(i) {
 * Processing time: 59769ms.
 * CPU total average: **22.76%**
 
+## ベンチマーク結果
+
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-compare-arrow.png)
+
+| &nbsp;               | ForStatement (for文) | chillout.repeat |
+| -------------------- | --------------------:| ---------------:|
+| 処理時間              |             51049ms. |        59769ms. |
+| CPU平均使用率         |           **31.10%** |      **22.76%** |
+
 
 `chillout.repeat` は forループ よりも低いCPU使用率で実行されているのが確認できます。  
 chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実行できますが、処理速度は少し遅くなります。  
