@@ -41,11 +41,10 @@ module.exports = function(config) {
       enabled: true,
       usePhantomJS: false,
       postDetection: function(availableBrowser) {
-        var result = availableBrowser;
         if (process.env.TRAVIS) {
-          result.push('Chrome_travis_ci');
+          return ['Chrome_travis_ci'];
         }
-        return result;
+        return availableBrowser;
       }
     },
     plugins: [
