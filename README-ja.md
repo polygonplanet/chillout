@@ -112,33 +112,10 @@ var chillout = require('chillout');
 bower install chillout
 ```
 
-## 依存性
-
-* ECMAScript >= 5.1
-* Promise
-
 ## 互換性
 
 `Promise` が動く環境が必要です。  
-古い環境で `Promise` がサポートされてない場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。
-
-es6-shim を使う例:
-
-```html
-<script src="es6-shim.min.js"></script>
-<script src="chillout.min.js"></script>
-```
-
-最低動作環境 (`Promise` が必要):
-
-* Chrome 23+
-*	Firefox 21+
-* IE 11/Edge
-* Opera 15+
-* Safari 6+
-*	Android 4.4+
-*	iOS 7/8+
-
+`Promise` がサポートされてない環境の場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。
 
 ## API
 
@@ -272,8 +249,7 @@ chillout.forever(function() {
 ## 貢献
 
 pull request または issues を歓迎します。  
-pull request の際は、 `npm test` と `npm run test-karma` を実行してエラーがないことを確認してください。
-
+pull request の際は、 `npm test` を実行してエラーがないことを確認してください。
 
 ## License
 

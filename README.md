@@ -117,33 +117,10 @@ var chillout = require('chillout');
 bower install chillout
 ```
 
-## Dependencies
-
-* ECMAScript >= 5.1
-* Promise
-
 ## Compatibility
 
 The limiting factor for browser/node support is the use of `Promise`.  
 You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
-
-Example of Installation with es6-shim:
-
-```html
-<script src="es6-shim.min.js"></script>
-<script src="chillout.min.js"></script>
-```
-
-This results in the following minimum browser requirements (+needs `Promise`):
-
-* Chrome 23+
-*	Firefox 21+
-* IE 11/Edge
-* Opera 15+
-* Safari 6+
-*	Android 4.4+
-*	iOS 7/8+
-
 
 ## Iteration Functions
 
@@ -279,7 +256,7 @@ Examples:
 ## Contributing
 
 I'm waiting for your pull requests and issues.
-Don't forget to execute `npm test` and `npm run test-karma` before requesting.
+Don't forget to execute `npm test` before requesting.
 Accepted only requests without errors.
 
 
