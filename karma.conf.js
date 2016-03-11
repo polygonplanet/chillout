@@ -7,22 +7,18 @@ module.exports = function(config) {
     ],
     files: [
       './node_modules/es6-shim/es6-shim.js',
-      //'./test/vendor/es6-shim.js',
-      //'./test/vendor/power-assert.js',
       './node_modules/power-assert/build/power-assert.js',
       './dist/chillout.js',
       './test/test.js'
     ],
     exclude: [],
     preprocessors: {},
-    //*
     client: {
       mocha: {
         reporter: 'html',
         ui: 'bdd'
       }
     },
-    //*/
     reporters: ['mocha'],
     port: 9876,
     colors: true,
