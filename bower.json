@@ -6,7 +6,7 @@
   "authors": [
     "polygonplanet <polygon.planet.aqua@gmail.com>"
   ],
-  "description": "Reduce JavaScript CPU usage by asynchronous iteration",
+  "description": "Reduce CPU usage in JavaScript",
   "moduleType": [
     "amd",
     "globals",
