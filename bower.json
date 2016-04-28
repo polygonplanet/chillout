@@ -4,7 +4,7 @@
   "version": "2.0.2",
   "homepage": "https://github.com/polygonplanet/chillout",
   "authors": [
-    "polygonplanet <polygon.planet.aqua@gmail.com>"
+    "polygon planet <polygon.planet.aqua@gmail.com>"
   ],
   "description": "Reduce CPU usage in JavaScript",
   "moduleType": [
