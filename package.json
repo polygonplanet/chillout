@@ -1,17 +1,14 @@
 {
   "name": "chillout",
   "version": "2.0.2",
-  "description": "Reduce JavaScript CPU usage by asynchronous iteration",
+  "description": "Reduce CPU usage in JavaScript",
   "main": "dist/chillout.js",
   "dependencies": {},
   "devDependencies": {
     "babel-preset-es2015": "^6.6.0",
     "babelify": "^7.2.0",
+    "bannerify": "^1.0.1",
     "es6-shim": "^0.35.0",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^4.0.1",
-    "grunt-contrib-uglify": "^1.0.0",
-    "grunt-contrib-watch": "^0.6.1",
     "karma": "^0.13.19",
     "karma-chrome-launcher": "^0.2.2",
     "karma-detect-browsers": "^2.0.2",
@@ -21,11 +18,18 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-safari-launcher": "^0.1.1",
     "mocha": "^2.3.4",
-    "power-assert": "^1.2.0"
+    "power-assert": "^1.2.0",
+    "uglify-js": "^2.6.2",
+    "uglifyify": "^3.0.1",
+    "watchify": "^3.7.0"
   },
   "scripts": {
-    "test": "grunt && mocha test/test-node && karma start karma.conf.js",
-    "travis": "grunt && mocha test/test-node && karma start karma.conf.js --single-run"
+    "compile": "browserify src/index.js -o dist/chillout.js -s chillout -t [ babelify --presets [ es2015 ] ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
+    "watch": "watchify src/index.js -o dist/chillout.js -s chillout -t [ babelify --presets [ es2015 ] ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v",
+    "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c warnings=false -m -b ascii-only=true,beautify=false",
+    "build": "npm run compile && npm run minify",
+    "test": "npm run build && mocha test/test-node && karma start karma.conf.js",
+    "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run"
   },
   "repository": {
     "type": "git",
@@ -36,8 +40,7 @@
     "async",
     "iterate",
     "iterator",
-    "promise",
-    "setimmediate"
+    "promise"
   ],
   "author": "polygon planet <polygon.planet.aqua@gmail.com>",
   "license": "MIT",
