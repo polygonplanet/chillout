@@ -1,4 +1,4 @@
-export const nextTick = (() => {
+const nextTick = (() => {
   if (typeof setImmediate === 'function') {
     return task => {
       setImmediate(task);
@@ -13,12 +13,13 @@ export const nextTick = (() => {
 
   if (typeof MessageChannel === 'function') {
     // http://www.nonblocking.io/2011/06/windownexttick.html
-    let channel = new MessageChannel();
-    let head = {}, tail = head;
+    const channel = new MessageChannel();
+    let head = {};
+    let tail = head;
 
     channel.port1.onmessage = () => {
       head = head.next;
-      let task = head.task;
+      const task = head.task;
       delete head.task;
       task();
     };
@@ -33,3 +34,5 @@ export const nextTick = (() => {
     setTimeout(task, 0);
   };
 })();
+
+export default nextTick;

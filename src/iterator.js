@@ -1,6 +1,6 @@
-import {isArrayLike} from './util';
+import { isArrayLike } from './util';
 
-export const iterator = {
+const iterator = {
   each(obj, callback, context) {
     let i = 0;
     let len;
@@ -18,7 +18,7 @@ export const iterator = {
       };
     }
 
-    let keys = Object.keys(obj);
+    const keys = Object.keys(obj);
     len = keys.length;
 
     return {
@@ -27,7 +27,7 @@ export const iterator = {
           return false;
         }
 
-        let key = keys[i++];
+        const key = keys[i++];
         return callback.call(context, obj[key], key, obj);
       }
     };
@@ -47,7 +47,7 @@ export const iterator = {
 
     return {
       next() {
-        let res = callback.call(context, i);
+        const res = callback.call(context, i);
 
         i += step;
         if (i >= end) {
@@ -65,3 +65,5 @@ export const iterator = {
     };
   }
 };
+
+export default iterator;

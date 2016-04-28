@@ -1,7 +1,7 @@
-import {nextTick} from './nexttick';
-import {isThenable} from './util';
+import nextTick from './nexttick';
+import { isThenable } from './util';
 
-export function iterate(it) {
+export default function iterate(it) {
   return new Promise((resolve, reject) => {
     let totalTime = 0;
 
@@ -18,12 +18,12 @@ export function iterate(it) {
     }
 
     function _iterate() {
-      let cycleStartTime = Date.now();
+      const cycleStartTime = Date.now();
       let cycleEndTime;
 
       try {
         for (;;) {
-          let res = it.next();
+          const res = it.next();
           if (res === false) {
             resolve();
             return;
@@ -34,7 +34,7 @@ export function iterate(it) {
             return;
           }
 
-          let endTime = Date.now();
+          const endTime = Date.now();
           cycleEndTime = endTime - cycleStartTime;
           totalTime += cycleEndTime;
 
@@ -48,8 +48,8 @@ export function iterate(it) {
             continue;
           }
 
-          let risk = Math.min(10, Math.floor(cycleEndTime / 10));
-          let margin = endTime % (10 - risk);
+          const risk = Math.min(10, Math.floor(cycleEndTime / 10));
+          const margin = endTime % (10 - risk);
           if (!margin) {
             // Break the loop if processing has exceeded the allowable
             break;
@@ -61,8 +61,8 @@ export function iterate(it) {
       }
 
       // Add delay corresponding to the processing speed
-      let time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
-      let delay = Math.min(1000, Math.floor(time));
+      const time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
+      const delay = Math.min(1000, Math.floor(time));
       totalTime = 0;
 
       if (delay > 10) {

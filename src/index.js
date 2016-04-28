@@ -1,5 +1,5 @@
-import {iterator} from './iterator';
-import {iterate} from './iterate';
+import iterator from './iterator';
+import iterate from './iterate';
 
 /**
  * Executes a provided function once per array or object element.
