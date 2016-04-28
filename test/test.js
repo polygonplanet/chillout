@@ -1,13 +1,13 @@
-/* global describe, it, expect, chillout */
+/* global describe, it, assert, chillout */
 
 describe('chillout test', function() {
   'use strict';
 
-  describe('each', function() {
+  describe('forEach', function() {
     it('array', function(done) {
       var values = [];
       var keys = [];
-      chillout.each([1, 2, 3], function(value, i) {
+      chillout.forEach([1, 2, 3], function(value, i) {
         values.push(value);
         keys.push(i);
       }).then(function() {
@@ -20,7 +20,7 @@ describe('chillout test', function() {
     it('object', function(done) {
       var values = [];
       var keys = [];
-      chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+      chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
         values.push(value);
         keys.push(key);
       }).then(function() {
@@ -33,7 +33,7 @@ describe('chillout test', function() {
     it('array-like object', function(done) {
       var values = [];
       var keys = [];
-      chillout.each({ 0: 1, 1: 2, 2: 3, length: 3 }, function(value, i) {
+      chillout.forEach({ 0: 1, 1: 2, 2: 3, length: 3 }, function(value, i) {
         values.push(value);
         keys.push(i);
       }).then(function() {
@@ -48,7 +48,7 @@ describe('chillout test', function() {
         values: [],
         keys: []
       };
-      chillout.each([1, 2, 3], function(value, i) {
+      chillout.forEach([1, 2, 3], function(value, i) {
         this.values.push(value);
         this.keys.push(i);
       }, context).then(function() {
@@ -63,7 +63,7 @@ describe('chillout test', function() {
         values: [],
         keys: []
       };
-      chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+      chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
         this.values.push(value);
         this.keys.push(key);
       }, context).then(function() {
@@ -76,7 +76,7 @@ describe('chillout test', function() {
     it('stop iteration (array)', function(done) {
       var values = [];
       var keys = [];
-      chillout.each([1, 2, 3], function(value, i) {
+      chillout.forEach([1, 2, 3], function(value, i) {
         values.push(value);
         keys.push(i);
         if (value === 2) {
@@ -92,7 +92,7 @@ describe('chillout test', function() {
     it('stop nested iteration (array)', function(done) {
       var values = [];
       var keys = [];
-      chillout.each([1, 2, 3], function(value, i) {
+      chillout.forEach([1, 2, 3], function(value, i) {
         values.push(value);
         keys.push(i);
         if (value === 2) {
@@ -110,7 +110,7 @@ describe('chillout test', function() {
     it('stop iteration (object)', function(done) {
       var values = [];
       var keys = [];
-      chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+      chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
         values.push(value);
         keys.push(key);
         if (value === 2) {
@@ -126,7 +126,7 @@ describe('chillout test', function() {
     it('stop nested iteration (object)', function(done) {
       var values = [];
       var keys = [];
-      chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+      chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
         values.push(value);
         keys.push(key);
         if (value === 2) {
@@ -142,7 +142,7 @@ describe('chillout test', function() {
     });
 
     it('throw (array)', function(done) {
-      chillout.each([1], function(value, i) {
+      chillout.forEach([1], function(value, i) {
         throw [i, value];
       }).then(function() {
         throw 'error';
@@ -153,7 +153,7 @@ describe('chillout test', function() {
     });
 
     it('throw (object)', function(done) {
-      chillout.each({ a: 1 }, function(value, key) {
+      chillout.forEach({ a: 1 }, function(value, key) {
         throw [key, value];
       }).then(function() {
         throw 'error';
@@ -223,10 +223,10 @@ describe('chillout test', function() {
     });
   });
 
-  describe('forever', function() {
+  describe('till', function() {
     it('10 times', function(done) {
       var i = 0;
-      chillout.forever(function() {
+      chillout.till(function() {
         if (++i === 10) {
           return false;
         }
@@ -238,7 +238,7 @@ describe('chillout test', function() {
 
     it('10 times with context', function(done) {
       var context = { i: 0 };
-      chillout.forever(function() {
+      chillout.till(function() {
         if (++this.i === 10) {
           return false;
         }
@@ -249,7 +249,7 @@ describe('chillout test', function() {
     });
 
     it('throw', function(done) {
-      chillout.forever(function() {
+      chillout.till(function() {
         throw 'ok';
       }).then(function() {
         throw 'error';

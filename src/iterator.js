@@ -1,7 +1,7 @@
 import { isArrayLike } from './util';
 
 const iterator = {
-  each(obj, callback, context) {
+  forEach(obj, callback, context) {
     let i = 0;
     let len;
 
@@ -57,7 +57,7 @@ const iterator = {
       }
     };
   },
-  forever(callback, context) {
+  till(callback, context) {
     return {
       next() {
         return callback.call(context);
