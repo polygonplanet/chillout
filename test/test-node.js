@@ -1,5 +1,3 @@
-/* jshint node: true */
-/* global describe, it, expect, require */
 'use strict';
 
 require('es6-shim');
