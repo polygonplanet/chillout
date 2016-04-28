@@ -40,7 +40,8 @@
     "async",
     "iterate",
     "iterator",
-    "promise"
+    "promise",
+    "setimmediate"
   ],
   "author": "polygon planet <polygon.planet.aqua@gmail.com>",
   "license": "MIT",
