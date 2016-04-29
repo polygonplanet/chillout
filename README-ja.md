@@ -119,17 +119,17 @@ bower install chillout
 
 ## API
 
-### each
+### forEach
 
 与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
-関数内で `false` を返すと、それ以降の反復は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
 
-* chillout.**each** ( obj, callback [, context ] )  
+* chillout.**forEach** ( obj, callback [, context ] )  
   @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。  
   @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、３つの引数をとります。  
   - value: 現在処理されている配列の要素、またはオブジェクトの値。
   - key: 現在処理されている配列の要素のインデックス、またはオブジェクトのキー。
-  - obj: `each` が適用されている配列またはオブジェクト。
+  - obj: `forEach` が適用されている配列またはオブジェクト。
 
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
@@ -137,7 +137,7 @@ bower install chillout
 配列の反復例:
 ```javascript
 var sum = 0;
-chillout.each([1, 2, 3], function(value, i) {
+chillout.forEach([1, 2, 3], function(value, i) {
   sum += value;
 }).then(function() {
   console.log(sum); // 6
@@ -147,7 +147,7 @@ chillout.each([1, 2, 3], function(value, i) {
 オブジェクトの反復例:
 ```javascript
 var result = '';
-chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
   result += key + value;
 }).then(function() {
   console.log(result); // 'a1b2c3'
@@ -157,7 +157,7 @@ chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
 ### repeat
 
 与えられた関数を、引数で与えられた数だけ実行します。  
-関数内で `false` を返すと、それ以降の反復は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
@@ -204,18 +204,18 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 // end
 ```
 
-### forever
+### till
 
-与えられた関数を、 `false` が返されるまで繰り返します。
+与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。
 
-* chillout.**forever** ( callback [, context ] )  
+* chillout.**till** ( callback [, context ] )  
   @param {_Function_} _callback_ 各反復に対して実行するコールバック関数。  
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
 
 ```javascript
 var i = 0;
-chillout.forever(function() {
+chillout.till(function() {
   console.log(i);
   i++;
   if (i === 5) {
@@ -240,11 +240,11 @@ chillout.forever(function() {
 
 | JavaScript Statement             | chillout                                                                      |
 | ---------------------------------|-------------------------------------------------------------------------------|
-| array.forEach(function(v, i) {}) | chillout.each(array, function(v, i) {})                                       |
+| array.forEach(function(v, i) {}) | chillout.forEach(array, function(v, i) {})                                    |
 | for (i = 0; i < 5; i++) {}       | chillout.repeat(5, function(i) {})                                            |
 | for (i = 10; i < 20; i += 2) {}  | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                  | chillout.forever(function() {})                                               |
-| while (cond()) {}                | chillout.forever(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>}) |
+| while (true) {}                  | chillout.till(function() {})                                                  |
+| while (cond()) {}                | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
 
 ## 貢献
 

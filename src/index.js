@@ -40,7 +40,7 @@ export function repeat(count, callback, context) {
 }
 
 /**
- * Executes a provided function until the `callback` returns false, or an
+ * Executes a provided function until the `callback` returns `false`, or an
  * error occurs.
  *
  * @param {Function} callback The function that is executed for each iteration

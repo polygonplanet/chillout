@@ -124,17 +124,17 @@ You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise`
 
 ## Iteration Functions
 
-### each
+### forEach
 
 Executes a provided function once per array or object element.  
-The iteration will break if the callback function returns `false`.
+The iteration will break if the callback function returns `false`, or an error occurs.
 
-* chillout.**each** ( obj, callback [, context ] )  
+* chillout.**forEach** ( obj, callback [, context ] )  
   @param {_Array|Object_} _obj_ Target array or object.  
   @param {_Function_} *callback* Function to execute for each element, taking three arguments:  
   - value: The current element being processed in the array/object.
   - key: The key of the current element being processed in the array/object.
-  - obj: The array/object that `each` is being applied to.
+  - obj: The array/object that `forEach` is being applied to.
 
   @param {_Object_} [_context_] Value to use as `this` when executing callback.  
   @return {_Promise_} Return new Promise.
@@ -142,7 +142,7 @@ The iteration will break if the callback function returns `false`.
 Example of array iteration:
 ```javascript
 var sum = 0;
-chillout.each([1, 2, 3], function(value, i) {
+chillout.forEach([1, 2, 3], function(value, i) {
   sum += value;
 }).then(function() {
   console.log(sum); // 6
@@ -152,7 +152,7 @@ chillout.each([1, 2, 3], function(value, i) {
 Example of object iteration:
 ```javascript
 var result = '';
-chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
+chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
   result += key + value;
 }).then(function() {
   console.log(result); // 'a1b2c3'
@@ -162,7 +162,7 @@ chillout.each({ a: 1, b: 2, c: 3 }, function(value, key) {
 ### repeat
 
 Executes a provided function the specified number times.  
-The iteration will break if the callback function returns `false`.
+The iteration will break if the callback function returns `false`, or an error occurs.
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ The number of times or object for execute the function.  
@@ -209,19 +209,18 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 // end
 ```
 
-### forever
+### till
 
-Executes a provided function forever.  
-The iteration will break if the callback function returns `false`.
+Executes a provided function until the `callback` returns `false`, or an error occurs.
 
-* chillout.**forever** ( callback [, context ] )  
+* chillout.**till** ( callback [, context ] )  
   @param {_Function_} _callback_ The function that is executed for each iteration.  
   @param {_Object_} [_context_] Value to use as `this` when executing callback.  
   @return {_Promise_} Return new Promise.
 
 ```javascript
 var i = 0;
-chillout.forever(function() {
+chillout.till(function() {
   console.log(i);
   i++;
   if (i === 5) {
@@ -247,11 +246,11 @@ Examples:
 
 | JavaScript Statement             | chillout                                                                      |
 | ---------------------------------|-------------------------------------------------------------------------------|
-| array.forEach(function(v, i) {}) | chillout.each(array, function(v, i) {})                                       |
+| array.forEach(function(v, i) {}) | chillout.forEach(array, function(v, i) {})                                    |
 | for (i = 0; i < 5; i++) {}       | chillout.repeat(5, function(i) {})                                            |
 | for (i = 10; i < 20; i += 2) {}  | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                  | chillout.forever(function() {})                                               |
-| while (cond()) {}                | chillout.forever(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>}) |
+| while (true) {}                  | chillout.till(function() {})                                                  |
+| while (cond()) {}                | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
 
 ## Contributing
 
