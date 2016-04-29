@@ -82,35 +82,28 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 ## 導入
 
-### ブラウザ
+## Installation
 
-```html
-<script src="chillout.js"></script>
-```
-
-or
-
-```html
-<script src="chillout.min.js"></script>
-```
-
-**chillout** というオブジェクトがグローバルに定義されます。
-
-### Node.js
+**chillout** というモジュール名で `npm` から利用できます。
 
 ```bash
-npm install chillout
+$ npm install chillout --save
 ```
+
+また、`Bower` からも利用できます。
+
+```bash
+$ bower install chillout
+```
+
+以下のようにして実行できます。
 
 ```javascript
 var chillout = require('chillout');
+chillout.forEach(...)
 ```
 
-### Bower
-
-```bash
-bower install chillout
-```
+ブラウザ上で実行されている場合、**chillout** というオブジェクトがグローバルに定義されます。
 
 ## 互換性
 
@@ -251,6 +244,6 @@ chillout.till(function() {
 pull request または issues を歓迎します。  
 pull request の際は、 `npm test` を実行してエラーがないことを確認してください。
 
-## License
+## ライセンス
 
 MIT

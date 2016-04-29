@@ -87,35 +87,25 @@ One of the most important thing of performance in JavaScript, that is not numeri
 
 ## Installation
 
-### Browser
-
-```html
-<script src="chillout.js"></script>
-```
-
-or
-
-```html
-<script src="chillout.min.js"></script>
-```
-
-Object **chillout** will be defined in the global scope.
-
-### Node.js
+Available on `npm` as **chillout**.
 
 ```bash
-npm install chillout
+$ npm install chillout --save
+```
+
+This can also be installed with `Bower`.
+
+```bash
+$ bower install chillout
 ```
 
 ```javascript
 var chillout = require('chillout');
+chillout.forEach(...)
 ```
 
-### Bower
+Object **chillout** will be defined in the global scope if running in the browser window.
 
-```bash
-bower install chillout
-```
 
 ## Compatibility
 
