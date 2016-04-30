@@ -19,6 +19,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-safari-launcher": "^0.1.1",
     "mocha": "^2.3.4",
+    "pidusage": "^1.0.1",
     "power-assert": "^1.2.0",
     "uglify-js": "^2.6.2",
     "uglifyify": "^3.0.1",
@@ -30,7 +31,8 @@
     "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c warnings=false -m -b ascii-only=true,beautify=false",
     "build": "npm run compile && npm run minify",
     "test": "npm run build && mocha test/test-node && karma start karma.conf.js",
-    "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run"
+    "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run",
+    "benchmark": "node test/benchmark"
   },
   "repository": {
     "type": "git",

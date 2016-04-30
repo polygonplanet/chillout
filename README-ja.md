@@ -13,6 +13,35 @@ chillout.js
 
 ブラウザ上、Electron、Node.js などの環境で利用できます。
 
+## 導入
+
+**chillout** というモジュール名で `npm` から利用できます。
+
+```bash
+$ npm install chillout --save
+```
+
+また、`Bower` からも利用できます。
+
+```bash
+$ bower install chillout
+```
+
+以下のようにして実行できます。
+
+```javascript
+var chillout = require('chillout');
+chillout.forEach(...)
+```
+
+ブラウザ上で実行されている場合、**chillout** というオブジェクトがグローバルに定義されます。
+
+## 互換性
+
+`Promise` が動く環境が必要です。  
+`Promise` がサポートされてない環境の場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。
+
+
 ## ベンチマーク
 
 forループと `chillout.repeat` を比較します。
@@ -61,7 +90,7 @@ chillout.repeat(500, function(i) {
 * Processing time: 59769ms.
 * CPU total average: **22.76%**
 
-## ベンチマーク結果
+### ベンチマーク結果
 
 ![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-compare-arrow.png)
 
@@ -78,37 +107,11 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 *(ベンチマーク: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
 
+### ベンチマークを実行
+
+`npm run benchmark` でベンチマークを実行できます。
+
 ----
-
-## 導入
-
-## Installation
-
-**chillout** というモジュール名で `npm` から利用できます。
-
-```bash
-$ npm install chillout --save
-```
-
-また、`Bower` からも利用できます。
-
-```bash
-$ bower install chillout
-```
-
-以下のようにして実行できます。
-
-```javascript
-var chillout = require('chillout');
-chillout.forEach(...)
-```
-
-ブラウザ上で実行されている場合、**chillout** というオブジェクトがグローバルに定義されます。
-
-## 互換性
-
-`Promise` が動く環境が必要です。  
-`Promise` がサポートされてない環境の場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。
 
 ## API
 

@@ -15,6 +15,33 @@ It can execute JavaScript without "Warning: Unresponsive Script" alert in the br
 
 You can use it in any JavaScript environment (Browser, Electron, Node.js).
 
+## Installation
+
+Available on `npm` as **chillout**.
+
+```bash
+$ npm install chillout --save
+```
+
+This can also be installed with `Bower`.
+
+```bash
+$ bower install chillout
+```
+
+```javascript
+var chillout = require('chillout');
+chillout.forEach(...)
+```
+
+Object **chillout** will be defined in the global scope if running in the browser window.
+
+
+## Compatibility
+
+The limiting factor for browser/node support is the use of `Promise`.  
+You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
+
 ## Benchmarks
 
 Benchmarks the **ForStatement** and `chillout.repeat`.
@@ -64,7 +91,7 @@ chillout.repeat(500, function(i) {
 * CPU total average: **22.76%**
 
 
-## Benchmark Result
+### Benchmark Result
 
 ![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-compare-arrow.png)
 
@@ -83,34 +110,11 @@ One of the most important thing of performance in JavaScript, that is not numeri
 
 *(Benchmarks: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
 
+### Run Benchmark
+
+You can test benchmark with `npm run benchmark`.
+
 ----
-
-## Installation
-
-Available on `npm` as **chillout**.
-
-```bash
-$ npm install chillout --save
-```
-
-This can also be installed with `Bower`.
-
-```bash
-$ bower install chillout
-```
-
-```javascript
-var chillout = require('chillout');
-chillout.forEach(...)
-```
-
-Object **chillout** will be defined in the global scope if running in the browser window.
-
-
-## Compatibility
-
-The limiting factor for browser/node support is the use of `Promise`.  
-You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
 
 ## Iteration Functions
 
