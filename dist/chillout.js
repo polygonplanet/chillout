@@ -1,69 +1,77 @@
 /*!
- * chillout v2.0.2 - Reduce JavaScript CPU usage by asynchronous iteration
+ * chillout v3.0.0 - Reduce CPU usage in JavaScript
  * Copyright (c) 2016 polygon planet <polygon.planet.aqua@gmail.com>
+ * https://github.com/polygonplanet/chillout
  * @license MIT
  */
-
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chillout = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.each = each;
+exports.forEach = forEach;
 exports.repeat = repeat;
-exports.forever = forever;
+exports.till = till;
 
 var _iterator = require('./iterator');
 
+var _iterator2 = _interopRequireDefault(_iterator);
+
 var _iterate = require('./iterate');
+
+var _iterate2 = _interopRequireDefault(_iterate);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Executes a provided function once per array or object element.
- * The iteration will break if the callback function returns `false`.
+ * The iteration will break if the callback function returns `false`, or an
+ * error occurs.
  *
- * @param {Array|Object} obj Target array or object.
+ * @param {Array|Object} obj Target array or object
  * @param {Function} callback Function to execute for each element, taking
  *   three arguments:
- * - value: The current element being processed in the array/object.
- * - key: The key of the current element being processed in the array/object.
- * - obj: The array/object that `each` is being applied to.
- * @param {Object} [context] Value to use as `this` when executing callback.
- * @return {Promise} Return new Promise.
+ * - value: The current element being processed in the array/object
+ * - key: The key of the current element being processed in the array/object
+ * - obj: The array/object that `forEach` is being applied to
+ * @param {Object} [context] Value to use as `this` when executing callback
+ * @return {Promise} Return new Promise
  */
-function each(obj, callback, context) {
-  return (0, _iterate.iterate)(_iterator.iterator.each(obj, callback, context));
+function forEach(obj, callback, context) {
+  return (0, _iterate2.default)(_iterator2.default.forEach(obj, callback, context));
 }
 
 /**
  * Executes a provided function the specified number times.
- * The iteration will break if the callback function returns `false`.
+ * The iteration will break if the callback function returns `false`, or an
+ * error occurs.
  *
  * @param {number|Object} count The number of times or object for execute the
  *   function. Following parameters are available if specify object:
- * - start: The number of start.
- * - step: The number of step.
- * - end: The number of end.
+ * - start: The number of start
+ * - step: The number of step
+ * - end: The number of end
  * @param {Function} callback Function to execute for each times, taking an
  *   argument:
- * - i: The current number.
- * @param {Object} [context] Value to use as `this` when executing callback.
- * @return {Promise} Return new Promise.
+ * - i: The current number
+ * @param {Object} [context] Value to use as `this` when executing callback
+ * @return {Promise} Return new Promise
  */
 function repeat(count, callback, context) {
-  return (0, _iterate.iterate)(_iterator.iterator.repeat(count, callback, context));
+  return (0, _iterate2.default)(_iterator2.default.repeat(count, callback, context));
 }
 
 /**
- * Executes a provided function forever.
- * The iteration will break if the callback function returns `false`.
+ * Executes a provided function until the `callback` returns `false`, or an
+ * error occurs.
  *
- * @param {Function} callback The function that is executed for each iteration.
- * @param {Object} [context] Value to use as `this` when executing callback.
- * @return {Promise} Return new Promise.
+ * @param {Function} callback The function that is executed for each iteration
+ * @param {Object} [context] Value to use as `this` when executing callback
+ * @return {Promise} Return new Promise
  */
-function forever(callback, context) {
-  return (0, _iterate.iterate)(_iterator.iterator.forever(callback, context));
+function till(callback, context) {
+  return (0, _iterate2.default)(_iterator2.default.till(callback, context));
 }
 
 },{"./iterate":2,"./iterator":3}],2:[function(require,module,exports){
@@ -72,11 +80,15 @@ function forever(callback, context) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.iterate = iterate;
+exports.default = iterate;
 
 var _nexttick = require('./nexttick');
 
+var _nexttick2 = _interopRequireDefault(_nexttick);
+
 var _util = require('./util');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function iterate(it) {
   return new Promise(function (resolve, reject) {
@@ -145,11 +157,11 @@ function iterate(it) {
       if (delay > 10) {
         setTimeout(_iterate, delay);
       } else {
-        (0, _nexttick.nextTick)(_iterate);
+        (0, _nexttick2.default)(_iterate);
       }
     }
 
-    (0, _nexttick.nextTick)(_iterate);
+    (0, _nexttick2.default)(_iterate);
   });
 }
 
@@ -159,14 +171,13 @@ function iterate(it) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.iterator = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _util = require('./util');
 
-var iterator = exports.iterator = {
-  each: function each(obj, callback, context) {
+var iterator = {
+  forEach: function forEach(obj, callback, context) {
     var i = 0;
     var len = void 0;
 
@@ -224,7 +235,7 @@ var iterator = exports.iterator = {
       }
     };
   },
-  forever: function forever(callback, context) {
+  till: function till(callback, context) {
     return {
       next: function next() {
         return callback.call(context);
@@ -232,6 +243,8 @@ var iterator = exports.iterator = {
     };
   }
 };
+
+exports.default = iterator;
 
 },{"./util":5}],4:[function(require,module,exports){
 'use strict';
@@ -242,7 +255,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var nextTick = exports.nextTick = function () {
+var nextTick = function () {
   if (typeof setImmediate === 'function') {
     return function (task) {
       setImmediate(task);
@@ -259,8 +272,8 @@ var nextTick = exports.nextTick = function () {
     var _ret = function () {
       // http://www.nonblocking.io/2011/06/windownexttick.html
       var channel = new MessageChannel();
-      var head = {},
-          tail = head;
+      var head = {};
+      var tail = head;
 
       channel.port1.onmessage = function () {
         head = head.next;
@@ -284,6 +297,8 @@ var nextTick = exports.nextTick = function () {
     setTimeout(task, 0);
   };
 }();
+
+exports.default = nextTick;
 
 },{}],5:[function(require,module,exports){
 'use strict';
