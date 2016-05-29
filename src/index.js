@@ -1,4 +1,4 @@
-import iterator from './iterator';
+import * as iterator from './iterator';
 import iterate from './iterate';
 
 /**
