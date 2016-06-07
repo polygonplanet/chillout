@@ -65,3 +65,18 @@ export function till(callback, context) {
     }
   };
 }
+
+export function forOf(iterable, callback, context) {
+  const it = iterable[Symbol.iterator]();
+
+  return {
+    next() {
+      const res = it.next();
+
+      if (res.done) {
+        return false;
+      }
+      return callback.call(context, res.value, iterable);
+    }
+  };
+}

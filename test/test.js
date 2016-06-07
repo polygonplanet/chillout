@@ -259,4 +259,77 @@ describe('chillout test', function() {
       });
     });
   });
+
+  describe('forOf', function() {
+    if (typeof Symbol === 'undefined') {
+      return it('skip', function() {
+        assert(true);
+      });
+    }
+
+    it('array', function(done) {
+      var values = [];
+      chillout.forOf([1, 2, 3], function(value) {
+        values.push(value);
+      }).then(function() {
+        assert.deepEqual(values, [1, 2, 3]);
+        done();
+      });
+    });
+
+    it('string', function(done) {
+      var values = [];
+      chillout.forOf('abc', function(value) {
+        values.push(value);
+      }).then(function() {
+        assert.deepEqual(values, ['a', 'b', 'c']);
+        done();
+      });
+    });
+
+    it('TypedArray', function(done) {
+      var values = [];
+      var iterable = new Uint8Array([0x00, 0xff]);
+      chillout.forOf(iterable, function(value) {
+        values.push(value);
+      }).then(function() {
+        assert.deepEqual(values, [0, 255]);
+        done();
+      });
+    });
+
+    it('Map', function(done) {
+      var values = [];
+      var iterable = new Map([['a', 1], ['b', 2], ['c', 3]]);
+      chillout.forOf(iterable, function(value) {
+        values.push(value);
+      }).then(function() {
+        assert.deepEqual(values, [['a', 1], ['b', 2], ['c', 3]]);
+        done();
+      });
+    });
+
+    it('Set', function(done) {
+      var values = [];
+      var iterable = new Set([1, 1, 2, 2, 3, 3]);
+      chillout.forOf(iterable, function(value) {
+        values.push(value);
+      }).then(function() {
+        assert.deepEqual(values, [1, 2, 3]);
+        done();
+      });
+    });
+
+    it('with context', function(done) {
+      var context = {
+        values: []
+      };
+      chillout.forOf([1, 2, 3], function(value) {
+        this.values.push(value);
+      }, context).then(function() {
+        assert.deepEqual(context.values, [1, 2, 3]);
+        done();
+      });
+    });
+  });
 });

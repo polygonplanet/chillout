@@ -228,19 +228,64 @@ chillout.till(function() {
 // end
 ```
 
+### forOf
+
+列挙可能なプロパティに対して、反復処理を行います。
+これは `for-of` ステートメントと同じ反復処理をします。
+
+与えられた関数を各反復に対して実行します。
+関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
+
+* chillout.**forOf** ( iterable, callback [, context ] )  
+  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、反復処理を行うオブジェクト。  
+  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数で、1つの引数をとります。
+  - value: 各反復処理におけるプロパティの値。
+
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  @return {_Promise_} Promiseオブジェクトを返します。
+
+配列の反復例:
+
+```javascript
+chillout.forOf([1, 2, 3], function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('end');
+});
+// 1
+// 2
+// 3
+// end
+```
+
+文字列の反復例:
+
+```javascript
+chillout.forOf('abc', function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('end');
+});
+// a
+// b
+// c
+// end
+```
+
 ## 比較表
 
 既存のJavaScriptループを chillout.js のAPIに置き換えることで、CPU使用率を抑えることができます。
 
 変換例:
 
-| JavaScript Statement             | chillout                                                                      |
-| ---------------------------------|-------------------------------------------------------------------------------|
-| array.forEach(function(v, i) {}) | chillout.forEach(array, function(v, i) {})                                    |
-| for (i = 0; i < 5; i++) {}       | chillout.repeat(5, function(i) {})                                            |
-| for (i = 10; i < 20; i += 2) {}  | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                  | chillout.till(function() {})                                                  |
-| while (cond()) {}                | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
+| JavaScript Statement                 | chillout                                                                      |
+| -------------------------------------|-------------------------------------------------------------------------------|
+| [1, 2, 3].forEach(function(v, i) {}) | chillout.forEach([1, 2, 3], function(v, i) {})                                |
+| for (i = 0; i < 5; i++) {}           | chillout.repeat(5, function(i) {})                                            |
+| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
+| while (true) {}                      | chillout.till(function() {})                                                  |
+| while (cond()) {}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
+| for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 ## 貢献
 

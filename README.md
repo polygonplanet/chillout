@@ -165,7 +165,7 @@ The iteration will break if the callback function returns `false`, or an error o
   - step: The number of step.
   - end: The number of end.
 
-  @param {_Function_} _callback_ Function to execute for each times, taking an argument:
+  @param {_Function_} _callback_ Function to execute for each times, taking one argument:
   - i: The current number.
 
   @param {_Object_} [_context_] Value to use as `this` when executing callback.  
@@ -231,6 +231,48 @@ chillout.till(function() {
 // end
 ```
 
+### forOf
+
+Iterates the iterable objects, similar to the `for-of` statement.  
+Executes a provided function once per element.  
+The iteration will break if the callback function returns `false`, or an error occurs.
+
+* chillout.**forOf** ( iterable, callback [, context ] )  
+  @param {_Array|string|Object_} _iterable_ Target iterable objects.  
+  @param {_Function_} _callback_ Function to execute for each element, taking one argument:
+  - value: A value of a property on each iteration.
+
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
+  @return {_Promise_} Return new Promise.
+
+Example of iterate array:
+
+```javascript
+chillout.forOf([1, 2, 3], function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('end');
+});
+// 1
+// 2
+// 3
+// end
+```
+
+Example of iterate string:
+
+```javascript
+chillout.forOf('abc', function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('end');
+});
+// a
+// b
+// c
+// end
+```
+
 ## Comparison Table
 
 You can reduce the CPU load by changing your JavaScript iteration to the chillout iteration.
@@ -238,13 +280,14 @@ You can reduce the CPU load by changing your JavaScript iteration to the chillou
 
 Examples:
 
-| JavaScript Statement             | chillout                                                                      |
-| ---------------------------------|-------------------------------------------------------------------------------|
-| array.forEach(function(v, i) {}) | chillout.forEach(array, function(v, i) {})                                    |
-| for (i = 0; i < 5; i++) {}       | chillout.repeat(5, function(i) {})                                            |
-| for (i = 10; i < 20; i += 2) {}  | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                  | chillout.till(function() {})                                                  |
-| while (cond()) {}                | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
+| JavaScript Statement                 | chillout                                                                      |
+| -------------------------------------|-------------------------------------------------------------------------------|
+| [1, 2, 3].forEach(function(v, i) {}) | chillout.forEach([1, 2, 3], function(v, i) {})                                |
+| for (i = 0; i < 5; i++) {}           | chillout.repeat(5, function(i) {})                                            |
+| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
+| while (true) {}                      | chillout.till(function() {})                                                  |
+| while (cond()) {}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
+| for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 ## Contributing
 

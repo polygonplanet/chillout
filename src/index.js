@@ -29,7 +29,7 @@ export function forEach(obj, callback, context) {
  * - start: The number of start
  * - step: The number of step
  * - end: The number of end
- * @param {Function} callback Function to execute for each times, taking an
+ * @param {Function} callback Function to execute for each times, taking one
  *   argument:
  * - i: The current number
  * @param {Object} [context] Value to use as `this` when executing callback
@@ -49,4 +49,21 @@ export function repeat(count, callback, context) {
  */
 export function till(callback, context) {
   return iterate(iterator.till(callback, context));
+}
+
+/**
+ * Iterates the iterable objects, similar to the `for-of` statement.
+ * Executes a provided function once per element.
+ * The iteration will break if the callback function returns `false`, or an
+ * error occurs.
+ *
+ * @param {Array|string|Object} iterable Target iterable objects
+ * @param {Function} callback Function to execute for each element, taking
+ *   one argument:
+ * - value: A value of a property on each iteration
+ * @param {Object} [context] Value to use as `this` when executing callback
+ * @return {Promise} Return new Promise
+ */
+export function forOf(iterable, callback, context) {
+  return iterate(iterator.forOf(iterable, callback, context));
 }
