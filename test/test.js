@@ -290,6 +290,14 @@ describe('chillout test', function() {
     it('TypedArray', function(done) {
       var values = [];
       var iterable = new Uint8Array([0x00, 0xff]);
+
+      if (typeof iterable[Symbol.iterator] !== 'function') {
+        // skip
+        assert(true);
+        done();
+        return;
+      }
+
       chillout.forOf(iterable, function(value) {
         values.push(value);
       }).then(function() {
