@@ -1,5 +1,5 @@
 /*!
- * chillout v3.1.1 - Reduce CPU usage in JavaScript
+ * chillout v3.1.2 - Reduce CPU usage in JavaScript
  * Copyright (c) 2016 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
