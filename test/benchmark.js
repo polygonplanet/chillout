@@ -5,14 +5,14 @@ require('es6-shim');
 var chillout = require('../dist/chillout');
 var pusage = require('pidusage');
 
-var REPEAT_COUNT = 50;
+var REPEAT_COUNT = 100;
 var cpuLoads = {
   without_chillout: [],
   using_chillout: []
 };
 
 
-// Get CPU load for current node process
+// Get CPU usage for current node process
 function cpuStat(type) {
   return new Promise(function(resolve, reject) {
     pusage.stat(process.pid, function(err, stat) {
@@ -27,7 +27,7 @@ function cpuStat(type) {
   });
 }
 
-// Get CPU load average
+// Get CPU usage average
 function cpuAvg(type) {
   var loads = cpuLoads[type].filter(function(load) {
     // Ignore 0% load
@@ -36,7 +36,7 @@ function cpuAvg(type) {
 
   var len = loads.length;
   if (len === 0) {
-    return 'Failed to get CPU load average';
+    return 'Failed to get CPU usage';
   }
 
   return (loads.reduce(function(total, load) {
@@ -47,14 +47,13 @@ function cpuAvg(type) {
 
 
 function heavyProcess() {
-  /* eslint-disable no-unused-vars */
   var v;
   for (var i = 0; i < 10000; i++) {
     for (var j = 0; j < 10000; j++) {
       v = i * j;
     }
   }
-  /* eslint-enable no-unused-vars */
+  return v;
 }
 
 
@@ -95,11 +94,11 @@ function run(title, type, cycle) {
     var time = Date.now();
     cycle(stat).then(function() {
       var processingTime = Date.now() - time;
-      console.log('Repeated %d times', q.length);
+      console.log('Repeated %d times', REPEAT_COUNT);
       console.log('Processing time: %dms', processingTime);
 
       Promise.all(q).then(function() {
-        console.log('CPU total average: %s', cpuAvg(type));
+        console.log('CPU usage on Node process (Average): %s', cpuAvg(type));
         cpuLoads[type].length = 0;
         q.length = 0;
         resolve();

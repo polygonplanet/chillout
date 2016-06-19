@@ -48,11 +48,13 @@ Benchmarks the **ForStatement** and `chillout.repeat`.
 
 ```javascript
 function heavyProcess() {
-  for (var i = 0; i < 10000; i++) {
-    for (var j = 0; j < 10000; j++) {
-      var v = i*j;
+  var v;
+  for (var i = 0; i < 5000; i++) {
+    for (var j = 0; j < 5000; j++) {
+      v = i * j;
     }
   }
+  return v;
 }
 ```
 
@@ -60,24 +62,24 @@ function heavyProcess() {
 
 ```javascript
 var time = Date.now();
-for (var i = 0; i < 500; i++) {
+for (var i = 0; i < 1000; i++) {
   heavyProcess();
 }
 var processingTime = Date.now() - time;
 console.log(processingTime);
 ```
 
-![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-without-chillout.png)
+![CPU usage without chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/benchmark-cpu-usage-without-chillout.png)
 
-* Processing time: 51049ms.
-* CPU total average: **31.10%**
+* Processing time: 107510ms.
+* CPU usage on Node process (Average): **97.13%**
 
 ### chillout.repeat
 
 
 ```javascript
 var time = Date.now();
-chillout.repeat(500, function(i) {
+chillout.repeat(1000, function(i) {
   heavyProcess();
 }).then(function() {
   var processingTime = Date.now() - time;
@@ -85,20 +87,20 @@ chillout.repeat(500, function(i) {
 });
 ```
 
-![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-with-chillout.png)
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/benchmark-cpu-usage-using-chillout.png)
 
-* Processing time: 59769ms.
-* CPU total average: **22.76%**
+* Processing time: 138432ms.
+* CPU usage on Node process (Average): **73.88%**
 
 
 ### Benchmark Result
 
-![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/cpu-usage-compare-arrow.png)
+![CPU usage with chillout](https://raw.github.com/wiki/polygonplanet/chillout/images/benchmark-cpu-usage-compare.png)
 
-| &nbsp;               | ForStatement | chillout.repeat |
-| -------------------- | ------------:| ---------------:|
-| Processing time      |     51049ms. |        59769ms. |
-| CPU total average    |   **31.10%** |      **22.76%** |
+| &nbsp;                               | ForStatement | chillout.repeat |
+| ------------------------------------ | ------------:| ---------------:|
+| Processing time                      |    107510ms. |       138432ms. |
+| CPU usage on Node process (Average)  |   **97.13%** |      **73.88%** |
 
 
 You can confirm that `chillout.repeat` is running on a more low CPU usage than **ForStatement**.
