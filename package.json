@@ -23,7 +23,15 @@
     "power-assert": "^1.4.1",
     "uglify-js": "^2.6.2",
     "uglifyify": "^3.0.2",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb-base": "^3.0.1",
+    "eslint-plugin-import": "^1.15.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-watch": "^4.3.9"
   },
   "scripts": {
     "compile": "browserify src/index.js -o dist/chillout.js -s chillout -t [ babelify --presets [ es2015 ] ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",

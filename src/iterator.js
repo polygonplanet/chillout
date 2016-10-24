@@ -33,7 +33,9 @@ export function forEach(obj, callback, context) {
 }
 
 export function repeat(count, callback, context) {
-  let i, step, end;
+  let i;
+  let step;
+  let end;
 
   if (count && typeof count === 'object') {
     i = count.start || 0;

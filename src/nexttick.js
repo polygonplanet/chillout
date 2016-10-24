@@ -1,14 +1,10 @@
 const nextTick = (() => {
   if (typeof setImmediate === 'function') {
-    return task => {
-      setImmediate(task);
-    };
+    return task => setImmediate(task);
   }
 
   if (typeof process === 'object' && typeof process.nextTick === 'function') {
-    return task => {
-      process.nextTick(task);
-    };
+    return task => process.nextTick(task);
   }
 
   if (typeof MessageChannel === 'function') {
@@ -25,14 +21,12 @@ const nextTick = (() => {
     };
 
     return task => {
-      tail = tail.next = { task: task };
+      tail = tail.next = { task };
       channel.port2.postMessage(0);
     };
   }
 
-  return task => {
-    setTimeout(task, 0);
-  };
+  return task => setTimeout(task, 0);
 })();
 
 export default nextTick;

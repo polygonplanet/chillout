@@ -39,7 +39,7 @@ Object **chillout** will be defined in the global scope if running in the browse
 
 ## Compatibility
 
-The limiting factor for browser/node support is the use of `Promise`.  
+The limiting factor for browser/node support is the use of `Promise`.
 You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
 
 ## Benchmarks
@@ -122,17 +122,17 @@ You can test benchmark with `npm run benchmark`.
 
 ### forEach
 
-Executes a provided function once per array or object element.  
+Executes a provided function once per array or object element.
 The iteration will break if the callback function returns `false`, or an error occurs.
 
-* chillout.**forEach** ( obj, callback [, context ] )  
-  @param {_Array|Object_} _obj_ Target array or object.  
-  @param {_Function_} *callback* Function to execute for each element, taking three arguments:  
+* chillout.**forEach** ( obj, callback [, context ] )
+  @param {_Array|Object_} _obj_ Target array or object.
+  @param {_Function_} *callback* Function to execute for each element, taking three arguments:
   - value: The current element being processed in the array/object.
   - key: The key of the current element being processed in the array/object.
   - obj: The array/object that `forEach` is being applied to.
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.
   @return {_Promise_} Return new Promise.
 
 Example of array iteration:
@@ -157,11 +157,11 @@ chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
 
 ### repeat
 
-Executes a provided function the specified number times.  
+Executes a provided function the specified number times.
 The iteration will break if the callback function returns `false`, or an error occurs.
 
-* chillout.**repeat** ( count, callback [, context ] )  
-  @param {_number|Object_} _count_ The number of times or object for execute the function.  
+* chillout.**repeat** ( count, callback [, context ] )
+  @param {_number|Object_} _count_ The number of times or object for execute the function.
   Following parameters are available if specify object:
   - start: The number of start.
   - step: The number of step.
@@ -170,7 +170,7 @@ The iteration will break if the callback function returns `false`, or an error o
   @param {_Function_} _callback_ Function to execute for each times, taking one argument:
   - i: The current number.
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.
   @return {_Promise_} Return new Promise.
 
 Example of specify number:
@@ -209,9 +209,9 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 
 Executes a provided function until the `callback` returns `false`, or an error occurs.
 
-* chillout.**till** ( callback [, context ] )  
-  @param {_Function_} _callback_ The function that is executed for each iteration.  
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
+* chillout.**till** ( callback [, context ] )
+  @param {_Function_} _callback_ The function that is executed for each iteration.
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.
   @return {_Promise_} Return new Promise.
 
 ```javascript
@@ -235,16 +235,16 @@ chillout.till(function() {
 
 ### forOf
 
-Iterates the iterable objects, similar to the `for-of` statement.  
-Executes a provided function once per element.  
+Iterates the iterable objects, similar to the `for-of` statement.
+Executes a provided function once per element.
 The iteration will break if the callback function returns `false`, or an error occurs.
 
-* chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ Target iterable objects.  
+* chillout.**forOf** ( iterable, callback [, context ] )
+  @param {_Array|string|Object_} _iterable_ Target iterable objects.
   @param {_Function_} _callback_ Function to execute for each element, taking one argument:
   - value: A value of a property on each iteration.
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
+  @param {_Object_} [_context_] Value to use as `this` when executing callback.
   @return {_Promise_} Return new Promise.
 
 Example of iterate array:

@@ -5,19 +5,7 @@ export default function iterate(it) {
   return new Promise((resolve, reject) => {
     let totalTime = 0;
 
-    function then(value) {
-      value.then(res => {
-        if (res === false) {
-          resolve();
-        } else {
-          _iterate();
-        }
-      }, err => {
-        reject(err);
-      });
-    }
-
-    function _iterate() {
+    function doIterate() {
       const cycleStartTime = Date.now();
       let cycleEndTime;
 
@@ -30,7 +18,15 @@ export default function iterate(it) {
           }
 
           if (isThenable(res)) {
-            then(res);
+            res.then(value => {
+              if (value === false) {
+                resolve();
+              } else {
+                doIterate();
+              }
+            }, err => {
+              reject(err);
+            });
             return;
           }
 
@@ -66,12 +62,12 @@ export default function iterate(it) {
       totalTime = 0;
 
       if (delay > 10) {
-        setTimeout(_iterate, delay);
+        setTimeout(doIterate, delay);
       } else {
-        nextTick(_iterate);
+        nextTick(doIterate);
       }
     }
 
-    nextTick(_iterate);
+    nextTick(doIterate);
   });
 }
