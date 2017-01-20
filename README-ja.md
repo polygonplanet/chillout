@@ -5,10 +5,10 @@ chillout.js
 
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 
-低CPU使用率で実行できる**Promiseベース**の非同期反復APIを提供します。  
-各ループはCPUの安定性を維持するために、処理が重い場合は適度なディレイが付加され、  
-逆に処理が軽い場合はディレイなしで繰り返し、処理速度を低下させずに実行します。  
-それにより、CPUに優しい処理を実現します。  
+低CPU使用率で実行できる**Promiseベース**の非同期反復APIを提供します。
+各ループはCPUの安定性を維持するために、処理が重い場合は適度なディレイが付加され、
+逆に処理が軽い場合はディレイなしで繰り返し、処理速度を低下させずに実行します。
+それにより、CPUに優しい処理を実現します。
 また、「警告: 応答のないスクリプト」などのブラウザ警告なしでJavaScriptを実行できます。
 
 ブラウザ上、Electron、Node.js などの環境で利用できます。
@@ -38,7 +38,7 @@ chillout.forEach(...)
 
 ## 互換性
 
-`Promise` が動く環境が必要です。  
+`Promise` が動く環境が必要です。
 `Promise` がサポートされてない環境の場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。
 
 
@@ -102,9 +102,9 @@ chillout.repeat(1000, function(i) {
 | CPU平均使用率(Nodeプロセス)         |           **97.13%** |      **73.88%** |
 
 
-`chillout.repeat` は forループ よりも低いCPU使用率で実行されているのが確認できます。  
-chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実行できますが、処理速度は少し遅くなります。  
-特にブラウザ上で実行されるJavaScriptのパフォーマンスにおいて最も重要なことの一つは、  
+`chillout.repeat` は forループ よりも低いCPU使用率で実行されているのが確認できます。
+chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実行できますが、処理速度は少し遅くなります。
+特にブラウザ上で実行されるJavaScriptのパフォーマンスにおいて最も重要なことの一つは、
 数値的な速度ではなく、安定したレスポンスによってユーザーにストレスを与えずに実行することと考えています。
 
 *(ベンチマーク: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
@@ -119,17 +119,17 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 ### forEach
 
-与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
+与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。
 関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
 
-* chillout.**forEach** ( obj, callback [, context ] )  
-  @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。  
-  @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、３つの引数をとります。  
+* chillout.**forEach** ( obj, callback [, context ] )
+  @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。
+  @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、３つの引数をとります。
   - value: 現在処理されている配列の要素、またはオブジェクトの値。
   - key: 現在処理されている配列の要素のインデックス、またはオブジェクトのキー。
   - obj: `forEach` が適用されている配列またはオブジェクト。
 
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。
   @return {_Promise_} Promiseオブジェクトを返します。
 
 配列の反復例:
@@ -154,11 +154,11 @@ chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
 
 ### repeat
 
-与えられた関数を、引数で与えられた数だけ実行します。  
+与えられた関数を、引数で与えられた数だけ実行します。
 関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
 
-* chillout.**repeat** ( count, callback [, context ] )  
-  @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
+* chillout.**repeat** ( count, callback [, context ] )
+  @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。
   オブジェクトで指定する場合は以下のキーが有効です。
   - start: 開始する数。
   - step: ステップ数。
@@ -167,7 +167,7 @@ chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
   @param {_Function_} _callback_ 各反復に対して実行するコールバック関数で、1つの引数をとります。
   - i: 現在の数。
 
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。
   @return {_Promise_} Promiseオブジェクトを返します。
 
 回数を指定する例:
@@ -206,9 +206,9 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 
 与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。
 
-* chillout.**till** ( callback [, context ] )  
-  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数。  
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+* chillout.**till** ( callback [, context ] )
+  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数。
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。
   @return {_Promise_} Promiseオブジェクトを返します。
 
 ```javascript
@@ -238,12 +238,12 @@ chillout.till(function() {
 与えられた関数を各反復に対して実行します。
 関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
 
-* chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、反復処理を行うオブジェクト。  
+* chillout.**forOf** ( iterable, callback [, context ] )
+  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、反復処理を行うオブジェクト。
   @param {_Function_} _callback_ 各反復に対して実行するコールバック関数で、1つの引数をとります。
   - value: 各反復処理におけるプロパティの値。
 
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。
   @return {_Promise_} Promiseオブジェクトを返します。
 
 配列の反復例:
@@ -291,7 +291,7 @@ chillout.forOf('abc', function(value) {
 
 ## 貢献
 
-pull request または issues を歓迎します。  
+pull request または issues を歓迎します。
 pull request の際は、 `npm test` を実行してエラーがないことを確認してください。
 
 ## ライセンス

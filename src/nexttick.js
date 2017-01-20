@@ -25,7 +25,7 @@ const nextTick = (() => {
     };
 
     return task => {
-      tail = tail.next = { task: task };
+      tail = tail.next = { task };
       channel.port2.postMessage(0);
     };
   }
