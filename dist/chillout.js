@@ -1,6 +1,6 @@
 /*!
- * chillout v3.1.2 - Reduce CPU usage in JavaScript
- * Copyright (c) 2016 polygon planet <polygon.planet.aqua@gmail.com>
+ * chillout v3.1.3 - Reduce CPU usage in JavaScript
+ * Copyright (c) 2017 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
  */
@@ -114,19 +114,7 @@ function iterate(it) {
   return new Promise(function (resolve, reject) {
     var totalTime = 0;
 
-    function then(value) {
-      value.then(function (res) {
-        if (res === false) {
-          resolve();
-        } else {
-          _iterate();
-        }
-      }, function (err) {
-        reject(err);
-      });
-    }
-
-    function _iterate() {
+    function doIterate() {
       var cycleStartTime = Date.now();
       var cycleEndTime = void 0;
 
@@ -139,7 +127,15 @@ function iterate(it) {
           }
 
           if ((0, _util.isThenable)(res)) {
-            then(res);
+            res.then(function (value) {
+              if (value === false) {
+                resolve();
+              } else {
+                doIterate();
+              }
+            }, function (err) {
+              reject(err);
+            });
             return;
           }
 
@@ -175,13 +171,13 @@ function iterate(it) {
       totalTime = 0;
 
       if (delay > 10) {
-        setTimeout(_iterate, delay);
+        setTimeout(doIterate, delay);
       } else {
-        (0, _nexttick2.default)(_iterate);
+        (0, _nexttick2.default)(doIterate);
       }
     }
 
-    (0, _nexttick2.default)(_iterate);
+    (0, _nexttick2.default)(doIterate);
   });
 }
 
@@ -234,9 +230,9 @@ function forEach(obj, callback, context) {
 }
 
 function repeat(count, callback, context) {
-  var i = void 0,
-      step = void 0,
-      end = void 0;
+  var i = void 0;
+  var step = void 0;
+  var end = void 0;
 
   if (count && (typeof count === 'undefined' ? 'undefined' : _typeof(count)) === 'object') {
     i = count.start || 0;
