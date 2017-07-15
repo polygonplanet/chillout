@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "3.1.4",
+  "version": "3.1.5",
   "description": "Reduce CPU usage in JavaScript",
   "main": "dist/chillout.js",
   "dependencies": {},
