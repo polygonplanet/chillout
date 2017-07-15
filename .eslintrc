@@ -1,6 +1,25 @@
 {
-  "extends": "airbnb-base",
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "shared-node-browser": true,
+    "worker": true
+  },
   "rules": {
-    "comma-dangle": 0
+    "no-mixed-spaces-and-tabs": "error",
+    "no-console": "warn",
+    "semi": "warn"
   }
 }
+
