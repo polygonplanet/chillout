@@ -188,7 +188,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.forEach = forEach;
 exports.repeat = repeat;
@@ -287,7 +287,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var nextTick = function () {
   if (typeof setImmediate === 'function') {
@@ -303,28 +303,22 @@ var nextTick = function () {
   }
 
   if (typeof MessageChannel === 'function') {
-    var _ret = function () {
-      // http://www.nonblocking.io/2011/06/windownexttick.html
-      var channel = new MessageChannel();
-      var head = {};
-      var tail = head;
+    // http://www.nonblocking.io/2011/06/windownexttick.html
+    var channel = new MessageChannel();
+    var head = {};
+    var tail = head;
 
-      channel.port1.onmessage = function () {
-        head = head.next;
-        var task = head.task;
-        delete head.task;
-        task();
-      };
+    channel.port1.onmessage = function () {
+      head = head.next;
+      var task = head.task;
+      delete head.task;
+      task();
+    };
 
-      return {
-        v: function v(task) {
-          tail = tail.next = { task: task };
-          channel.port2.postMessage(0);
-        }
-      };
-    }();
-
-    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+    return function (task) {
+      tail = tail.next = { task: task };
+      channel.port2.postMessage(0);
+    };
   }
 
   return function (task) {
