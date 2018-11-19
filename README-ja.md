@@ -164,7 +164,7 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 ```javascript
 var values = ['a', 'b', 'c'];
 
-chillout.forEach(values, function(value) {
+chillout.forEach(values, function(value, key, obj) {
   console.log(value);
 }).then(function() {
   console.log('done');
@@ -185,7 +185,7 @@ var values = {
   c: 3
 };
 
-chillout.forEach(values, function(value, key) {
+chillout.forEach(values, function(value, key, obj) {
   console.log(key + ':' + value);
 }).then(function() {
   console.log('done');

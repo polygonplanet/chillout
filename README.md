@@ -140,7 +140,7 @@ Example of array iteration:
 ```javascript
 var values = ['a', 'b', 'c'];
 
-chillout.forEach(values, function(value) {
+chillout.forEach(values, function(value, key, obj) {
   console.log(value);
 }).then(function() {
   console.log('done');
@@ -161,7 +161,7 @@ var values = {
   c: 3
 };
 
-chillout.forEach(values, function(value, key) {
+chillout.forEach(values, function(value, key, obj) {
   console.log(key + ':' + value);
 }).then(function() {
   console.log('done');
