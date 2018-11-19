@@ -136,23 +136,41 @@ The iteration will break if the callback function returns `false`, or an error o
   @return {_Promise_} Return new Promise.
 
 Example of array iteration:
+
 ```javascript
-var sum = 0;
-chillout.forEach([1, 2, 3], function(value, i) {
-  sum += value;
+var values = ['a', 'b', 'c'];
+
+chillout.forEach(values, function(value) {
+  console.log(value);
 }).then(function() {
-  console.log(sum); // 6
+  console.log('done');
 });
+
+// 'a'
+// 'b'
+// 'c'
+// 'done'
 ```
 
 Example of object iteration:
+
 ```javascript
-var result = '';
-chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
-  result += key + value;
+var values = {
+  a: 1,
+  b: 2,
+  c: 3
+};
+
+chillout.forEach(values, function(value, key) {
+  console.log(key + ':' + value);
 }).then(function() {
-  console.log(result); // 'a1b2c3'
+  console.log('done');
 });
+
+// 'a:1'
+// 'b:2'
+// 'c:3'
+// 'done'
 ```
 
 ### repeat
@@ -179,14 +197,15 @@ Example of specify number:
 chillout.repeat(5, function(i) {
   console.log(i);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 0
 // 1
 // 2
 // 3
 // 4
-// end
+// 'done'
 ```
 
 Example of specify object:
@@ -195,14 +214,15 @@ Example of specify object:
 chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
   console.log(i);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 10
 // 12
 // 14
 // 16
 // 18
-// end
+// 'done'
 ```
 
 ### till
@@ -223,14 +243,15 @@ chillout.till(function() {
     return false; // stop iteration
   }
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 0
 // 1
 // 2
 // 3
 // 4
-// end
+// 'done'
 ```
 
 ### forOf
@@ -253,12 +274,13 @@ Example of iterate array:
 chillout.forOf([1, 2, 3], function(value) {
   console.log(value);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 1
 // 2
 // 3
-// end
+// 'done'
 ```
 
 Example of iterate string:
@@ -267,12 +289,13 @@ Example of iterate string:
 chillout.forOf('abc', function(value) {
   console.log(value);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
-// a
-// b
-// c
-// end
+
+// 'a'
+// 'b'
+// 'c'
+// 'done'
 ```
 
 ## Comparison Table

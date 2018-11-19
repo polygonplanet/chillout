@@ -147,11 +147,11 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 ### forEach
 
 与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。
 
 * chillout.**forEach** ( obj, callback [, context ] )  
   @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。  
-  @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、３つの引数をとります。  
+  @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、3つの引数をとります。  
   - value: 現在処理されている配列の要素、またはオブジェクトの値。
   - key: 現在処理されている配列の要素のインデックス、またはオブジェクトのキー。
   - obj: `forEach` が適用されている配列またはオブジェクト。
@@ -159,30 +159,48 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
 
-配列の反復例:
+配列のループ例:
+
 ```javascript
-var sum = 0;
-chillout.forEach([1, 2, 3], function(value, i) {
-  sum += value;
+var values = ['a', 'b', 'c'];
+
+chillout.forEach(values, function(value) {
+  console.log(value);
 }).then(function() {
-  console.log(sum); // 6
+  console.log('done');
 });
+
+// 'a'
+// 'b'
+// 'c'
+// 'done'
 ```
 
-オブジェクトの反復例:
+オブジェクトのループ例:
+
 ```javascript
-var result = '';
-chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
-  result += key + value;
+var values = {
+  a: 1,
+  b: 2,
+  c: 3
+};
+
+chillout.forEach(values, function(value, key) {
+  console.log(key + ':' + value);
 }).then(function() {
-  console.log(result); // 'a1b2c3'
+  console.log('done');
 });
+
+// 'a:1'
+// 'b:2'
+// 'c:3'
+// 'done'
 ```
 
 ### repeat
 
 与えられた関数を、引数で与えられた数だけ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
@@ -191,7 +209,7 @@ chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
   - step: ステップ数。
   - end: 終了する数。
 
-  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数で、1つの引数をとります。
+  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
   - i: 現在の数。
 
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
@@ -203,14 +221,15 @@ chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
 chillout.repeat(5, function(i) {
   console.log(i);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 0
 // 1
 // 2
 // 3
 // 4
-// end
+// 'done'
 ```
 
 オブジェクトで指定する例:
@@ -219,14 +238,15 @@ chillout.repeat(5, function(i) {
 chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
   console.log(i);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 10
 // 12
 // 14
 // 16
 // 18
-// end
+// 'done'
 ```
 
 ### till
@@ -234,7 +254,7 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。
 
 * chillout.**till** ( callback [, context ] )  
-  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数。  
+  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
 
@@ -247,58 +267,61 @@ chillout.till(function() {
     return false; // stop iteration
   }
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 0
 // 1
 // 2
 // 3
 // 4
-// end
+// 'done'
 ```
 
 ### forOf
 
-列挙可能なプロパティに対して、反復処理を行います。
-これは `for-of` ステートメントと同じ反復処理をします。
+列挙可能なプロパティに対して、ループ処理を行います。
+これは `for-of` ステートメントと同じループ処理をします。
 
-与えられた関数を各反復に対して実行します。
-関数内で `false` を返すか、エラーが発生すると、それ以降の反復は実行されません。
+与えられた関数を各ループに対して実行します。
+関数内で `false` を返すか、エラーが発生すると、それ以降のループは実行されません。
 
 * chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、反復処理を行うオブジェクト。  
-  @param {_Function_} _callback_ 各反復に対して実行するコールバック関数で、1つの引数をとります。
-  - value: 各反復処理におけるプロパティの値。
+  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、ループ処理を行うオブジェクト。  
+  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
+  - value: 各ループ処理におけるプロパティの値。
 
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
 
-配列の反復例:
+配列のループ例:
 
 ```javascript
 chillout.forOf([1, 2, 3], function(value) {
   console.log(value);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
+
 // 1
 // 2
 // 3
-// end
+// 'done'
 ```
 
-文字列の反復例:
+文字列のループ例:
 
 ```javascript
 chillout.forOf('abc', function(value) {
   console.log(value);
 }).then(function() {
-  console.log('end');
+  console.log('done');
 });
-// a
-// b
-// c
-// end
+
+// 'a'
+// 'b'
+// 'c'
+// 'done'
 ```
 
 ## 比較表
