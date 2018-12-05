@@ -36,6 +36,7 @@ chillout.js は、ループ処理が重いときにはCPUが休まるくらい�
 
 ブラウザ上、Electron、Node.js などの環境で使えます。
 
+
 ## インストール
 
 **chillout** というモジュール名で `npm` から利用できます。
@@ -65,6 +66,10 @@ chillout.forEach(...)
 
 
 (古い環境で `Promise` がサポートされてない環境の場合は、[es6-shim](https://github.com/paulmillr/es6-shim) や、他の `Promise` polyfill を使ってください。)
+
+## async / await
+
+`async/await` が使える環境ならより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すため `async/await` で表現しやすくなっています。
 
 
 ## ベンチマーク
@@ -338,6 +343,10 @@ chillout.forOf('abc', function(value) {
 | while (true) {}                      | chillout.till(function() {})                                                  |
 | while (cond()) {}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
+
+
+※ `async/await` が使える環境ではより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すため `async/await` で扱いやすくなっているためです。
+
 
 ## 貢献
 

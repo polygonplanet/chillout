@@ -42,6 +42,12 @@ Object **chillout** will be defined in the global scope if running in the browse
 The limiting factor for browser/node support is the use of `Promise`.  
 You can use [es6-shim](https://github.com/paulmillr/es6-shim) or other `Promise` polyfills.
 
+## async / await
+
+You can write more simply using by `async/await` syntax.
+
+Because all APIs in chillout.js return Promise, it is easy to handle with `async/await`.
+
 ## Benchmarks
 
 Benchmarks the **ForStatement** and `chillout.repeat`.
@@ -313,6 +319,10 @@ Examples:
 | while (true) {}                      | chillout.till(function() {})                                                  |
 | while (cond()) {}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
+
+
+(You can write more simply using by `async / await` syntax because chillout.js' all APIs return Promise.)
+
 
 ## Contributing
 
