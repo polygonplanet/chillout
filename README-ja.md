@@ -149,6 +149,11 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 ## API
 
+* [forEach](#foreach)
+* [repeat](#repeat)
+* [till](#till)
+* [forOf](#forof)
+
 ### forEach
 
 与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  

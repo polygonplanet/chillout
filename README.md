@@ -124,7 +124,12 @@ You can test benchmark with `npm run benchmark`.
 
 ----
 
-## Iteration Functions
+## API
+
+* [forEach](#foreach)
+* [repeat](#repeat)
+* [till](#till)
+* [forOf](#forof)
 
 ### forEach
 
