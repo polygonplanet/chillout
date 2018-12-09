@@ -1,4 +1,4 @@
-import nextTick from './nexttick';
+import nextTick from './next-tick';
 import { isThenable } from './util';
 
 export default function iterate(it) {
