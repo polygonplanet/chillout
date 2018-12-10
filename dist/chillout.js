@@ -100,13 +100,20 @@ function forOf(iterable, callback, context) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 exports.default = iterate;
 
-var _nexttick = require('./nexttick');
+var _nextTick = require('./next-tick');
 
-var _nexttick2 = _interopRequireDefault(_nexttick);
+var _nextTick2 = _interopRequireDefault(_nextTick);
 
 var _util = require('./util');
+
+var _iterator = require('./iterator');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -119,16 +126,15 @@ function iterate(it) {
       var cycleEndTime = void 0;
 
       try {
-        for (;;) {
-          var res = it.next();
-          if (res === false) {
-            resolve();
-            return;
-          }
+        var _loop = function _loop() {
+          var _it$next = it.next(),
+              _it$next2 = _slicedToArray(_it$next, 2),
+              iterationResult = _it$next2[0],
+              res = _it$next2[1];
 
           if ((0, _util.isThenable)(res)) {
-            res.then(function (value) {
-              if (value === false) {
+            res.then(function (awaitedResult) {
+              if (iterationResult === _iterator.STOP_ITERATION || awaitedResult === false) {
                 resolve();
               } else {
                 doIterate();
@@ -136,7 +142,16 @@ function iterate(it) {
             }, function (err) {
               reject(err);
             });
-            return;
+            return {
+              v: void 0
+            };
+          }
+
+          if (iterationResult === _iterator.STOP_ITERATION || res === false) {
+            resolve();
+            return {
+              v: void 0
+            };
           }
 
           var endTime = Date.now();
@@ -145,19 +160,34 @@ function iterate(it) {
 
           if (totalTime > 1000) {
             // Break the loop when the process is continued for more than 1s
-            break;
+            return 'break';
           }
 
           if (cycleEndTime < 10) {
             // Delay is not required for fast iteration
-            continue;
+            return 'continue';
           }
 
           var risk = Math.min(10, Math.floor(cycleEndTime / 10));
           var margin = endTime % (10 - risk);
           if (!margin) {
             // Break the loop if processing has exceeded the allowable
-            break;
+            return 'break';
+          }
+        };
+
+        _loop2: for (;;) {
+          var _ret = _loop();
+
+          switch (_ret) {
+            case 'break':
+              break _loop2;
+
+            case 'continue':
+              continue;
+
+            default:
+              if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
           }
         }
       } catch (e) {
@@ -173,20 +203,21 @@ function iterate(it) {
       if (delay > 10) {
         setTimeout(doIterate, delay);
       } else {
-        (0, _nexttick2.default)(doIterate);
+        (0, _nextTick2.default)(doIterate);
       }
     }
 
-    (0, _nexttick2.default)(doIterate);
+    (0, _nextTick2.default)(doIterate);
   });
 }
 
-},{"./nexttick":4,"./util":5}],3:[function(require,module,exports){
+},{"./iterator":3,"./next-tick":4,"./util":5}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.CONTINUE_ITERATION = exports.STOP_ITERATION = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -196,6 +227,9 @@ exports.till = till;
 exports.forOf = forOf;
 
 var _util = require('./util');
+
+var STOP_ITERATION = exports.STOP_ITERATION = {};
+var CONTINUE_ITERATION = exports.CONTINUE_ITERATION = {};
 
 function forEach(obj, callback, context) {
   var i = 0;
@@ -207,9 +241,12 @@ function forEach(obj, callback, context) {
     return {
       next: function next() {
         if (i >= len) {
-          return false;
+          return [STOP_ITERATION, null];
         }
-        return callback.call(context, obj[i], i++, obj);
+
+        var res = callback.call(context, obj[i], i, obj);
+        i++;
+        return [CONTINUE_ITERATION, res];
       }
     };
   }
@@ -220,11 +257,12 @@ function forEach(obj, callback, context) {
   return {
     next: function next() {
       if (i >= len) {
-        return false;
+        return [STOP_ITERATION, null];
       }
 
       var key = keys[i++];
-      return callback.call(context, obj[key], key, obj);
+      var res = callback.call(context, obj[key], key, obj);
+      return [CONTINUE_ITERATION, res];
     }
   };
 }
@@ -250,9 +288,9 @@ function repeat(count, callback, context) {
 
       i += step;
       if (i >= end) {
-        return false;
+        return [STOP_ITERATION, res];
       }
-      return res;
+      return [CONTINUE_ITERATION, res];
     }
   };
 }
@@ -260,7 +298,8 @@ function repeat(count, callback, context) {
 function till(callback, context) {
   return {
     next: function next() {
-      return callback.call(context);
+      var res = callback.call(context);
+      return [CONTINUE_ITERATION, res];
     }
   };
 }
@@ -270,12 +309,13 @@ function forOf(iterable, callback, context) {
 
   return {
     next: function next() {
-      var res = it.next();
+      var nextIterator = it.next();
 
-      if (res.done) {
-        return false;
+      if (nextIterator.done) {
+        return [STOP_ITERATION, null];
       }
-      return callback.call(context, res.value, iterable);
+      var res = callback.call(context, nextIterator.value, iterable);
+      return [CONTINUE_ITERATION, res];
     }
   };
 }

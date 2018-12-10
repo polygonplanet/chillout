@@ -1,5 +1,6 @@
 import nextTick from './next-tick';
 import { isThenable } from './util';
+import { STOP_ITERATION } from './iterator';
 
 export default function iterate(it) {
   return new Promise((resolve, reject) => {
@@ -11,15 +12,11 @@ export default function iterate(it) {
 
       try {
         for (;;) {
-          const res = it.next();
-          if (res === false) {
-            resolve();
-            return;
-          }
+          const [iterationResult, res] = it.next();
 
           if (isThenable(res)) {
-            res.then(value => {
-              if (value === false) {
+            res.then(awaitedResult => {
+              if (iterationResult === STOP_ITERATION || awaitedResult === false) {
                 resolve();
               } else {
                 doIterate();
@@ -27,6 +24,11 @@ export default function iterate(it) {
             }, err => {
               reject(err);
             });
+            return;
+          }
+
+          if (iterationResult === STOP_ITERATION || res === false) {
+            resolve();
             return;
           }
 
