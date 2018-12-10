@@ -346,7 +346,7 @@ chillout.forOf('abc', function(value) {
 | for (i = 0; i < 5; i++) {}           | chillout.repeat(5, function(i) {})                                            |
 | for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
 | while (true) {}                      | chillout.till(function() {})                                                  |
-| while (cond()) {}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>})    |
+| while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 
