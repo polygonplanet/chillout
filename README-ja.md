@@ -207,6 +207,31 @@ chillout.forEach(values, function(value, key, obj) {
 // 'done'
 ```
 
+`async / await` を使ってループする例:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.forEach([1, 2, 3], async (value, key, obj) => {
+    await sleep(1000);
+    console.log(value);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 1
+// 2
+// 3
+// 'done'
+```
+
 ### repeat
 
 与えられた関数を、引数で与えられた数だけ実行します。  
@@ -259,6 +284,32 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 // 'done'
 ```
 
+`async / await` を使ってループする例:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.repeat(3, async i => {
+    await sleep(1000);
+    console.log(i);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 0
+// 1
+// 2
+// 'done'
+```
+
+
 ### till
 
 与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。
@@ -287,6 +338,35 @@ chillout.till(function() {
 // 4
 // 'done'
 ```
+
+`async / await` を使ってループする例:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  let i = 0;
+  await chillout.till(async () => {
+    await sleep(1000);
+    console.log(i);
+    i++;
+    if (i === 3) return false;
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 0
+// 1
+// 2
+// 'done'
+```
+
 
 ### forOf
 
@@ -331,6 +411,31 @@ chillout.forOf('abc', function(value) {
 // 'a'
 // 'b'
 // 'c'
+// 'done'
+```
+
+`async / await` を使ってループする例:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.forOf([1, 2, 3], async value => {
+    await sleep(1000);
+    console.log(value);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 1
+// 2
+// 3
 // 'done'
 ```
 

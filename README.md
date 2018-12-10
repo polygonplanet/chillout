@@ -185,6 +185,32 @@ chillout.forEach(values, function(value, key, obj) {
 // 'done'
 ```
 
+Example iteration using `async / await`:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.forEach([1, 2, 3], async (value, key, obj) => {
+    await sleep(1000);
+    console.log(value);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 1
+// 2
+// 3
+// 'done'
+```
+
+
 ### repeat
 
 Executes a provided function the specified number times.  
@@ -237,6 +263,32 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 // 'done'
 ```
 
+Example iteration using `async / await`:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.repeat(3, async i => {
+    await sleep(1000);
+    console.log(i);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 0
+// 1
+// 2
+// 'done'
+```
+
+
 ### till
 
 Executes a provided function until the `callback` returns `false`, or an error occurs.
@@ -263,6 +315,34 @@ chillout.till(function() {
 // 2
 // 3
 // 4
+// 'done'
+```
+
+Example iteration using `async / await`:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  let i = 0;
+  await chillout.till(async () => {
+    await sleep(1000);
+    console.log(i);
+    i++;
+    if (i === 3) return false;
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 0
+// 1
+// 2
 // 'done'
 ```
 
@@ -307,6 +387,31 @@ chillout.forOf('abc', function(value) {
 // 'a'
 // 'b'
 // 'c'
+// 'done'
+```
+
+Example iteration using `async / await`:
+
+```javascript
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+async function delayedLog() {
+  await chillout.forOf([1, 2, 3], async value => {
+    await sleep(1000);
+    console.log(value);
+  });
+}
+
+(async function() {
+  await delayedLog();
+  console.log('done');
+})();
+
+// 1
+// 2
+// 3
 // 'done'
 ```
 
