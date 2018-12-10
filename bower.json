@@ -1,7 +1,7 @@
 {
   "name": "chillout",
   "main": "./dist/chillout.js",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "homepage": "https://github.com/polygonplanet/chillout",
   "authors": [
     "polygon planet <polygon.planet.aqua@gmail.com>"
@@ -14,11 +14,18 @@
   ],
   "keywords": [
     "cpu",
+    "async/await",
     "async",
+    "await",
+    "asynchronous",
+    "async function",
     "iterate",
     "iterator",
+    "iteration",
     "promise",
-    "setimmediate"
+    "setimmediate",
+    "forEach",
+    "repeat"
   ],
   "license": "MIT",
   "ignore": [

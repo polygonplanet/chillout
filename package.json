@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "description": "Reduce CPU usage in JavaScript",
   "main": "src/index.js",
   "dependencies": {},
@@ -42,11 +42,18 @@
   },
   "keywords": [
     "cpu",
+    "async/await",
     "async",
+    "await",
+    "asynchronous",
+    "async function",
     "iterate",
     "iterator",
+    "iteration",
     "promise",
-    "setimmediate"
+    "setimmediate",
+    "forEach",
+    "repeat"
   ],
   "author": "polygon planet <polygon.planet.aqua@gmail.com>",
   "license": "MIT",
