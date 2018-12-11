@@ -1,7 +1,19 @@
-# 3.1.8
+# Changelog
 
-* Fix bug: Fix result when using async / await
+## 3.1.9
 
-# 3.1.7
+**Fixed bugs:**
 
-* Fix bug: for can't find module
+* Fix Can't find module using "require"
+
+## 3.1.8
+
+**Fixed bugs:**
+
+* Fix result when using async / await
+
+## 3.1.7
+
+**Fixed bugs:**
+
+* Fix bug for can't find module
