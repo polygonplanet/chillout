@@ -134,7 +134,8 @@ You can test benchmark with `npm run benchmark`.
 ### forEach
 
 Executes a provided function once per array or object element.  
-The iteration will break if the callback function returns `false`, or an error occurs.
+The iteration will break if the callback function returns `false`, or an error occurs.  
+This method can be called like JavaScript `Array forEach`.
 
 * chillout.**forEach** ( obj, callback [, context ] )  
   @param {_Array|Object_} _obj_ Target array or object.  
@@ -214,7 +215,8 @@ async function delayedLog() {
 ### repeat
 
 Executes a provided function the specified number times.  
-The iteration will break if the callback function returns `false`, or an error occurs.
+The iteration will break if the callback function returns `false`, or an error occurs.  
+This method can be called like JavaScript `for` statement.
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ The number of times or object for execute the function.  
@@ -291,7 +293,8 @@ async function delayedLog() {
 
 ### till
 
-Executes a provided function until the `callback` returns `false`, or an error occurs.
+Executes a provided function until the `callback` returns `false`, or an error occurs.  
+This method can be called like JavaScript `while (true) { ... }` statement.
 
 * chillout.**till** ( callback [, context ] )  
   @param {_Function_} _callback_ The function that is executed for each iteration.  
@@ -430,6 +433,7 @@ Examples:
 | while (true) {}                      | chillout.till(function() {})                                                  |
 | while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
+
 
 (You can write more simply using by `async / await` syntax because chillout.js' all APIs return Promise.)
 

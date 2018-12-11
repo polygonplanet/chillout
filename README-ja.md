@@ -69,7 +69,7 @@ chillout.forEach(...)
 
 ## async / await
 
-`async/await` が使える環境ならより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すため `async/await` で表現しやすくなっています。
+`async/await` が使える環境ならより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すため `async/await` で扱えるようになっています。
 
 
 ## ベンチマーク
@@ -157,7 +157,8 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 ### forEach
 
 与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
+このメソッドは JavaScript の `Array forEach` のように使えます。
 
 * chillout.**forEach** ( obj, callback [, context ] )  
   @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。  
@@ -235,7 +236,9 @@ async function delayedLog() {
 ### repeat
 
 与えられた関数を、引数で与えられた数だけ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。
+関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
+このメソッドは JavaScript の `for` ステートメントのように使えます。
+
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
@@ -312,7 +315,8 @@ async function delayedLog() {
 
 ### till
 
-与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。
+与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。  
+このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使えます。
 
 * chillout.**till** ( callback [, context ] )  
   @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
@@ -455,7 +459,8 @@ async function delayedLog() {
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 
-※ `async/await` が使える環境ではより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すため `async/await` で扱いやすくなっているためです。
+
+※ `async/await` が使える環境ではより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すので `async/await` で扱えるようになっています。
 
 
 ## 貢献
