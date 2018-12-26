@@ -80,7 +80,7 @@ describe('chillout test', function() {
         values.push(value);
         keys.push(i);
         if (value === 2) {
-          return false;
+          return chillout.StopIteration;
         }
       }).then(function() {
         assert.deepEqual(values, [1, 2]);
@@ -97,7 +97,7 @@ describe('chillout test', function() {
         keys.push(i);
         if (value === 2) {
           return new Promise(function(resolve, reject) {
-            resolve(false);
+            resolve(chillout.StopIteration);
           });
         }
       }).then(function() {
@@ -114,7 +114,7 @@ describe('chillout test', function() {
         values.push(value);
         keys.push(key);
         if (value === 2) {
-          return false;
+          return chillout.StopIteration;
         }
       }).then(function() {
         assert.deepEqual(values, [1, 2]);
@@ -131,7 +131,7 @@ describe('chillout test', function() {
         keys.push(key);
         if (value === 2) {
           return new Promise(function(resolve, reject) {
-            resolve(false);
+            resolve(chillout.StopIteration);
           });
         }
       }).then(function() {
@@ -203,7 +203,7 @@ describe('chillout test', function() {
       chillout.repeat(5, function(i) {
         assert(n++ === i);
         if (n === 3) {
-          return false;
+          return chillout.StopIteration;
         }
       }).then(function() {
         assert(n === 3);
@@ -228,7 +228,7 @@ describe('chillout test', function() {
       var i = 0;
       chillout.till(function() {
         if (++i === 10) {
-          return false;
+          return chillout.StopIteration;
         }
       }).then(function() {
         assert(i === 10);
@@ -240,7 +240,7 @@ describe('chillout test', function() {
       var context = { i: 0 };
       chillout.till(function() {
         if (++this.i === 10) {
-          return false;
+          return chillout.StopIteration;
         }
       }, context).then(function() {
         assert(context.i === 10);

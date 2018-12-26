@@ -1,5 +1,8 @@
 import * as iterator from './iterator';
 import iterate from './iterate';
+import { isThenable, isArrayLike } from './util';
+import nextTick from './next-tick';
+import StopIteration from './stop-iteration';
 
 /**
  * Executes a provided function once per array or object element.
@@ -67,3 +70,12 @@ export function till(callback, context) {
 export function forOf(iterable, callback, context) {
   return iterate(iterator.forOf(iterable, callback, context));
 }
+
+/**
+ * If you want to stop the loops, return this StopIteration
+ * It works like 'break' statement in JavaScript 'for' statement
+ */
+export { StopIteration };
+
+// Exports core methods for user defining other iterations by using chillout
+export { iterate, iterator, isThenable, isArrayLike, nextTick };

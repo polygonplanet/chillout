@@ -153,7 +153,7 @@ describe('async / await', function() {
           logs.push(i);
           i++;
           if (i === 3) {
-            return false;
+            return chillout.StopIteration;
           }
         });
 

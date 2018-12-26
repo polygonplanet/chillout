@@ -1,7 +1,5 @@
 import { isArrayLike } from './util';
-
-export const STOP_ITERATION = {};
-export const CONTINUE_ITERATION = {};
+import StopIteration from './stop-iteration';
 
 export function forEach(obj, callback, context) {
   let i = 0;
@@ -13,12 +11,12 @@ export function forEach(obj, callback, context) {
     return {
       next() {
         if (i >= len) {
-          return [STOP_ITERATION, null];
+          return [StopIteration, null];
         }
 
         const res = callback.call(context, obj[i], i, obj);
         i++;
-        return [CONTINUE_ITERATION, res];
+        return [null, res];
       }
     };
   }
@@ -29,12 +27,12 @@ export function forEach(obj, callback, context) {
   return {
     next() {
       if (i >= len) {
-        return [STOP_ITERATION, null];
+        return [StopIteration, null];
       }
 
       const key = keys[i++];
       const res = callback.call(context, obj[key], key, obj);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -60,9 +58,9 @@ export function repeat(count, callback, context) {
 
       i += step;
       if (i >= end) {
-        return [STOP_ITERATION, res];
+        return [StopIteration, res];
       }
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -71,7 +69,7 @@ export function till(callback, context) {
   return {
     next() {
       const res = callback.call(context);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -84,10 +82,10 @@ export function forOf(iterable, callback, context) {
       const nextIterator = it.next();
 
       if (nextIterator.done) {
-        return [STOP_ITERATION, null];
+        return [StopIteration, null];
       }
       const res = callback.call(context, nextIterator.value, iterable);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
