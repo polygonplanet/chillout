@@ -10,6 +10,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.nextTick = exports.isArrayLike = exports.isThenable = exports.iterator = exports.iterate = exports.StopIteration = undefined;
 exports.forEach = forEach;
 exports.repeat = repeat;
 exports.till = till;
@@ -22,6 +23,16 @@ var iterator = _interopRequireWildcard(_iterator);
 var _iterate = require('./iterate');
 
 var _iterate2 = _interopRequireDefault(_iterate);
+
+var _util = require('./util');
+
+var _nextTick = require('./next-tick');
+
+var _nextTick2 = _interopRequireDefault(_nextTick);
+
+var _stopIteration = require('./stop-iteration');
+
+var _stopIteration2 = _interopRequireDefault(_stopIteration);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -94,7 +105,21 @@ function forOf(iterable, callback, context) {
   return (0, _iterate2.default)(iterator.forOf(iterable, callback, context));
 }
 
-},{"./iterate":2,"./iterator":3}],2:[function(require,module,exports){
+/**
+ * If you want to stop the loops, return this StopIteration
+ * It works like 'break' statement in JavaScript 'for' statement
+ */
+exports.StopIteration = _stopIteration2.default;
+
+// Exports core methods for user defining other iterations by using chillout
+
+exports.iterate = _iterate2.default;
+exports.iterator = iterator;
+exports.isThenable = _util.isThenable;
+exports.isArrayLike = _util.isArrayLike;
+exports.nextTick = _nextTick2.default;
+
+},{"./iterate":2,"./iterator":3,"./next-tick":4,"./stop-iteration":5,"./util":6}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -113,7 +138,9 @@ var _nextTick2 = _interopRequireDefault(_nextTick);
 
 var _util = require('./util');
 
-var _iterator = require('./iterator');
+var _stopIteration = require('./stop-iteration');
+
+var _stopIteration2 = _interopRequireDefault(_stopIteration);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -129,12 +156,14 @@ function iterate(it) {
         var _loop = function _loop() {
           var _it$next = it.next(),
               _it$next2 = _slicedToArray(_it$next, 2),
-              iterationResult = _it$next2[0],
+              stopOrContinue = _it$next2[0],
               res = _it$next2[1];
 
           if ((0, _util.isThenable)(res)) {
             res.then(function (awaitedResult) {
-              if (iterationResult === _iterator.STOP_ITERATION || awaitedResult === false) {
+              if (stopOrContinue === _stopIteration2.default) {
+                resolve(awaitedResult);
+              } else if (awaitedResult === _stopIteration2.default) {
                 resolve();
               } else {
                 doIterate();
@@ -147,7 +176,14 @@ function iterate(it) {
             };
           }
 
-          if (iterationResult === _iterator.STOP_ITERATION || res === false) {
+          if (stopOrContinue === _stopIteration2.default) {
+            resolve(res);
+            return {
+              v: void 0
+            };
+          }
+
+          if (res === _stopIteration2.default) {
             resolve();
             return {
               v: void 0
@@ -211,13 +247,12 @@ function iterate(it) {
   });
 }
 
-},{"./iterator":3,"./next-tick":4,"./util":5}],3:[function(require,module,exports){
+},{"./next-tick":4,"./stop-iteration":5,"./util":6}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CONTINUE_ITERATION = exports.STOP_ITERATION = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -228,8 +263,11 @@ exports.forOf = forOf;
 
 var _util = require('./util');
 
-var STOP_ITERATION = exports.STOP_ITERATION = {};
-var CONTINUE_ITERATION = exports.CONTINUE_ITERATION = {};
+var _stopIteration = require('./stop-iteration');
+
+var _stopIteration2 = _interopRequireDefault(_stopIteration);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function forEach(obj, callback, context) {
   var i = 0;
@@ -241,12 +279,12 @@ function forEach(obj, callback, context) {
     return {
       next: function next() {
         if (i >= len) {
-          return [STOP_ITERATION, null];
+          return [_stopIteration2.default, null];
         }
 
         var res = callback.call(context, obj[i], i, obj);
         i++;
-        return [CONTINUE_ITERATION, res];
+        return [null, res];
       }
     };
   }
@@ -257,12 +295,12 @@ function forEach(obj, callback, context) {
   return {
     next: function next() {
       if (i >= len) {
-        return [STOP_ITERATION, null];
+        return [_stopIteration2.default, null];
       }
 
       var key = keys[i++];
       var res = callback.call(context, obj[key], key, obj);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -288,9 +326,9 @@ function repeat(count, callback, context) {
 
       i += step;
       if (i >= end) {
-        return [STOP_ITERATION, res];
+        return [_stopIteration2.default, res];
       }
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -299,7 +337,7 @@ function till(callback, context) {
   return {
     next: function next() {
       var res = callback.call(context);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
@@ -312,15 +350,15 @@ function forOf(iterable, callback, context) {
       var nextIterator = it.next();
 
       if (nextIterator.done) {
-        return [STOP_ITERATION, null];
+        return [_stopIteration2.default, null];
       }
       var res = callback.call(context, nextIterator.value, iterable);
-      return [CONTINUE_ITERATION, res];
+      return [null, res];
     }
   };
 }
 
-},{"./util":5}],4:[function(require,module,exports){
+},{"./stop-iteration":5,"./util":6}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -369,6 +407,15 @@ var nextTick = function () {
 exports.default = nextTick;
 
 },{}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var StopIteration = {};
+exports.default = StopIteration;
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
