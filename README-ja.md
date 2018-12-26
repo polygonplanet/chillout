@@ -3,8 +3,10 @@ chillout.js
 
 CPU負荷を抑えて重い処理を軽くします。
 
-
+[![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+[![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
+[![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
 
 ## 概要
@@ -45,17 +47,29 @@ chillout.js は、ループ処理が重いときにはCPUが休まるくらい�
 $ npm install chillout --save
 ```
 
-`Bower` からインストールする場合:
+`bower` からインストールする場合:
 
 ```bash
 $ bower install chillout
 ```
 
-以下のように使えます。
+### 使い方
+
+`require` で使う場合:
 
 ```javascript
 var chillout = require('chillout');
-chillout.forEach(...)
+
+chillout.forEach([1, 2, 3], function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('done');
+});
+
+// 1
+// 2
+// 3
+// 'done'
 ```
 
 ブラウザで実行してる場合は、**chillout** というオブジェクトがグローバル ( `window.chillout` ) に定義されます。

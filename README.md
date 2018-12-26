@@ -5,7 +5,10 @@ chillout.js
 
 Reduce JavaScript CPU usage by asynchronous iteration.
 
+[![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+[![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
+[![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
 Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
@@ -23,15 +26,27 @@ Available on `npm` as **chillout**.
 $ npm install chillout --save
 ```
 
-This can also be installed with `Bower`.
+This can also be installed with `bower`.
 
 ```bash
 $ bower install chillout
 ```
 
+### Usage
+
 ```javascript
 var chillout = require('chillout');
-chillout.forEach(...)
+
+chillout.forEach([1, 2, 3], function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('done');
+});
+
+// 1
+// 2
+// 3
+// 'done'
 ```
 
 Object **chillout** will be defined in the global scope if running in the browser window.
