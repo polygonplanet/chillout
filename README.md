@@ -16,7 +16,7 @@ Iterate without delay if processing is fast.
 Therefore, it will realize friendly processing for your machine.
 It can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
 
-You can use it in any JavaScript environment (Browser, Electron, Node.js).
+You can use it in some JavaScript environment (Browser, Electron, Node.js).
 
 ## Installation
 
@@ -373,7 +373,8 @@ logNewFileContents();
 ### waitUntil
 
 Executes a provided function until the `callback` returns `chillout.StopIteration`, or an error occurs.  
-This method can be called like JavaScript `while (true) { ... }` statement, and it works same as [`until`](#until), but it executes tasks with more slowly interval than `until` to reduce CPU load.
+This method can be called like JavaScript `while (true) { ... }` statement, and it works same as [`until`](#until), but it executes tasks with more slowly interval than `until` to reduce CPU load.  
+This method is useful when you want to wait until some processing done.
 
 * chillout.**waitUntil** ( callback [, context ] )  
   @param {_Function_} _callback_ The function that is executed for each iteration  
@@ -392,13 +393,13 @@ chillout.waitUntil(function() {
 ```
 
 
-Example to wait until any processing is done.
+Example to wait until some processing is done.
 
 
 ```javascript
-anyProcessing();
+someProcessing();
 chillout.waitUntil(function() {
-  if (isAnyProcessingDone) {
+  if (isSomeProcessingDone) {
     return chillout.StopIteration; // break loop
   }
 }).then(function() {

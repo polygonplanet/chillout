@@ -392,7 +392,8 @@ logNewFileContents();
 ### waitUntil
 
 与えられた関数 `callback` を、 `chillout.StopIteration` が返されるかエラーが発生するまで繰り返します。  
-このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使え、 [`until`](#until) と同じ動作をしますが CPU負荷を抑えるため `until` よりゆっくり実行します。
+このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使え、 [`until`](#until) と同じ動作をしますが CPU負荷を抑えるため `until` よりゆっくり実行します。  
+このメソッドは、何らかの処理が終わるまで待ちたいときに向いています。
 
 * chillout.**waitUntil** ( callback [, context ] )  
   @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
@@ -414,9 +415,9 @@ chillout.waitUntil(function() {
 何らかの処理が終わるまで待つ例:
 
 ```javascript
-anyProcessing();
+someProcessing();
 chillout.waitUntil(function() {
-  if (isAnyProcessingDone) {
+  if (isSomeProcessingDone) {
     return chillout.StopIteration; // break loop
   }
 }).then(function() {
