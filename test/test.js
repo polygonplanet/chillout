@@ -3,6 +3,19 @@
 describe('chillout test', function() {
   'use strict';
 
+  describe('Core', function() {
+    it('should have valid methods and properties', function() {
+      assert(typeof chillout.StopIteration === 'object');
+      assert(typeof chillout.iterate === 'function');
+      assert(typeof chillout.iterator === 'object');
+      assert(typeof chillout.isThenable === 'function');
+      assert(typeof chillout.isArrayLike === 'function');
+      assert(typeof chillout.nextTick === 'function');
+    });
+  });
+
+  // ----- forEach -----
+
   describe('forEach', function() {
     it('array', function(done) {
       var values = [];
@@ -89,7 +102,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('stop nested iteration (array)', function(done) {
+    it('stop nested Promise iteration (array)', function(done) {
       var values = [];
       var keys = [];
       chillout.forEach([1, 2, 3], function(value, i) {
@@ -123,7 +136,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('stop nested iteration (object)', function(done) {
+    it('stop nested Promise iteration (object)', function(done) {
       var values = [];
       var keys = [];
       chillout.forEach({ a: 1, b: 2, c: 3 }, function(value, key) {
@@ -141,7 +154,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('throw (array)', function(done) {
+    it('throw an error (array)', function(done) {
       chillout.forEach([1], function(value, i) {
         throw [i, value];
       }).then(function() {
@@ -152,7 +165,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('throw (object)', function(done) {
+    it('throw an error (object)', function(done) {
       chillout.forEach({ a: 1 }, function(value, key) {
         throw [key, value];
       }).then(function() {
@@ -163,6 +176,8 @@ describe('chillout test', function() {
       });
     });
   });
+
+  // ----- repeat -----
 
   describe('repeat', function() {
     it('specify number', function(done) {
@@ -177,7 +192,7 @@ describe('chillout test', function() {
 
     it('specify object', function(done) {
       var n = 10;
-      chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
+      chillout.repeat({ start: 10, step: 2, done: 20 }, function(i) {
         assert(n === i);
         n += 2;
       }).then(function() {
@@ -186,7 +201,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('with context', function(done) {
+    it('specify context', function(done) {
       var context = {
         n: 0
       };
@@ -211,7 +226,22 @@ describe('chillout test', function() {
       });
     });
 
-    it('throw', function(done) {
+    it('stop nested Promise iteration', function(done) {
+      var n = 0;
+      chillout.repeat(5, function(i) {
+        assert(n++ === i);
+        if (n === 3) {
+          return new Promise(function(resolve, reject) {
+            resolve(chillout.StopIteration);
+          });
+        }
+      }).then(function() {
+        assert(n === 3);
+        done();
+      });
+    });
+
+    it('throw an error', function(done) {
       chillout.repeat(5, function(i) {
         throw 'ok';
       }).then(function() {
@@ -223,10 +253,13 @@ describe('chillout test', function() {
     });
   });
 
-  describe('till', function() {
+
+  // ----- until -----
+
+  describe('until', function() {
     it('10 times', function(done) {
       var i = 0;
-      chillout.till(function() {
+      chillout.until(function() {
         if (++i === 10) {
           return chillout.StopIteration;
         }
@@ -238,7 +271,7 @@ describe('chillout test', function() {
 
     it('10 times with context', function(done) {
       var context = { i: 0 };
-      chillout.till(function() {
+      chillout.until(function() {
         if (++this.i === 10) {
           return chillout.StopIteration;
         }
@@ -248,8 +281,22 @@ describe('chillout test', function() {
       });
     });
 
-    it('throw', function(done) {
-      chillout.till(function() {
+    it('stop nested Promise iteration', function(done) {
+      var i = 0;
+      chillout.until(function() {
+        if (++i === 10) {
+          return new Promise(function(resolve, reject) {
+            resolve(chillout.StopIteration);
+          });
+        }
+      }).then(function() {
+        assert(i === 10);
+        done();
+      });
+    });
+
+    it('throw an error', function(done) {
+      chillout.until(function() {
         throw 'ok';
       }).then(function() {
         throw 'error';
@@ -259,6 +306,101 @@ describe('chillout test', function() {
       });
     });
   });
+
+  // ----- waitUntil -----
+
+  describe('waitUntil', function() {
+    it('should be executed slowly than chillout.until', function(done) {
+      var elapsedTime_until = 0;
+      var elapsedTime_waitUntil = 0;
+
+      function run_until() {
+        return new Promise(function(resolve, reject) {
+          var startTime = Date.now();
+          var i = 0;
+          chillout.until(function() {
+            if (++i === 10) {
+              elapsedTime_until = Date.now() - startTime;
+              return chillout.StopIteration;
+            }
+          }).then(function() {
+            resolve();
+          });
+        });
+      }
+
+      function run_waitUntil() {
+        return new Promise(function(resolve, reject) {
+          var startTime = Date.now();
+          var i = 0;
+          chillout.waitUntil(function() {
+            if (++i === 10) {
+              elapsedTime_waitUntil = Date.now() - startTime;
+              return chillout.StopIteration;
+            }
+          }).then(function() {
+            resolve();
+          });
+        });
+      }
+
+      Promise.all([run_until(), run_waitUntil()]).then(function() {
+        assert(elapsedTime_until < elapsedTime_waitUntil);
+        done();
+      });
+    });
+
+    it('10 times', function(done) {
+      var i = 0;
+      chillout.waitUntil(function() {
+        if (++i === 10) {
+          return chillout.StopIteration;
+        }
+      }).then(function() {
+        assert(i === 10);
+        done();
+      });
+    });
+
+    it('10 times with context', function(done) {
+      var context = { i: 0 };
+      chillout.waitUntil(function() {
+        if (++this.i === 10) {
+          return chillout.StopIteration;
+        }
+      }, context).then(function() {
+        assert(context.i === 10);
+        done();
+      });
+    });
+
+    it('stop nested Promise iteration', function(done) {
+      var i = 0;
+      chillout.waitUntil(function() {
+        if (++i === 10) {
+          return new Promise(function(resolve, reject) {
+            resolve(chillout.StopIteration);
+          });
+        }
+      }).then(function() {
+        assert(i === 10);
+        done();
+      });
+    });
+
+    it('throw an error', function(done) {
+      chillout.waitUntil(function() {
+        throw 'ok';
+      }).then(function() {
+        throw 'error';
+      }).catch(function(e) {
+        assert.equal(e, 'ok');
+        done();
+      });
+    });
+  });
+
+  // ----- forOf -----
 
   describe('forOf', function() {
     if (typeof Symbol === 'undefined') {
@@ -328,7 +470,7 @@ describe('chillout test', function() {
       });
     });
 
-    it('with context', function(done) {
+    it('specify context', function(done) {
       var context = {
         values: []
       };
@@ -336,6 +478,34 @@ describe('chillout test', function() {
         this.values.push(value);
       }, context).then(function() {
         assert.deepEqual(context.values, [1, 2, 3]);
+        done();
+      });
+    });
+
+    it('stop iteration', function(done) {
+      var values = [];
+      chillout.forOf([1, 2, 3, 4, 5], function(value) {
+        values.push(value);
+        if (value === 3) {
+          return chillout.StopIteration;
+        }
+      }).then(function() {
+        assert.deepEqual(values, [1, 2, 3]);
+        done();
+      });
+    });
+
+    it('stop nested Promise iteration', function(done) {
+      var values = [];
+      chillout.forOf([1, 2, 3, 4, 5], function(value) {
+        values.push(value);
+        if (value === 3) {
+          return new Promise(function(resolve, reject) {
+            resolve(chillout.StopIteration);
+          });
+        }
+      }).then(function() {
+        assert.deepEqual(values, [1, 2, 3]);
         done();
       });
     });

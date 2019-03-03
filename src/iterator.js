@@ -1,5 +1,4 @@
 import { isArrayLike } from './util';
-import StopIteration from './stop-iteration';
 
 export function forEach(obj, callback, context) {
   let i = 0;
@@ -11,12 +10,12 @@ export function forEach(obj, callback, context) {
     return {
       next() {
         if (i >= len) {
-          return [StopIteration, null];
+          return [true, null];
         }
 
-        const res = callback.call(context, obj[i], i, obj);
+        const value = callback.call(context, obj[i], i, obj);
         i++;
-        return [null, res];
+        return [false, value];
       }
     };
   }
@@ -27,12 +26,12 @@ export function forEach(obj, callback, context) {
   return {
     next() {
       if (i >= len) {
-        return [StopIteration, null];
+        return [true, null];
       }
 
       const key = keys[i++];
-      const res = callback.call(context, obj[key], key, obj);
-      return [null, res];
+      const value = callback.call(context, obj[key], key, obj);
+      return [false, value];
     }
   };
 }
@@ -40,36 +39,36 @@ export function forEach(obj, callback, context) {
 export function repeat(count, callback, context) {
   let i;
   let step;
-  let end;
+  let done;
 
   if (count && typeof count === 'object') {
     i = count.start || 0;
     step = count.step || 1;
-    end = count.end;
+    done = count.done;
   } else {
     i = 0;
     step = 1;
-    end = count;
+    done = count;
   }
 
   return {
     next() {
-      const res = callback.call(context, i);
+      const value = callback.call(context, i);
 
       i += step;
-      if (i >= end) {
-        return [StopIteration, res];
+      if (i >= done) {
+        return [true, value];
       }
-      return [null, res];
+      return [false, value];
     }
   };
 }
 
-export function till(callback, context) {
+export function until(callback, context) {
   return {
     next() {
-      const res = callback.call(context);
-      return [null, res];
+      const value = callback.call(context);
+      return [false, value];
     }
   };
 }
@@ -82,10 +81,10 @@ export function forOf(iterable, callback, context) {
       const nextIterator = it.next();
 
       if (nextIterator.done) {
-        return [StopIteration, null];
+        return [true, null];
       }
-      const res = callback.call(context, nextIterator.value, iterable);
-      return [null, res];
+      const value = callback.call(context, nextIterator.value, iterable);
+      return [false, value];
     }
   };
 }
