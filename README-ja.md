@@ -471,31 +471,6 @@ chillout.forOf('abc', function(value) {
 // 'done'
 ```
 
-`async / await` を使ってループする例:
-
-```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
-}
-
-async function delayedLog() {
-  await chillout.forOf([1, 2, 3], async value => {
-    await sleep(1000);
-    console.log(value);
-  });
-}
-
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 1
-// 2
-// 3
-// 'done'
-```
-
 ## 比較表
 
 既存のJavaScriptループを chillout.js のAPIに置き換えることで、CPU使用率を抑えることができます。
