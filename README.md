@@ -5,7 +5,10 @@ chillout.js
 
 Reduce JavaScript CPU usage by asynchronous iteration.
 
+[![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+[![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
+[![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
 Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
 Each iteration adds delay if the processing is heavy to maintain the CPU stability.
@@ -13,29 +16,40 @@ Iterate without delay if processing is fast.
 Therefore, it will realize friendly processing for your machine.
 It can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
 
-You can use it in any JavaScript environment (Browser, Electron, Node.js).
+You can use it in some JavaScript environment (Browser, Electron, Node.js).
 
 ## Installation
 
-Available on `npm` as **chillout**.
+### npm
 
 ```bash
 $ npm install chillout --save
 ```
 
-This can also be installed with `Bower`.
+### bower
 
 ```bash
 $ bower install chillout
 ```
 
+### Usage
+
 ```javascript
 var chillout = require('chillout');
-chillout.forEach(...)
+
+chillout.forEach([1, 2, 3], function(value) {
+  console.log(value);
+}).then(function() {
+  console.log('done');
+});
+
+// 1
+// 2
+// 3
+// 'done'
 ```
 
-Object **chillout** will be defined in the global scope if running in the browser window.
-
+Object **chillout** is defined in the global scope if running in the browser window. ( `window.chillout` )
 
 ## Compatibility
 
@@ -128,24 +142,25 @@ You can test benchmark with `npm run benchmark`.
 
 * [forEach](#foreach)
 * [repeat](#repeat)
-* [till](#till)
+* [until](#until)
+* [waitUntil](#waituntil)
 * [forOf](#forof)
 
 ### forEach
 
 Executes a provided function once per array or object element.  
-The iteration will break if the callback function returns `false`, or an error occurs.  
+The iteration will break if the callback function returns `chillout.StopIteration`, or an error occurs.  
 This method can be called like JavaScript `Array forEach`.
 
 * chillout.**forEach** ( obj, callback [, context ] )  
-  @param {_Array|Object_} _obj_ Target array or object.  
+  @param {_Array|Object_} _obj_ Target array or object  
   @param {_Function_} *callback* Function to execute for each element, taking three arguments:  
-  - value: The current element being processed in the array/object.
-  - key: The key of the current element being processed in the array/object.
-  - obj: The array/object that `forEach` is being applied to.
+  - value: The current element being processed in the array/object
+  - key: The key of the current element being processed in the array/object
+  - obj: The array/object that `forEach` is being applied to
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
-  @return {_Promise_} Return new Promise.
+  @param {_Object_} [_context_] Value to use as `this` when executing callback  
+  @return {_Promise_} Return new Promise
 
 Example of array iteration:
 
@@ -188,48 +203,47 @@ chillout.forEach(values, function(value, key, obj) {
 
 Example iteration using `async / await`:
 
+Output all file contents, and finally output 'done'.
+
+
 ```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
+async function getFileContents(url) {
+  const response = await fetch(url);
+  return response.text();
 }
 
-async function delayedLog() {
-  await chillout.forEach([1, 2, 3], async (value, key, obj) => {
-    await sleep(1000);
-    console.log(value);
+// Passing an async function as a callback in chillout.forEach
+async function logFiles() {
+  const files = ['/file1.txt', '/file2.txt', '/file3.txt'];
+  await chillout.forEach(files, async url => {
+    const contents = await getFileContents(url);
+    console.log(contents);
   });
+  console.log('done');
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 1
-// 2
-// 3
-// 'done'
+logFiles();
 ```
 
 
 ### repeat
 
 Executes a provided function the specified number times.  
-The iteration will break if the callback function returns `false`, or an error occurs.  
+The iteration will break if the callback function returns `chillout.StopIteration`, or an error occurs.  
 This method can be called like JavaScript `for` statement.
 
 * chillout.**repeat** ( count, callback [, context ] )  
-  @param {_number|Object_} _count_ The number of times or object for execute the function.  
+  @param {_number|Object_} _count_ The number of times or object for execute the function  
   Following parameters are available if specify object:
-  - start: The number of start.
-  - step: The number of step.
-  - end: The number of end.
+  - start: The number of start
+  - step: The number of step
+  - done: The number of done
 
   @param {_Function_} _callback_ Function to execute for each times, taking one argument:
-  - i: The current number.
+  - i: The current number
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
-  @return {_Promise_} Return new Promise.
+  @param {_Object_} [_context_] Value to use as `this` when executing callback  
+  @return {_Promise_} Return new Promise
 
 Example of specify number:
 
@@ -251,7 +265,7 @@ chillout.repeat(5, function(i) {
 Example of specify object:
 
 ```javascript
-chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
+chillout.repeat({ start: 10, step: 2, done: 20 }, function(i) {
   console.log(i);
 }).then(function() {
   console.log('done');
@@ -267,47 +281,44 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 
 Example iteration using `async / await`:
 
+Output the user data from `/api/users/0` to `api/users/9`, and finally output 'done'.
+
 ```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
+async function getUser(userId) {
+  const response = await fetch(`/api/users/${userId}`);
+  return response.json();
 }
 
-async function delayedLog() {
-  await chillout.repeat(3, async i => {
-    await sleep(1000);
-    console.log(i);
+// Passing an async function as a callback in chillout.repeat
+async function logUsers() {
+  await chillout.repeat(10, async i => {
+    const user = await getUser(i);
+    console.log(user);
   });
+  console.log('done');
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 0
-// 1
-// 2
-// 'done'
+logUsers();
 ```
 
 
-### till
+### until
 
-Executes a provided function until the `callback` returns `false`, or an error occurs.  
+Executes a provided function until the `callback` returns `chillout.StopIteration`, or an error occurs.  
 This method can be called like JavaScript `while (true) { ... }` statement.
 
-* chillout.**till** ( callback [, context ] )  
-  @param {_Function_} _callback_ The function that is executed for each iteration.  
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
-  @return {_Promise_} Return new Promise.
+* chillout.**until** ( callback [, context ] )  
+  @param {_Function_} _callback_ The function that is executed for each iteration  
+  @param {_Object_} [_context_] Value to use as `this` when executing callback  
+  @return {_Promise_} Return new Promise
 
 ```javascript
 var i = 0;
-chillout.till(function() {
+chillout.until(function() {
   console.log(i);
   i++;
   if (i === 5) {
-    return false; // stop iteration
+    return chillout.StopIteration; // break loop
   }
 }).then(function() {
   console.log('done');
@@ -323,45 +334,92 @@ chillout.till(function() {
 
 Example iteration using `async / await`:
 
+Watch for files changes, and finally output file changed contents.
+
+
 ```javascript
+// Sleep until msec
 function sleep(msec) {
   return new Promise(resolve => setTimeout(resolve, msec));
 }
 
-async function delayedLog() {
-  let i = 0;
-  await chillout.till(async () => {
-    await sleep(1000);
-    console.log(i);
-    i++;
-    if (i === 3) return false;
-  });
+async function getFileContents(url) {
+  const response = await fetch(url);
+  return response.text();
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
+// Passing an async function as a callback in chillout.until
+async function logNewFileContents() {
+  let previous = null;
+  let contents = null;
+  await chillout.until(async () => {
+    contents = await getFileContents('./file1.txt');
+    if (previous === null) {
+      previous = contents;
+    }
+    if (contents !== previous) {
+      console.log('file changed!');
+      return chillout.StopIteration; // break loop
+    }
+    await sleep(1000);
+  });
+  console.log(contents);
+  previous = contents;
+}
 
-// 0
-// 1
-// 2
-// 'done'
+logNewFileContents();
+```
+
+### waitUntil
+
+Executes a provided function until the `callback` returns `chillout.StopIteration`, or an error occurs.  
+This method can be called like JavaScript `while (true) { ... }` statement, and it works same as [`until`](#until), but it executes tasks with more slowly interval than `until` to reduce CPU load.  
+This method is useful when you want to wait until some processing done.
+
+* chillout.**waitUntil** ( callback [, context ] )  
+  @param {_Function_} _callback_ The function that is executed for each iteration  
+  @param {_Object_} [_context_] Value to use as `this` when executing callback  
+  @return {_Promise_} Return new Promise
+
+```javascript
+chillout.waitUntil(function() {
+  // Wait until the DOM body element is loaded
+  if (document.body) {
+    return chillout.StopIteration; // break loop
+  }
+}).then(function() {
+  document.body.innerHTML += 'body loaded';
+});
+```
+
+
+Example to wait until some processing is done.
+
+
+```javascript
+someProcessing();
+chillout.waitUntil(function() {
+  if (isSomeProcessingDone) {
+    return chillout.StopIteration; // break loop
+  }
+}).then(function() {
+  nextProcessing();
+});
 ```
 
 ### forOf
 
 Iterates the iterable objects, similar to the `for-of` statement.  
 Executes a provided function once per element.  
-The iteration will break if the callback function returns `false`, or an error occurs.
+The iteration will break if the callback function returns `chillout.StopIteration`, or an error occurs.
 
 * chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ Target iterable objects.  
+  @param {_Array|string|Object_} _iterable_ Target iterable objects  
   @param {_Function_} _callback_ Function to execute for each element, taking one argument:
-  - value: A value of a property on each iteration.
+  - value: A value of a property on each iteration
 
-  @param {_Object_} [_context_] Value to use as `this` when executing callback.  
-  @return {_Promise_} Return new Promise.
+  @param {_Object_} [_context_] Value to use as `this` when executing callback  
+  @return {_Promise_} Return new Promise
 
 Example of iterate array:
 
@@ -393,31 +451,6 @@ chillout.forOf('abc', function(value) {
 // 'done'
 ```
 
-Example iteration using `async / await`:
-
-```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
-}
-
-async function delayedLog() {
-  await chillout.forOf([1, 2, 3], async value => {
-    await sleep(1000);
-    console.log(value);
-  });
-}
-
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 1
-// 2
-// 3
-// 'done'
-```
-
 ## Comparison Table
 
 You can reduce the CPU load by changing your JavaScript iteration to the chillout iteration.
@@ -429,9 +462,9 @@ Examples:
 | -------------------------------------|-------------------------------------------------------------------------------|
 | [1, 2, 3].forEach(function(v, i) {}) | chillout.forEach([1, 2, 3], function(v, i) {})                                |
 | for (i = 0; i < 5; i++) {}           | chillout.repeat(5, function(i) {})                                            |
-| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                      | chillout.till(function() {})                                                  |
-| while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>&nbsp;&nbsp;doSomething();<br>})    |
+| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, done: 20 }, function(i) {})              |
+| while (true) {}                      | chillout.until(function() {})                                                  |
+| while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.until(function() {<br>&nbsp;&nbsp;if (!cond()) return chillout.StopIteration;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 

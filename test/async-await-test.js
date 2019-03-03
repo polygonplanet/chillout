@@ -22,14 +22,13 @@ describe('async / await', function() {
     assert(elapsedTime >= 90);
   }
 
-
   describe('forEach', () => {
     it('native forEach', done => {
       async function test_native_forEach() {
         const logs = [];
         logs.push('start');
 
-        // Native forEach does not work expect order in multiple  asynchronous callbacks
+        // Native forEach does not work expect order in multiple asynchronous callbacks
         await [1, 2, 3].forEach(async value => {
           await checkSleep();
           logs.push(value);
@@ -117,7 +116,7 @@ describe('async / await', function() {
   });
 
 
-  describe('till', () => {
+  describe('until', () => {
     it('native while', done => {
       async function test_native_whileLoop() {
         const logs = [];
@@ -142,18 +141,18 @@ describe('async / await', function() {
       })();
     });
 
-    it('chillout.till', done => {
-      async function test_chillout_till() {
+    it('chillout.until', done => {
+      async function test_chillout_until() {
         const logs = [];
         logs.push('start');
 
         let i = 0;
-        await chillout.till(async () => {
+        await chillout.until(async () => {
           await checkSleep();
           logs.push(i);
           i++;
           if (i === 3) {
-            return false;
+            return chillout.StopIteration;
           }
         });
 
@@ -162,7 +161,7 @@ describe('async / await', function() {
       }
 
       (async () => {
-        const logs = await test_chillout_till();
+        const logs = await test_chillout_until();
         logs.push('done func');
         assert.deepEqual(logs, ['start', 0, 1, 2, 'done', 'done func']);
         done();
@@ -170,6 +169,59 @@ describe('async / await', function() {
     });
   });
 
+
+  describe('waitUntil', () => {
+    it('native while', done => {
+      async function test_native_whileLoop() {
+        const logs = [];
+        logs.push('start');
+
+        let i = 0;
+        while (i !== 3) {
+          await checkSleep();
+          logs.push(i);
+          i++;
+        }
+
+        logs.push('done');
+        return logs;
+      }
+
+      (async () => {
+        const logs = await test_native_whileLoop();
+        logs.push('done func');
+        assert.deepEqual(logs, ['start', 0, 1, 2, 'done', 'done func']);
+        done();
+      })();
+    });
+
+    it('chillout.waitUntil', done => {
+      async function test_chillout_waitUntil() {
+        const logs = [];
+        logs.push('start');
+
+        let i = 0;
+        await chillout.waitUntil(async () => {
+          await checkSleep();
+          logs.push(i);
+          i++;
+          if (i === 3) {
+            return chillout.StopIteration;
+          }
+        });
+
+        logs.push('done');
+        return logs;
+      }
+
+      (async () => {
+        const logs = await test_chillout_waitUntil();
+        logs.push('done func');
+        assert.deepEqual(logs, ['start', 0, 1, 2, 'done', 'done func']);
+        done();
+      })();
+    });
+  });
 
   describe('forOf', () => {
     it('native for-of loop', done => {
