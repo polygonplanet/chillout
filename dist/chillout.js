@@ -1,6 +1,6 @@
 /*!
  * chillout v3.1.9 - Reduce CPU usage in JavaScript
- * Copyright (c) 2017-2018 polygon planet <polygon.planet.aqua@gmail.com>
+ * Copyright (c) 2017-2019 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
  */
@@ -13,7 +13,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.nextTick = exports.isArrayLike = exports.isThenable = exports.iterator = exports.iterate = exports.StopIteration = undefined;
 exports.forEach = forEach;
 exports.repeat = repeat;
-exports.till = till;
+exports.until = until;
+exports.waitUntil = waitUntil;
 exports.forOf = forOf;
 
 var _iterator = require('./iterator');
@@ -40,12 +41,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 /**
  * Executes a provided function once per array or object element.
- * The iteration will break if the callback function returns `false`, or an
- * error occurs.
+ * The iteration will break if the callback function returns `chillout.StopIteration`,
+ *  or an error occurs.
+ * This method can be called like JavaScript `Array forEach`.
  *
  * @param {Array|Object} obj Target array or object
- * @param {Function} callback Function to execute for each element, taking
- *   three arguments:
+ * @param {Function} callback Function to execute for each element, taking three arguments:
  * - value: The current element being processed in the array/object
  * - key: The key of the current element being processed in the array/object
  * - obj: The array/object that `forEach` is being applied to
@@ -58,16 +59,16 @@ function forEach(obj, callback, context) {
 
 /**
  * Executes a provided function the specified number times.
- * The iteration will break if the callback function returns `false`, or an
- * error occurs.
+ * The iteration will break if the callback function returns `chillout.StopIteration`,
+ *  or an error occurs.
+ * This method can be called like JavaScript `for` statement.
  *
  * @param {number|Object} count The number of times or object for execute the
  *   function. Following parameters are available if specify object:
  * - start: The number of start
  * - step: The number of step
  * - end: The number of end
- * @param {Function} callback Function to execute for each times, taking one
- *   argument:
+ * @param {Function} callback Function to execute for each times, taking one argument:
  * - i: The current number
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
@@ -77,26 +78,44 @@ function repeat(count, callback, context) {
 }
 
 /**
- * Executes a provided function until the `callback` returns `false`, or an
- * error occurs.
+ * Executes a provided function until the `callback` returns `chillout.StopIteration`,
+ *  or an error occurs.
+ * This method can be called like JavaScript `while (true) { ... }` statement.
  *
  * @param {Function} callback The function that is executed for each iteration
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-function till(callback, context) {
-  return (0, _iterate2.default)(iterator.till(callback, context));
+function until(callback, context) {
+  return (0, _iterate2.default)(iterator.until(callback, context));
+}
+
+// Minimum setTimeout interval for waitUntil
+var WAIT_UNTIL_INTERVAL = 13;
+
+/**
+ * Executes a provided function until the `callback` returns `chillout.StopIteration`,
+ *  or an error occurs.
+ * This method can be called like JavaScript `while (true) { ... }` statement,
+ *  and it works same as `until`, but it executes tasks with more slowly interval
+ *  than `until` to reduce CPU load.
+ *
+ * @param {Function} callback The function that is executed for each iteration
+ * @param {Object} [context] Value to use as `this` when executing callback
+ * @return {Promise} Return new Promise
+ */
+function waitUntil(callback, context) {
+  return (0, _iterate2.default)(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
 }
 
 /**
  * Iterates the iterable objects, similar to the `for-of` statement.
  * Executes a provided function once per element.
- * The iteration will break if the callback function returns `false`, or an
- * error occurs.
+ * The iteration will break if the callback function returns `chillout.StopIteration`,
+ *   or an error occurs.
  *
  * @param {Array|string|Object} iterable Target iterable objects
- * @param {Function} callback Function to execute for each element, taking
- *   one argument:
+ * @param {Function} callback Function to execute for each element, taking one argument:
  * - value: A value of a property on each iteration
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
@@ -105,14 +124,7 @@ function forOf(iterable, callback, context) {
   return (0, _iterate2.default)(iterator.forOf(iterable, callback, context));
 }
 
-/**
- * If you want to stop the loops, return this StopIteration
- * It works like 'break' statement in JavaScript 'for' statement
- */
 exports.StopIteration = _stopIteration2.default;
-
-// Exports core methods for user defining other iterations by using chillout
-
 exports.iterate = _iterate2.default;
 exports.iterator = iterator;
 exports.isThenable = _util.isThenable;
@@ -132,19 +144,21 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.default = iterate;
 
-var _nextTick = require('./next-tick');
-
-var _nextTick2 = _interopRequireDefault(_nextTick);
-
 var _util = require('./util');
 
 var _stopIteration = require('./stop-iteration');
 
 var _stopIteration2 = _interopRequireDefault(_stopIteration);
 
+var _nextTick = require('./next-tick');
+
+var _nextTick2 = _interopRequireDefault(_nextTick);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function iterate(it) {
+  var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
   return new Promise(function (resolve, reject) {
     var totalTime = 0;
 
@@ -156,38 +170,39 @@ function iterate(it) {
         var _loop = function _loop() {
           var _it$next = it.next(),
               _it$next2 = _slicedToArray(_it$next, 2),
-              stopOrContinue = _it$next2[0],
-              res = _it$next2[1];
+              isStop = _it$next2[0],
+              value = _it$next2[1];
 
-          if ((0, _util.isThenable)(res)) {
-            res.then(function (awaitedResult) {
-              if (stopOrContinue === _stopIteration2.default) {
-                resolve(awaitedResult);
-              } else if (awaitedResult === _stopIteration2.default) {
+          if ((0, _util.isThenable)(value)) {
+            value.then(function (awaitedValue) {
+              if (isStop) {
+                resolve(awaitedValue);
+              } else if (awaitedValue === _stopIteration2.default) {
                 resolve();
               } else {
                 doIterate();
               }
-            }, function (err) {
-              reject(err);
-            });
+            }, reject);
             return {
               v: void 0
             };
           }
 
-          if (stopOrContinue === _stopIteration2.default) {
-            resolve(res);
+          if (isStop) {
+            resolve(value);
             return {
               v: void 0
             };
           }
-
-          if (res === _stopIteration2.default) {
+          if (value === _stopIteration2.default) {
             resolve();
             return {
               v: void 0
             };
+          }
+
+          if (interval > 0) {
+            return 'break';
           }
 
           var endTime = Date.now();
@@ -198,7 +213,6 @@ function iterate(it) {
             // Break the loop when the process is continued for more than 1s
             return 'break';
           }
-
           if (cycleEndTime < 10) {
             // Delay is not required for fast iteration
             return 'continue';
@@ -231,18 +245,26 @@ function iterate(it) {
         return;
       }
 
-      // Add delay corresponding to the processing speed
-      var time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
-      var delay = Math.min(1000, Math.floor(time));
-      totalTime = 0;
-
-      if (delay > 10) {
+      if (interval > 0) {
+        // Short timeouts will throttled to >=4ms by the browser, so we execute tasks
+        // slowly enough to reduce CPU load
+        var delay = Math.min(1000, Date.now() - cycleStartTime + interval);
         setTimeout(doIterate, delay);
       } else {
-        (0, _nextTick2.default)(doIterate);
+        // Add delay corresponding to the processing speed
+        var time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
+        var _delay = Math.min(1000, Math.floor(time));
+        totalTime = 0;
+
+        if (_delay > 10) {
+          setTimeout(doIterate, _delay);
+        } else {
+          (0, _nextTick2.default)(doIterate);
+        }
       }
     }
 
+    // The first call doesn't need to wait, so it will execute a task immediately
     (0, _nextTick2.default)(doIterate);
   });
 }
@@ -258,16 +280,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 exports.forEach = forEach;
 exports.repeat = repeat;
-exports.till = till;
+exports.until = until;
 exports.forOf = forOf;
 
 var _util = require('./util');
-
-var _stopIteration = require('./stop-iteration');
-
-var _stopIteration2 = _interopRequireDefault(_stopIteration);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function forEach(obj, callback, context) {
   var i = 0;
@@ -279,12 +295,12 @@ function forEach(obj, callback, context) {
     return {
       next: function next() {
         if (i >= len) {
-          return [_stopIteration2.default, null];
+          return [true, null];
         }
 
-        var res = callback.call(context, obj[i], i, obj);
+        var value = callback.call(context, obj[i], i, obj);
         i++;
-        return [null, res];
+        return [false, value];
       }
     };
   }
@@ -295,12 +311,12 @@ function forEach(obj, callback, context) {
   return {
     next: function next() {
       if (i >= len) {
-        return [_stopIteration2.default, null];
+        return [true, null];
       }
 
       var key = keys[i++];
-      var res = callback.call(context, obj[key], key, obj);
-      return [null, res];
+      var value = callback.call(context, obj[key], key, obj);
+      return [false, value];
     }
   };
 }
@@ -308,36 +324,36 @@ function forEach(obj, callback, context) {
 function repeat(count, callback, context) {
   var i = void 0;
   var step = void 0;
-  var end = void 0;
+  var done = void 0;
 
   if (count && (typeof count === 'undefined' ? 'undefined' : _typeof(count)) === 'object') {
     i = count.start || 0;
     step = count.step || 1;
-    end = count.end;
+    done = count.done;
   } else {
     i = 0;
     step = 1;
-    end = count;
+    done = count;
   }
 
   return {
     next: function next() {
-      var res = callback.call(context, i);
+      var value = callback.call(context, i);
 
       i += step;
-      if (i >= end) {
-        return [_stopIteration2.default, res];
+      if (i >= done) {
+        return [true, value];
       }
-      return [null, res];
+      return [false, value];
     }
   };
 }
 
-function till(callback, context) {
+function until(callback, context) {
   return {
     next: function next() {
-      var res = callback.call(context);
-      return [null, res];
+      var value = callback.call(context);
+      return [false, value];
     }
   };
 }
@@ -350,15 +366,15 @@ function forOf(iterable, callback, context) {
       var nextIterator = it.next();
 
       if (nextIterator.done) {
-        return [_stopIteration2.default, null];
+        return [true, null];
       }
-      var res = callback.call(context, nextIterator.value, iterable);
-      return [null, res];
+      var value = callback.call(context, nextIterator.value, iterable);
+      return [false, value];
     }
   };
 }
 
-},{"./stop-iteration":5,"./util":6}],4:[function(require,module,exports){
+},{"./util":6}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

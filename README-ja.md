@@ -21,8 +21,8 @@ chillout.js は「処理時間を短くする」という物理的な高速化�
 
 ### JavaScriptでCPU負荷を抑えるには？
 
-重い処理のほとんどはループ処理によって発生します。ループの中でさらにループ、その中でさらにループ…。単純に考えた場合、そうならないようループの途中で一定時間処理を休止させればいいんですが、それができません。 
-JavaScript には一定の時間休む sleep のような機能がないからです。そこで、sleepするにはどうするか？というと「非同期」でループ処理します。 
+重い処理のほとんどはループ処理によって発生します。ループの中でさらにループ、その中でさらにループ…。単純に考えた場合、そうならないようループの途中で一定時間処理を休止させればいいんですが、それができません。  
+JavaScript には一定の時間休む sleep のような機能がないからです。そこで、sleepするにはどうするか？というと「非同期」でループ処理します。  
 
 JavaScript では、`setTimeout` や `process.nextTick` を使って同期処理を非同期化できます。
 それと `Promise` を組み合わせると sleep のように一定時間CPUを休ませる非同期処理が実現できます。
@@ -55,7 +55,7 @@ $ bower install chillout
 
 ### 使い方
 
-`require` で使う場合:
+`require` で使う場合の例:
 
 ```javascript
 var chillout = require('chillout');
@@ -149,9 +149,7 @@ chillout.repeat(1000, function(i) {
 `chillout.repeat` は forループ よりも低いCPU使用率で実行されているのが確認できます。  
 chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実行できますが、処理速度は少し遅くなります。  
 
-
-特にブラウザ上で実行されるJavaScriptのパフォーマンスにおいて最も重要なことの一つは、  
-数値的な速度ではなく、安定したレスポンスによってユーザーにストレスを与えずに実行することと考えています。
+JavaScriptのパフォーマンスにおいて最も重要なことの一つは、数値的な速度ではなく安定したレスポンスによってユーザーにストレスを与えずに実行することです。これはブラウザ上で実行される場合、体感的な高速化の手段として特に重要です。
 
 *(ベンチマーク: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
 
@@ -165,13 +163,14 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 * [forEach](#foreach)
 * [repeat](#repeat)
-* [till](#till)
+* [until](#until)
+* [waitUntil](#waituntil)
 * [forOf](#forof)
 
 ### forEach
 
-与えられた関数を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
+与えられた関数 `callback` を、配列またはオブジェクトの各要素に対して一度ずつ実行します。  
+関数内で `chillout.StopIteration` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
 このメソッドは JavaScript の `Array forEach` のように使えます。
 
 * chillout.**forEach** ( obj, callback [, context ] )  
@@ -224,42 +223,39 @@ chillout.forEach(values, function(value, key, obj) {
 
 `async / await` を使ってループする例:
 
+この例はファイルの内容をすべて出力し、最後に 'done' を出力します。
+
 ```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
+async function getFileContents(url) {
+  const response = await fetch(url);
+  return response.text();
 }
 
-async function delayedLog() {
-  await chillout.forEach([1, 2, 3], async (value, key, obj) => {
-    await sleep(1000);
-    console.log(value);
+// chillout.forEachのコールバックでasync functionを渡す
+async function logFiles() {
+  const files = ['/file1.txt', '/file2.txt', '/file3.txt'];
+  await chillout.forEach(files, async url => {
+    const contents = await getFileContents(url);
+    console.log(contents);
   });
+  console.log('done');
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 1
-// 2
-// 3
-// 'done'
+logFiles();
 ```
 
 ### repeat
 
-与えられた関数を、引数で与えられた数だけ実行します。  
-関数内で `false` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
+与えられた関数 `callback` をを、引数で与えられた数だけ実行します。  
+関数内で `chillout.StopIteration` を返すか、エラーが発生すると、それ以降のループ処理は実行されません。  
 このメソッドは JavaScript の `for` ステートメントのように使えます。
-
 
 * chillout.**repeat** ( count, callback [, context ] )  
   @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
   オブジェクトで指定する場合は以下のキーが有効です。
   - start: 開始する数。
   - step: ステップ数。
-  - end: 終了する数。
+  - done: 終了する数。
 
   @param {_Function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
   - i: 現在の数。
@@ -287,7 +283,7 @@ chillout.repeat(5, function(i) {
 オブジェクトで指定する例:
 
 ```javascript
-chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
+chillout.repeat({ start: 10, step: 2, done: 20 }, function(i) {
   console.log(i);
 }).then(function() {
   console.log('done');
@@ -303,47 +299,45 @@ chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {
 
 `async / await` を使ってループする例:
 
+この例は `/api/users/0` から `api/users/9` までのユーザーデータを出力し、最後に 'done' を出力します。
+
+
 ```javascript
-function sleep(msec) {
-  return new Promise(resolve => setTimeout(resolve, msec));
+async function getUser(userId) {
+  const response = await fetch(`/api/users/${userId}`);
+  return response.json();
 }
 
-async function delayedLog() {
-  await chillout.repeat(3, async i => {
-    await sleep(1000);
-    console.log(i);
+// chillout.repeatのコールバックでasync functionを渡す
+async function logUsers() {
+  await chillout.repeat(10, async i => {
+    const user = await getUser(i);
+    console.log(user);
   });
+  console.log('done');
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
-
-// 0
-// 1
-// 2
-// 'done'
+logUsers();
 ```
 
 
-### till
+### until
 
-与えられた関数を、 `false` が返されるかエラーが発生するまで繰り返します。  
+与えられた関数 `callback` を、 `chillout.StopIteration` が返されるかエラーが発生するまで繰り返します。  
 このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使えます。
 
-* chillout.**till** ( callback [, context ] )  
+* chillout.**until** ( callback [, context ] )  
   @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
   @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
   @return {_Promise_} Promiseオブジェクトを返します。
 
 ```javascript
 var i = 0;
-chillout.till(function() {
+chillout.until(function() {
   console.log(i);
   i++;
   if (i === 5) {
-    return false; // stop iteration
+    return chillout.StopIteration; // ループを止める
   }
 }).then(function() {
   console.log('done');
@@ -359,40 +353,84 @@ chillout.till(function() {
 
 `async / await` を使ってループする例:
 
+この例はファイルの変更を監視して、変更された内容を出力します。
+
 ```javascript
+// ミリ秒(msec)が過ぎるまで待機する関数
 function sleep(msec) {
   return new Promise(resolve => setTimeout(resolve, msec));
 }
 
-async function delayedLog() {
-  let i = 0;
-  await chillout.till(async () => {
-    await sleep(1000);
-    console.log(i);
-    i++;
-    if (i === 3) return false;
-  });
+async function getFileContents(url) {
+  const response = await fetch(url);
+  return response.text();
 }
 
-(async function() {
-  await delayedLog();
-  console.log('done');
-})();
+let previous = null;
 
-// 0
-// 1
-// 2
-// 'done'
+// chillout.untilのコールバックでasync functionを渡す
+async function logNewFileContents() {
+  await chillout.until(async () => {
+    const contents = await getFileContents('./file1.txt');
+    if (previous === null) {
+      previous = contents;
+    }
+
+    if (contents !== previous) {
+      console.log('file changed!');
+      previous = contents;
+      return chillout.StopIteration; // ループを止める
+    }
+    await sleep(1000);
+  });
+  console.log(previous);
+}
+
+logNewFileContents();
 ```
 
+### waitUntil
+
+与えられた関数 `callback` を、 `chillout.StopIteration` が返されるかエラーが発生するまで繰り返します。  
+このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使え、 [`until`](#until) と同じ動作をしますが CPU負荷を抑えるため `until` よりゆっくり実行します。
+
+* chillout.**waitUntil** ( callback [, context ] )  
+  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
+  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  @return {_Promise_} Promiseオブジェクトを返します。
+
+
+```javascript
+chillout.waitUntil(function() {
+  // body要素が読み込まれるまで待機する
+  if (document.body) {
+    return chillout.StopIteration; // ループを止める
+  }
+}).then(function() {
+  document.body.innerHTML += 'body loaded';
+});
+```
+
+何らかの処理が終わるまで待つ例:
+
+```javascript
+anyProcessing();
+chillout.waitUntil(function() {
+  if (isAnyProcessingDone) {
+    return chillout.StopIteration; // break loop
+  }
+}).then(function() {
+  nextProcessing();
+});
+```
 
 ### forOf
 
 列挙可能なプロパティに対して、ループ処理を行います。
 これは `for-of` ステートメントと同じループ処理をします。
 
-与えられた関数を各ループに対して実行します。
-関数内で `false` を返すか、エラーが発生すると、それ以降のループは実行されません。
+与えられた関数 `callback` を各ループに対して実行します。
+関数内で `chillout.StopIteration` を返すか、エラーが発生すると、それ以降のループは実行されません。
 
 * chillout.**forOf** ( iterable, callback [, context ] )  
   @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、ループ処理を行うオブジェクト。  
@@ -467,9 +505,9 @@ async function delayedLog() {
 | -------------------------------------|-------------------------------------------------------------------------------|
 | [1, 2, 3].forEach(function(v, i) {}) | chillout.forEach([1, 2, 3], function(v, i) {})                                |
 | for (i = 0; i < 5; i++) {}           | chillout.repeat(5, function(i) {})                                            |
-| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, end: 20 }, function(i) {})              |
-| while (true) {}                      | chillout.till(function() {})                                                  |
-| while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.till(function() {<br>&nbsp;&nbsp;if (!cond()) return false;<br>&nbsp;&nbsp;doSomething();<br>})    |
+| for (i = 10; i < 20; i += 2) {}      | chillout.repeat({ start: 10, step: 2, done: 20 }, function(i) {})              |
+| while (true) {}                      | chillout.until(function() {})                                                  |
+| while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.until(function() {<br>&nbsp;&nbsp;if (!cond()) return chillout.StopIteration;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
 
