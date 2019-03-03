@@ -1,7 +1,7 @@
 {
   "name": "chillout",
   "main": "./dist/chillout.js",
-  "version": "3.1.9",
+  "version": "4.0.0",
   "homepage": "https://github.com/polygonplanet/chillout",
   "authors": [
     "polygon planet <polygon.planet.aqua@gmail.com>"
@@ -13,19 +13,24 @@
     "node"
   ],
   "keywords": [
-    "cpu",
-    "async/await",
-    "async",
-    "await",
+    "performance",
+    "optimization",
+    "heavy processing",
+    "lightweight",
+    "optimize for loop",
+    "reduce cpu usage",
+    "async await",
     "asynchronous",
     "async function",
     "iterate",
-    "iterator",
     "iteration",
     "promise",
     "setimmediate",
     "forEach",
-    "repeat"
+    "repeat",
+    "until",
+    "waitUntil",
+    "nextTick"
   ],
   "license": "MIT",
   "ignore": [

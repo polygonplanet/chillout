@@ -1,5 +1,5 @@
 /*!
- * chillout v3.1.9 - Reduce CPU usage in JavaScript
+ * chillout v4.0.0 - Reduce CPU usage in JavaScript
  * Copyright (c) 2017-2019 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
@@ -99,6 +99,7 @@ var WAIT_UNTIL_INTERVAL = 13;
  * This method can be called like JavaScript `while (true) { ... }` statement,
  *  and it works same as `until`, but it executes tasks with more slowly interval
  *  than `until` to reduce CPU load.
+ * This method is useful when you want to wait until some processing done.
  *
  * @param {Function} callback The function that is executed for each iteration
  * @param {Object} [context] Value to use as `this` when executing callback
