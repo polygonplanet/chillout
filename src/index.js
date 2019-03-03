@@ -64,6 +64,7 @@ const WAIT_UNTIL_INTERVAL = 13;
  * This method can be called like JavaScript `while (true) { ... }` statement,
  *  and it works same as `until`, but it executes tasks with more slowly interval
  *  than `until` to reduce CPU load.
+ * This method is useful when you want to wait until some processing done.
  *
  * @param {Function} callback The function that is executed for each iteration
  * @param {Object} [context] Value to use as `this` when executing callback
