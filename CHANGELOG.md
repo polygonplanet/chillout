@@ -1,5 +1,11 @@
 # Change Log
 
+## [4.0.1]
+
+### Changed
+
+* No API changes.
+
 ## [4.0.0]
 
 ### Added
