@@ -1,12 +1,12 @@
 {
   "name": "chillout",
   "main": "./dist/chillout.js",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "homepage": "https://github.com/polygonplanet/chillout",
   "authors": [
     "polygon planet <polygon.planet.aqua@gmail.com>"
   ],
-  "description": "Reduce CPU usage in JavaScript",
+  "description": "Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript",
   "moduleType": [
     "amd",
     "globals",
@@ -15,10 +15,14 @@
   "keywords": [
     "performance",
     "optimization",
+    "acceleration",
     "heavy processing",
     "lightweight",
     "optimize for loop",
     "reduce cpu usage",
+    "cpu use rate",
+    "cpu utilization rate",
+    "CPU occupation rate",
     "async await",
     "asynchronous",
     "async function",

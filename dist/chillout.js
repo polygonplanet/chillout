@@ -1,5 +1,5 @@
 /*!
- * chillout v4.0.0 - Reduce CPU usage in JavaScript
+ * chillout v4.0.1 - Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript
  * Copyright (c) 2017-2019 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT

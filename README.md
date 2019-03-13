@@ -3,20 +3,41 @@ chillout.js
 
 [**README (日本語)**](README-ja.md)
 
-Reduce JavaScript CPU usage by asynchronous iteration.
+Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript.
 
 [![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
 [![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
 [![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
-Provides asynchronous iteration functions that have a **Promise based** interface and it can execute with low CPU usage.
-Each iteration adds delay if the processing is heavy to maintain the CPU stability.
-Iterate without delay if processing is fast.
-Therefore, it will realize friendly processing for your machine.
-It can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
+## Overview
 
-You can use it in some JavaScript environment (Browser, Electron, Node.js).
+Unlike general accelerate way of the "to shorten the processing time physically", chillout.js speed up the JavaScript loops psychologically by reduce CPU usage and release resources to improve user experience.
+
+### In order to improve slow processing
+
+We feel stress when page load or processing is slow and the screen is lagging.
+Moreover, there is a risk that the machine will down due to overheating because it can't keep up CPU cooling when continues running the heavy-load application with high CPU utilization rate.
+
+### How to reduce CPU load in JavaScript?
+
+Most of the slow processing is caused by looping that have deep nested looping.
+If we think simply, it should wait for a little time like "sleep" in the looping, but we can't wait, because JavaScript have not "sleep" function. Then how to sleep in JavaScript? We can sleep by using `setTimeout` or `process.nextTick` with `Promise` in "asynchronous" processing.
+
+### Speed up the JavaScript loops psychologically not physically
+
+We can feel like "fast" or "interesting" psychologically by relieving user stress, even if the processing is slow if your application or game will used by humans not AI.
+
+### About chillout.js
+
+Provides asynchronous iteration loop functions that have a **Promise based** interface and it can run with low CPU usage.
+
+Chillout.js adds a little delay on each iteration if the processing is slow to maintain the CPU stability, and it continues iterate without delay if processing is fast.
+
+Therefore, it will realize friendly processing for your machine.
+And, it can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
+
+Chillout.js is a standalone library, and you can use it in the most of JavaScript environments (Browser, Electron, Node.js etc.).
 
 ## Installation
 

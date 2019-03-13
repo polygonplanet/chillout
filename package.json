@@ -1,7 +1,7 @@
 {
   "name": "chillout",
-  "version": "4.0.0",
-  "description": "Reduce CPU usage in JavaScript",
+  "version": "4.0.1",
+  "description": "Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript",
   "main": "dist/chillout.js",
   "dependencies": {},
   "devDependencies": {
@@ -43,10 +43,14 @@
   "keywords": [
     "performance",
     "optimization",
+    "acceleration",
     "heavy processing",
     "lightweight",
     "optimize for loop",
     "reduce cpu usage",
+    "cpu use rate",
+    "cpu utilization rate",
+    "CPU occupation rate",
     "async await",
     "asynchronous",
     "async function",
