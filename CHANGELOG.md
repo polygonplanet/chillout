@@ -1,5 +1,11 @@
 # Change Log
 
+## [4.0.2]
+
+### Fixed
+
+* Fixed tests timeout.
+
 ## [4.0.1]
 
 ### Changed
