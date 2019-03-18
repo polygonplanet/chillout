@@ -1,43 +1,67 @@
 /*!
- * chillout v4.0.1 - Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript
+ * chillout v4.0.1 - Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript
  * Copyright (c) 2017-2019 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chillout = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.nextTick = exports.isArrayLike = exports.isThenable = exports.iterator = exports.iterate = exports.StopIteration = undefined;
 exports.forEach = forEach;
 exports.repeat = repeat;
 exports.until = until;
 exports.waitUntil = waitUntil;
 exports.forOf = forOf;
+Object.defineProperty(exports, "iterate", {
+  enumerable: true,
+  get: function get() {
+    return _iterate.default;
+  }
+});
+Object.defineProperty(exports, "isThenable", {
+  enumerable: true,
+  get: function get() {
+    return _util.isThenable;
+  }
+});
+Object.defineProperty(exports, "isArrayLike", {
+  enumerable: true,
+  get: function get() {
+    return _util.isArrayLike;
+  }
+});
+Object.defineProperty(exports, "nextTick", {
+  enumerable: true,
+  get: function get() {
+    return _nextTick.default;
+  }
+});
+Object.defineProperty(exports, "StopIteration", {
+  enumerable: true,
+  get: function get() {
+    return _stopIteration.default;
+  }
+});
+exports.iterator = void 0;
 
-var _iterator = require('./iterator');
+var iterator = _interopRequireWildcard(require("./iterator"));
 
-var iterator = _interopRequireWildcard(_iterator);
+exports.iterator = iterator;
 
-var _iterate = require('./iterate');
+var _iterate = _interopRequireDefault(require("./iterate"));
 
-var _iterate2 = _interopRequireDefault(_iterate);
+var _util = require("./util");
 
-var _util = require('./util');
+var _nextTick = _interopRequireDefault(require("./next-tick"));
 
-var _nextTick = require('./next-tick');
-
-var _nextTick2 = _interopRequireDefault(_nextTick);
-
-var _stopIteration = require('./stop-iteration');
-
-var _stopIteration2 = _interopRequireDefault(_stopIteration);
+var _stopIteration = _interopRequireDefault(require("./stop-iteration"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 /**
  * Executes a provided function once per array or object element.
@@ -54,9 +78,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @return {Promise} Return new Promise
  */
 function forEach(obj, callback, context) {
-  return (0, _iterate2.default)(iterator.forEach(obj, callback, context));
+  return (0, _iterate.default)(iterator.forEach(obj, callback, context));
 }
-
 /**
  * Executes a provided function the specified number times.
  * The iteration will break if the callback function returns `chillout.StopIteration`,
@@ -73,10 +96,11 @@ function forEach(obj, callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-function repeat(count, callback, context) {
-  return (0, _iterate2.default)(iterator.repeat(count, callback, context));
-}
 
+
+function repeat(count, callback, context) {
+  return (0, _iterate.default)(iterator.repeat(count, callback, context));
+}
 /**
  * Executes a provided function until the `callback` returns `chillout.StopIteration`,
  *  or an error occurs.
@@ -86,13 +110,14 @@ function repeat(count, callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
+
+
 function until(callback, context) {
-  return (0, _iterate2.default)(iterator.until(callback, context));
-}
+  return (0, _iterate.default)(iterator.until(callback, context));
+} // Minimum setTimeout interval for waitUntil
 
-// Minimum setTimeout interval for waitUntil
+
 var WAIT_UNTIL_INTERVAL = 13;
-
 /**
  * Executes a provided function until the `callback` returns `chillout.StopIteration`,
  *  or an error occurs.
@@ -105,10 +130,10 @@ var WAIT_UNTIL_INTERVAL = 13;
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-function waitUntil(callback, context) {
-  return (0, _iterate2.default)(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
-}
 
+function waitUntil(callback, context) {
+  return (0, _iterate.default)(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
+}
 /**
  * Iterates the iterable objects, similar to the `for-of` statement.
  * Executes a provided function once per element.
@@ -121,54 +146,49 @@ function waitUntil(callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
+
+
 function forOf(iterable, callback, context) {
-  return (0, _iterate2.default)(iterator.forOf(iterable, callback, context));
+  return (0, _iterate.default)(iterator.forOf(iterable, callback, context));
 }
 
-exports.StopIteration = _stopIteration2.default;
-exports.iterate = _iterate2.default;
-exports.iterator = iterator;
-exports.isThenable = _util.isThenable;
-exports.isArrayLike = _util.isArrayLike;
-exports.nextTick = _nextTick2.default;
-
 },{"./iterate":2,"./iterator":3,"./next-tick":4,"./stop-iteration":5,"./util":6}],2:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 exports.default = iterate;
 
-var _util = require('./util');
+var _util = require("./util");
 
-var _stopIteration = require('./stop-iteration');
+var _stopIteration = _interopRequireDefault(require("./stop-iteration"));
 
-var _stopIteration2 = _interopRequireDefault(_stopIteration);
-
-var _nextTick = require('./next-tick');
-
-var _nextTick2 = _interopRequireDefault(_nextTick);
+var _nextTick = _interopRequireDefault(require("./next-tick"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function iterate(it) {
   var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
   return new Promise(function (resolve, reject) {
     var totalTime = 0;
 
     function doIterate() {
       var cycleStartTime = Date.now();
-      var cycleEndTime = void 0;
+      var cycleEndTime;
 
       try {
-        var _loop = function _loop() {
+        var _loop2 = function _loop2() {
           var _it$next = it.next(),
               _it$next2 = _slicedToArray(_it$next, 2),
               isStop = _it$next2[0],
@@ -178,7 +198,7 @@ function iterate(it) {
             value.then(function (awaitedValue) {
               if (isStop) {
                 resolve(awaitedValue);
-              } else if (awaitedValue === _stopIteration2.default) {
+              } else if (awaitedValue === _stopIteration.default) {
                 resolve();
               } else {
                 doIterate();
@@ -195,7 +215,8 @@ function iterate(it) {
               v: void 0
             };
           }
-          if (value === _stopIteration2.default) {
+
+          if (value === _stopIteration.default) {
             resolve();
             return {
               v: void 0
@@ -203,7 +224,7 @@ function iterate(it) {
           }
 
           if (interval > 0) {
-            return 'break';
+            return "break";
           }
 
           var endTime = Date.now();
@@ -212,33 +233,35 @@ function iterate(it) {
 
           if (totalTime > 1000) {
             // Break the loop when the process is continued for more than 1s
-            return 'break';
+            return "break";
           }
+
           if (cycleEndTime < 10) {
             // Delay is not required for fast iteration
-            return 'continue';
+            return "continue";
           }
 
           var risk = Math.min(10, Math.floor(cycleEndTime / 10));
           var margin = endTime % (10 - risk);
+
           if (!margin) {
             // Break the loop if processing has exceeded the allowable
-            return 'break';
+            return "break";
           }
         };
 
-        _loop2: for (;;) {
-          var _ret = _loop();
+        _loop: for (;;) {
+          var _ret = _loop2();
 
           switch (_ret) {
-            case 'break':
-              break _loop2;
+            case "break":
+              break _loop;
 
-            case 'continue':
+            case "continue":
               continue;
 
             default:
-              if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+              if (_typeof(_ret) === "object") return _ret.v;
           }
         }
       } catch (e) {
@@ -254,45 +277,45 @@ function iterate(it) {
       } else {
         // Add delay corresponding to the processing speed
         var time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
+
         var _delay = Math.min(1000, Math.floor(time));
+
         totalTime = 0;
 
         if (_delay > 10) {
           setTimeout(doIterate, _delay);
         } else {
-          (0, _nextTick2.default)(doIterate);
+          (0, _nextTick.default)(doIterate);
         }
       }
-    }
+    } // The first call doesn't need to wait, so it will execute a task immediately
 
-    // The first call doesn't need to wait, so it will execute a task immediately
-    (0, _nextTick2.default)(doIterate);
+
+    (0, _nextTick.default)(doIterate);
   });
 }
 
 },{"./next-tick":4,"./stop-iteration":5,"./util":6}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 exports.forEach = forEach;
 exports.repeat = repeat;
 exports.until = until;
 exports.forOf = forOf;
 
-var _util = require('./util');
+var _util = require("./util");
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function forEach(obj, callback, context) {
   var i = 0;
-  var len = void 0;
+  var len;
 
   if ((0, _util.isArrayLike)(obj)) {
     len = obj.length;
-
     return {
       next: function next() {
         if (i >= len) {
@@ -308,7 +331,6 @@ function forEach(obj, callback, context) {
 
   var keys = Object.keys(obj);
   len = keys.length;
-
   return {
     next: function next() {
       if (i >= len) {
@@ -323,11 +345,11 @@ function forEach(obj, callback, context) {
 }
 
 function repeat(count, callback, context) {
-  var i = void 0;
-  var step = void 0;
-  var done = void 0;
+  var i;
+  var step;
+  var done;
 
-  if (count && (typeof count === 'undefined' ? 'undefined' : _typeof(count)) === 'object') {
+  if (count && _typeof(count) === 'object') {
     i = count.start || 0;
     step = count.step || 1;
     done = count.done;
@@ -340,11 +362,12 @@ function repeat(count, callback, context) {
   return {
     next: function next() {
       var value = callback.call(context, i);
-
       i += step;
+
       if (i >= done) {
         return [true, value];
       }
+
       return [false, value];
     }
   };
@@ -361,7 +384,6 @@ function until(callback, context) {
 
 function forOf(iterable, callback, context) {
   var it = iterable[Symbol.iterator]();
-
   return {
     next: function next() {
       var nextIterator = it.next();
@@ -369,6 +391,7 @@ function forOf(iterable, callback, context) {
       if (nextIterator.done) {
         return [true, null];
       }
+
       var value = callback.call(context, nextIterator.value, iterable);
       return [false, value];
     }
@@ -376,13 +399,14 @@ function forOf(iterable, callback, context) {
 }
 
 },{"./util":6}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var nextTick = function () {
   if (typeof setImmediate === 'function') {
@@ -391,7 +415,7 @@ var nextTick = function () {
     };
   }
 
-  if ((typeof process === 'undefined' ? 'undefined' : _typeof(process)) === 'object' && typeof process.nextTick === 'function') {
+  if ((typeof process === "undefined" ? "undefined" : _typeof(process)) === 'object' && typeof process.nextTick === 'function') {
     return function (task) {
       process.nextTick(task);
     };
@@ -411,7 +435,9 @@ var nextTick = function () {
     };
 
     return function (task) {
-      tail = tail.next = { task: task };
+      tail = tail.next = {
+        task: task
+      };
       channel.port2.postMessage(0);
     };
   }
@@ -421,7 +447,8 @@ var nextTick = function () {
   };
 }();
 
-exports.default = nextTick;
+var _default = nextTick;
+exports.default = _default;
 
 },{}],5:[function(require,module,exports){
 "use strict";
@@ -429,17 +456,20 @@ exports.default = nextTick;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 var StopIteration = {};
-exports.default = StopIteration;
+var _default = StopIteration;
+exports.default = _default;
 
 },{}],6:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isThenable = isThenable;
 exports.isArrayLike = isArrayLike;
+
 function isThenable(x) {
   return x != null && typeof x.then === 'function';
 }

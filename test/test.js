@@ -3,6 +3,8 @@
 describe('chillout test', function() {
   'use strict';
 
+  this.timeout(10 * 1000);
+
   describe('Core', function() {
     it('should have valid methods and properties', function() {
       assert(typeof chillout.StopIteration === 'object');
