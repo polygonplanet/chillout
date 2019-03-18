@@ -3,7 +3,7 @@ chillout.js
 
 [**README (日本語)**](README-ja.md)
 
-Reduce CPU usage by asynchronous loop and psychologically speed up to improve the user experience in JavaScript.
+Reduce CPU usage by non-blocking asynchronous loop and psychologically speed up to improve the user experience in JavaScript.
 
 [![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
@@ -30,12 +30,12 @@ We can feel like "fast" or "interesting" psychologically by relieving user stres
 
 ### About chillout.js
 
-Provides asynchronous iteration loop functions that have a **Promise based** interface and it can run with low CPU usage.
+Provides asynchronous iteration functions that have a `Promise` based interface and it can run with low CPU usage.
+In most cases, you can reduce the CPU usage by using the non-blocking loop of chillout.js API instead native JavaScript loops in your code, but you need to change it to asynchronous loops.
 
 Chillout.js adds a little delay on each iteration if the processing is slow to maintain the CPU stability, and it continues iterate without delay if processing is fast.
-
 Therefore, it will realize friendly processing for your machine.
-And, it can execute JavaScript without "Warning: Unresponsive Script" alert in the browser.
+And, it can execute JavaScript without **"Warning: Unresponsive Script"** alert in the browser.
 
 Chillout.js is a standalone library, and you can use it in the most of JavaScript environments (Browser, Electron, Node.js etc.).
 
@@ -474,7 +474,7 @@ chillout.forOf('abc', function(value) {
 
 ## Comparison Table
 
-You can reduce the CPU load by changing your JavaScript iteration to the chillout iteration.
+You can reduce the CPU load by using the chillout.js API instead native JavaScript loops in your application.
 
 
 Examples:

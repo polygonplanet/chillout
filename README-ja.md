@@ -1,7 +1,7 @@
 chillout.js
 ===========
 
-CPU負荷を抑えて重い処理を軽くします。
+重いループのCPU負荷を軽減し、体感的・心理的に高速化するJavaScriptライブラリ。
 
 [![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
 [![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
@@ -11,7 +11,7 @@ CPU負荷を抑えて重い処理を軽くします。
 
 ## 概要
 
-chillout.js は「処理時間を短くする」という物理的な高速化とは違い、CPU負荷を抑えてリソースに余裕を持たせ、重い処理でも軽く感じさせることでユーザーにとって体感的・心理的な高速化につなげる JavaScript ライブラリです。
+chillout.js は「処理時間を短くする」という物理的な高速化とは違い、CPU負荷を軽減しリソースに余裕を持たせ、重い処理でも軽く感じさせることでユーザーにとって体感的・心理的な高速化につなげる JavaScript ライブラリです。
 
 ### 重い処理から開放されるために
 
@@ -19,7 +19,7 @@ chillout.js は「処理時間を短くする」という物理的な高速化�
 
 特にスペックの低い端末では、CPU使用率100%の状態が続くと加熱されて冷却ファンが激しく回り、そのまま使い続けると冷却が追いつかずに熱暴走してしまう可能性もあります。
 
-### JavaScriptでCPU負荷を抑えるには？
+### JavaScriptでCPU負荷を軽減するには？
 
 重い処理のほとんどはループ処理によって発生します。ループの中でさらにループ、その中でさらにループ…。単純に考えた場合、そうならないようループの途中で一定時間処理を休止させればいいんですが、それができません。  
 JavaScript には一定の時間休む sleep のような機能がないからです。そこで、sleepするにはどうするか？というと「非同期」でループ処理します。  
@@ -33,7 +33,9 @@ JavaScript では、`setTimeout` や `process.nextTick` を使って同期処理
 
 chillout.js は、ループ処理が重いときにはCPUが休まるくらいの休止時間、処理が速いときには休止時間なしか、わずかな休止時間をいれ本来のループを邪魔しないようにし、結果としてカクカクするような重さを感じさせずにループを実行します。  
 
-また、処理が重くなるとでる 「警告: 応答のないスクリプト」 といったブラウザ警告なしでJavaScriptを実行できます。  
+ほとんどの場合、既存の JavaScript ループの代わりに chillout.js のループを使うことで CPU 使用率を減らすことができます。非同期ループとして扱う必要がありますが `async/await` を使うと扱いやすくなります。
+
+また、処理が重くなるとでる **「警告: 応答のないスクリプト」** といったブラウザ警告なしでJavaScriptを実行できます。  
 
 
 ブラウザ上、Electron、Node.js などの環境で使えます。
@@ -392,7 +394,7 @@ logNewFileContents();
 ### waitUntil
 
 与えられた関数 `callback` を、 `chillout.StopIteration` が返されるかエラーが発生するまで繰り返します。  
-このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使え、 [`until`](#until) と同じ動作をしますが CPU負荷を抑えるため `until` よりゆっくり実行します。  
+このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使え、 [`until`](#until) と同じ動作をしますが、CPU に負荷がかからないよう `until` よりゆっくり実行します。  
 このメソッドは、何らかの処理が終わるまで待ちたいときに向いています。
 
 * chillout.**waitUntil** ( callback [, context ] )  
@@ -473,7 +475,7 @@ chillout.forOf('abc', function(value) {
 
 ## 比較表
 
-既存のJavaScriptループを chillout.js のAPIに置き換えることで、CPU使用率を抑えることができます。
+既存のJavaScriptループを chillout.js のAPIに置き換えるとCPU負荷を軽減することができます。
 
 変換例:
 
