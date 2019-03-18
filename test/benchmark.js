@@ -7,18 +7,19 @@ var pusage = require('pidusage');
 
 var REPEAT_COUNT = 100;
 var cpuLoads = {
-  without_chillout: [],
-  using_chillout: []
+  for_statement: [],
+  chillout_repeat: []
 };
 
-
-// Get CPU usage for current node process
+// Get CPU usage for the current node process
 function cpuStat(type) {
   return new Promise(function(resolve, reject) {
     pusage.stat(process.pid, function(err, stat) {
       if (err) {
-        reject(err);
-        return;
+        console.log('[Error]');
+        console.log(err);
+        console.log('*** If you got an error on Windows, you may try succeed if you execute this benchmark several times.');
+        process.exit(0);
       }
 
       cpuLoads[type].push(stat.cpu);
@@ -30,7 +31,7 @@ function cpuStat(type) {
 // Get CPU usage average
 function cpuAvg(type) {
   var loads = cpuLoads[type].filter(function(load) {
-    // Ignore 0% load
+    // Skip 0% load
     return load > 0;
   });
 
@@ -45,7 +46,6 @@ function cpuAvg(type) {
   }, 0) / len).toFixed(2) + '%';
 }
 
-
 function heavyProcess() {
   var v;
   for (var i = 0; i < 10000; i++) {
@@ -56,10 +56,9 @@ function heavyProcess() {
   return v;
 }
 
-
-// Repeat the heavy processing without chillout
-function run_without_chillout() {
-  return run('without chillout', 'without_chillout', function(stat) {
+// Repeat the slow processing by JavaScript ForStatement
+function run_for_statement() {
+  return run('JavaScript ForStatement', 'for_statement', function(stat) {
     return new Promise(function(resolve) {
       for (var i = 0; i < REPEAT_COUNT; i++) {
         heavyProcess();
@@ -70,10 +69,9 @@ function run_without_chillout() {
   });
 }
 
-
-// Repeat the heavy processing using chillout
-function run_using_chillout() {
-  return run('using chillout', 'using_chillout', function(stat) {
+// Repeat the slow processing by using chillout.repeat
+function run_chillout_repeat() {
+  return run('chillout.repeat', 'chillout_repeat', function(stat) {
     return chillout.repeat(REPEAT_COUNT, function() {
       heavyProcess();
       stat();
@@ -81,10 +79,9 @@ function run_using_chillout() {
   });
 }
 
-
 function run(title, type, cycle) {
   return new Promise(function(resolve, reject) {
-    console.log('Repeat the heavy processing %s:', title);
+    console.log('Repeat the slow processing by using %s:', title);
 
     var q = [];
     var stat = function() {
@@ -110,18 +107,21 @@ function run(title, type, cycle) {
   });
 }
 
-
 function wait(ms) {
   return new Promise(function(resolve) {
-    setTimeout(function() {
-      resolve();
-    }, ms);
+    setTimeout(resolve, ms);
   });
 }
 
-
-wait(3000).then(run_without_chillout).then(function() {
+console.log('(1) JavaScript for loop');
+wait(3000).then(run_for_statement).then(function() {
   console.log('--------------------------------');
-  // Wait a little bit for cooling CPU
-  wait(3000).then(run_using_chillout);
+  console.log('(2) chillout.repeat');
+  // Wait a little bit for cooling the CPU
+  wait(3000).then(run_chillout_repeat).then(function() {
+    process.exit(0);
+  });
+}).catch(function(e) {
+  console.log(e);
+  process.exit(0);
 });
