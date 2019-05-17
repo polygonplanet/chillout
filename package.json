@@ -29,7 +29,7 @@
   "scripts": {
     "compile": "browserify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
     "watch": "watchify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v",
-    "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c warnings=false -m -b ascii_only=true,beautify=false",
+    "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
     "build": "npm run compile && npm run minify",
     "test": "npm run build && mocha test/test-node && karma start karma.conf.js",
     "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run",
