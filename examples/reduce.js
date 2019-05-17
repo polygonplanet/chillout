@@ -17,17 +17,19 @@ chillout.iterator.reduce = function(array, callback /*, initialValue, context */
 
   return {
     next() {
+      var isStop = false;
       if (i >= len) {
-        return [true, value];
+        isStop = true;
+        return [isStop, value];
       }
       value = callback.call(context, value, array[i], i, array);
       i++;
-      return [false, value];
+      return [isStop, value];
     }
   };
 };
 
-chillout.reduce = function(/* iterable, callback, initialValue, context */) {
+chillout.reduce = function(/* array, callback, initialValue, context */) {
   return chillout.iterate(chillout.iterator.reduce.apply(this, arguments));
 };
 
