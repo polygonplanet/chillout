@@ -53,6 +53,10 @@ $ npm install chillout --save
 $ bower install chillout
 ```
 
+### CDN
+
+chillout.js is available on [cdnjs.com](https://cdnjs.com/libraries/chillout).
+
 ### Usage
 
 ```javascript
