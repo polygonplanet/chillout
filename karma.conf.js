@@ -30,7 +30,7 @@ module.exports = function(config) {
       // Custom launchers for Travis
       Chrome_travis_ci: {
         base: 'Chrome',
-        flags: ['--headless']
+        flags: ['--no-sandbox']
       }
     },
     detectBrowsers: {
