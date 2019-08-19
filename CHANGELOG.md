@@ -1,5 +1,15 @@
 # Change Log
 
+## [4.0.3]
+
+### Changed
+
+* No API changes.
+
+### Fixed
+
+* Fixed invalid uglifyjs option
+
 ## [4.0.2]
 
 ### Fixed
