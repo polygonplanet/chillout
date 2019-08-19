@@ -10,6 +10,23 @@ Reduce CPU usage by non-blocking asynchronous loop and psychologically speed up 
 [![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
 [![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
+## Table of contents
+
+* [Overview](#overview)
+* [Installation](#installation)
+* [Compatibility](#compatibility)
+* [async / await](#async--await)
+* [Benchmarks](#benchmarks)
+* [API](#api)
+  + [forEach](#foreach)
+  + [repeat](#repeat)
+  + [until](#until)
+  + [waitUntil](#waituntil)
+  + [forOf](#forof)
+* [Comparison Table](#comparison-table)
+* [Contributing](#contributing)
+* [License](#license)
+
 ## Overview
 
 Unlike general accelerate way of the "to shorten the processing time physically", chillout.js speed up the JavaScript loops psychologically by reduce CPU usage and release resources to improve user experience.

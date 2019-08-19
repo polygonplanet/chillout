@@ -8,6 +8,22 @@ chillout.js
 [![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
 [![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
+## Table of contents
+
+* [概要](#概要)
+* [インストール](#インストール)
+* [動作環境](#動作環境)
+* [async / await](#async--await)
+* [ベンチマーク](#ベンチマーク)
+* [API](#api)
+  + [forEach](#foreach)
+  + [repeat](#repeat)
+  + [until](#until)
+  + [waitUntil](#waituntil)
+  + [forOf](#forof)
+* [比較表](#比較表)
+* [貢献](#貢献)
+* [ライセンス](#ライセンス)
 
 ## 概要
 
