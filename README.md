@@ -72,7 +72,7 @@ $ bower install chillout
 
 ### CDN
 
-chillout.js is available on [cdnjs.com](https://cdnjs.com/libraries/chillout).
+chillout.js is available on [jsdelivr.com](https://www.jsdelivr.com/package/npm/chillout) and [cdnjs.com](https://cdnjs.com/libraries/chillout).
 
 ### Usage
 
