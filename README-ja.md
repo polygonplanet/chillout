@@ -59,17 +59,21 @@ chillout.js は、ループ処理が重いときにはCPUが休まるくらい�
 
 ## インストール
 
-**chillout** というモジュール名で `npm` から利用できます。
+### npm
 
 ```bash
 $ npm install chillout --save
 ```
 
-`bower` からインストールする場合:
+### bower
 
 ```bash
 $ bower install chillout
 ```
+
+### CDN
+
+[jsdelivr.com](https://www.jsdelivr.com/package/npm/chillout) または [cdnjs.com](https://cdnjs.com/libraries/chillout) で CDN が利用できます。
 
 ### 使い方
 
