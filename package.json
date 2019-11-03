@@ -1,6 +1,6 @@
 {
   "name": "chillout",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript",
   "main": "dist/chillout.js",
   "devDependencies": {
