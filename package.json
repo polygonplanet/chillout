@@ -1,8 +1,11 @@
 {
   "name": "chillout",
-  "version": "4.0.5",
   "description": "Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript",
-  "main": "dist/chillout.js",
+  "version": "4.0.5",
+  "author": "polygon planet <polygon.planet.aqua@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/polygonplanet/chillout/issues"
+  },
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
@@ -26,43 +29,40 @@
     "uglifyify": "^5.0.2",
     "watchify": "^3.11.1"
   },
-  "scripts": {
-    "compile": "browserify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
-    "watch": "watchify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v",
-    "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
-    "build": "npm run compile && npm run minify",
-    "test": "npm run build && mocha test/test-node && karma start karma.conf.js",
-    "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run",
-    "benchmark": "node test/benchmark"
-  },
+  "homepage": "https://github.com/polygonplanet/chillout",
+  "keywords": [
+    "acceleration",
+    "async await",
+    "asynchronous",
+    "cpu use rate",
+    "cpu utilization rate",
+    "heavy processing",
+    "iterate",
+    "iteration",
+    "lightweight",
+    "nextTick",
+    "non-blocking",
+    "optimization",
+    "optimize for loop",
+    "performance",
+    "promise",
+    "reduce cpu usage",
+    "setimmediate",
+    "waitUntil"
+  ],
+  "license": "MIT",
+  "main": "dist/chillout.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/polygonplanet/chillout.git"
   },
-  "keywords": [
-    "performance",
-    "optimization",
-    "acceleration",
-    "non-blocking",
-    "heavy processing",
-    "lightweight",
-    "optimize for loop",
-    "reduce cpu usage",
-    "cpu use rate",
-    "cpu utilization rate",
-    "async await",
-    "asynchronous",
-    "iterate",
-    "iteration",
-    "promise",
-    "setimmediate",
-    "nextTick",
-    "waitUntil"
-  ],
-  "author": "polygon planet <polygon.planet.aqua@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/polygonplanet/chillout/issues"
-  },
-  "homepage": "https://github.com/polygonplanet/chillout"
+  "scripts": {
+    "benchmark": "node test/benchmark",
+    "build": "npm run compile && npm run minify",
+    "compile": "browserify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
+    "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
+    "test": "npm run build && mocha test/test-node && karma start karma.conf.js",
+    "travis": "npm run build && mocha test/test-node && karma start karma.conf.js --single-run",
+    "watch": "watchify src/index.js -o dist/chillout.js -s chillout -t [ babelify ] -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v"
+  }
 }
