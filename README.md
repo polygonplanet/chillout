@@ -61,7 +61,7 @@ Chillout.js is a standalone library, and you can use it in the most of JavaScrip
 ### npm
 
 ```bash
-$ npm install chillout --save
+$ npm install chillout
 ```
 
 ### bower

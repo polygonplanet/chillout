@@ -62,7 +62,7 @@ chillout.js は、ループ処理が重いときにはCPUが休まるくらい�
 ### npm
 
 ```bash
-$ npm install chillout --save
+$ npm install chillout
 ```
 
 ### bower
