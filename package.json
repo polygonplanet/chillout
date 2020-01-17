@@ -29,6 +29,13 @@
     "uglifyify": "^5.0.2",
     "watchify": "^3.11.1"
   },
+  "engines": {
+    "node": ">=8.10.0"
+  },
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
   "homepage": "https://github.com/polygonplanet/chillout",
   "keywords": [
     "acceleration",
