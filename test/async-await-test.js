@@ -1,13 +1,10 @@
-/*global describe, beforeEach, afterEach, it, assert*/
-
-const chillout = require('../dist/chillout');
-const assert = require('power-assert');
+const assert = require('assert');
+const chillout = require('../src/index');
 
 describe('async / await', function() {
   'use strict';
 
   this.timeout(10 * 1000);
-
 
   function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
