@@ -1,6 +1,7 @@
-/* global describe, it, assert, chillout */
+const assert = require('assert');
+const chillout = require('../src/index');
 
-describe('chillout test', function() {
+describe('chillout', function() {
   'use strict';
 
   this.timeout(10 * 1000);
