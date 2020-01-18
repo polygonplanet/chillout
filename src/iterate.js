@@ -1,8 +1,8 @@
-import { isThenable } from './util';
-import StopIteration from './stop-iteration';
-import nextTick from './next-tick';
+const { isThenable } = require('./util');
+const StopIteration = require('./stop-iteration');
+const nextTick = require('./next-tick');
 
-export default function iterate(it, interval = 0) {
+module.exports = function iterate(it, interval = 0) {
   return new Promise((resolve, reject) => {
     let totalTime = 0;
 
@@ -87,4 +87,4 @@ export default function iterate(it, interval = 0) {
     // The first call doesn't need to wait, so it will execute a task immediately
     nextTick(doIterate);
   });
-}
+};

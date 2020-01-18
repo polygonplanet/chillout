@@ -1,8 +1,10 @@
-import * as iterator from './iterator';
-import iterate from './iterate';
-import { isThenable, isArrayLike } from './util';
-import nextTick from './next-tick';
-import StopIteration from './stop-iteration';
+const iterator = require('./iterator');
+const iterate = require('./iterate');
+const { isThenable, isArrayLike } = require('./util');
+const nextTick = require('./next-tick');
+const StopIteration = require('./stop-iteration');
+
+exports.version = require('../package.json').version;
 
 /**
  * Executes a provided function once per array or object element.
@@ -18,9 +20,9 @@ import StopIteration from './stop-iteration';
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-export function forEach(obj, callback, context) {
+exports.forEach = function forEach(obj, callback, context) {
   return iterate(iterator.forEach(obj, callback, context));
-}
+};
 
 /**
  * Executes a provided function the specified number times.
@@ -38,9 +40,9 @@ export function forEach(obj, callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-export function repeat(count, callback, context) {
+exports.repeat = function repeat(count, callback, context) {
   return iterate(iterator.repeat(count, callback, context));
-}
+};
 
 /**
  * Executes a provided function until the `callback` returns `chillout.StopIteration`,
@@ -51,9 +53,9 @@ export function repeat(count, callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-export function until(callback, context) {
+exports.until = function until(callback, context) {
   return iterate(iterator.until(callback, context));
-}
+};
 
 // Minimum setTimeout interval for waitUntil
 const WAIT_UNTIL_INTERVAL = 13;
@@ -70,9 +72,9 @@ const WAIT_UNTIL_INTERVAL = 13;
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-export function waitUntil(callback, context) {
+exports.waitUntil = function waitUntil(callback, context) {
   return iterate(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
-}
+};
 
 /**
  * Iterates the iterable objects, similar to the `for-of` statement.
@@ -86,17 +88,19 @@ export function waitUntil(callback, context) {
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-export function forOf(iterable, callback, context) {
+exports.forOf = function forOf(iterable, callback, context) {
   return iterate(iterator.forOf(iterable, callback, context));
-}
-
-export {
-  /**
-   * If you want to stop the loops, return this StopIteration
-   * It works like 'break' statement in JavaScript 'for' statement
-   */
-  StopIteration,
-
-  // Exports core methods for user defining other iterations by using chillout
-  iterate, iterator, isThenable, isArrayLike, nextTick
 };
+
+/**
+ * If you want to stop the loops, return this StopIteration
+ * It works like 'break' statement in JavaScript 'for' statement
+ */
+exports.StopIteration = StopIteration;
+
+// Exports core methods for user defining other iterations by using chillout
+exports.iterate = iterate;
+exports.iterator = iterator;
+exports.isThenable = isThenable;
+exports.isArrayLike = isArrayLike;
+exports.nextTick = nextTick;

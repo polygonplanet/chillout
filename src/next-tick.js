@@ -35,4 +35,4 @@ const nextTick = (() => {
   };
 })();
 
-export default nextTick;
+module.exports = nextTick;

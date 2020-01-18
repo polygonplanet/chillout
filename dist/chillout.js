@@ -1,70 +1,29 @@
 /*!
  * chillout v4.0.5 - Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript
- * Copyright (c) 2017-2019 polygon planet <polygon.planet.aqua@gmail.com>
+ * Copyright (c) 2017-2020 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.chillout = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+module.exports={
+  "version": "4.0.5"
+}
+},{}],2:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.forEach = forEach;
-exports.repeat = repeat;
-exports.until = until;
-exports.waitUntil = waitUntil;
-exports.forOf = forOf;
-Object.defineProperty(exports, "iterate", {
-  enumerable: true,
-  get: function get() {
-    return _iterate["default"];
-  }
-});
-Object.defineProperty(exports, "isThenable", {
-  enumerable: true,
-  get: function get() {
-    return _util.isThenable;
-  }
-});
-Object.defineProperty(exports, "isArrayLike", {
-  enumerable: true,
-  get: function get() {
-    return _util.isArrayLike;
-  }
-});
-Object.defineProperty(exports, "nextTick", {
-  enumerable: true,
-  get: function get() {
-    return _nextTick["default"];
-  }
-});
-Object.defineProperty(exports, "StopIteration", {
-  enumerable: true,
-  get: function get() {
-    return _stopIteration["default"];
-  }
-});
-exports.iterator = void 0;
+var iterator = require('./iterator');
 
-var iterator = _interopRequireWildcard(require("./iterator"));
+var iterate = require('./iterate');
 
-exports.iterator = iterator;
+var _require = require('./util'),
+    isThenable = _require.isThenable,
+    isArrayLike = _require.isArrayLike;
 
-var _iterate = _interopRequireDefault(require("./iterate"));
+var nextTick = require('./next-tick');
 
-var _util = require("./util");
+var StopIteration = require('./stop-iteration');
 
-var _nextTick = _interopRequireDefault(require("./next-tick"));
-
-var _stopIteration = _interopRequireDefault(require("./stop-iteration"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
+exports.version = require('../package.json').version;
 /**
  * Executes a provided function once per array or object element.
  * The iteration will break if the callback function returns `chillout.StopIteration`,
@@ -79,9 +38,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @param {Object} [context] Value to use as `this` when executing callback
  * @return {Promise} Return new Promise
  */
-function forEach(obj, callback, context) {
-  return (0, _iterate["default"])(iterator.forEach(obj, callback, context));
-}
+
+exports.forEach = function forEach(obj, callback, context) {
+  return iterate(iterator.forEach(obj, callback, context));
+};
 /**
  * Executes a provided function the specified number times.
  * The iteration will break if the callback function returns `chillout.StopIteration`,
@@ -100,9 +60,9 @@ function forEach(obj, callback, context) {
  */
 
 
-function repeat(count, callback, context) {
-  return (0, _iterate["default"])(iterator.repeat(count, callback, context));
-}
+exports.repeat = function repeat(count, callback, context) {
+  return iterate(iterator.repeat(count, callback, context));
+};
 /**
  * Executes a provided function until the `callback` returns `chillout.StopIteration`,
  *  or an error occurs.
@@ -114,9 +74,9 @@ function repeat(count, callback, context) {
  */
 
 
-function until(callback, context) {
-  return (0, _iterate["default"])(iterator.until(callback, context));
-} // Minimum setTimeout interval for waitUntil
+exports.until = function until(callback, context) {
+  return iterate(iterator.until(callback, context));
+}; // Minimum setTimeout interval for waitUntil
 
 
 var WAIT_UNTIL_INTERVAL = 13;
@@ -133,9 +93,9 @@ var WAIT_UNTIL_INTERVAL = 13;
  * @return {Promise} Return new Promise
  */
 
-function waitUntil(callback, context) {
-  return (0, _iterate["default"])(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
-}
+exports.waitUntil = function waitUntil(callback, context) {
+  return iterate(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
+};
 /**
  * Iterates the iterable objects, similar to the `for-of` statement.
  * Executes a provided function once per element.
@@ -150,25 +110,25 @@ function waitUntil(callback, context) {
  */
 
 
-function forOf(iterable, callback, context) {
-  return (0, _iterate["default"])(iterator.forOf(iterable, callback, context));
-}
+exports.forOf = function forOf(iterable, callback, context) {
+  return iterate(iterator.forOf(iterable, callback, context));
+};
+/**
+ * If you want to stop the loops, return this StopIteration
+ * It works like 'break' statement in JavaScript 'for' statement
+ */
 
-},{"./iterate":2,"./iterator":3,"./next-tick":4,"./stop-iteration":5,"./util":6}],2:[function(require,module,exports){
+
+exports.StopIteration = StopIteration; // Exports core methods for user defining other iterations by using chillout
+
+exports.iterate = iterate;
+exports.iterator = iterator;
+exports.isThenable = isThenable;
+exports.isArrayLike = isArrayLike;
+exports.nextTick = nextTick;
+
+},{"../package.json":1,"./iterate":3,"./iterator":4,"./next-tick":5,"./stop-iteration":6,"./util":7}],3:[function(require,module,exports){
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = iterate;
-
-var _util = require("./util");
-
-var _stopIteration = _interopRequireDefault(require("./stop-iteration"));
-
-var _nextTick = _interopRequireDefault(require("./next-tick"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -180,7 +140,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function iterate(it) {
+var _require = require('./util'),
+    isThenable = _require.isThenable;
+
+var StopIteration = require('./stop-iteration');
+
+var nextTick = require('./next-tick');
+
+module.exports = function iterate(it) {
   var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   return new Promise(function (resolve, reject) {
     var totalTime = 0;
@@ -196,11 +163,11 @@ function iterate(it) {
               isStop = _it$next2[0],
               value = _it$next2[1];
 
-          if ((0, _util.isThenable)(value)) {
+          if (isThenable(value)) {
             value.then(function (awaitedValue) {
               if (isStop) {
                 resolve(awaitedValue);
-              } else if (awaitedValue === _stopIteration["default"]) {
+              } else if (awaitedValue === StopIteration) {
                 resolve();
               } else {
                 doIterate();
@@ -218,7 +185,7 @@ function iterate(it) {
             };
           }
 
-          if (value === _stopIteration["default"]) {
+          if (value === StopIteration) {
             resolve();
             return {
               v: void 0
@@ -287,36 +254,29 @@ function iterate(it) {
         if (_delay > 10) {
           setTimeout(doIterate, _delay);
         } else {
-          (0, _nextTick["default"])(doIterate);
+          nextTick(doIterate);
         }
       }
     } // The first call doesn't need to wait, so it will execute a task immediately
 
 
-    (0, _nextTick["default"])(doIterate);
+    nextTick(doIterate);
   });
-}
+};
 
-},{"./next-tick":4,"./stop-iteration":5,"./util":6}],3:[function(require,module,exports){
+},{"./next-tick":5,"./stop-iteration":6,"./util":7}],4:[function(require,module,exports){
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.forEach = forEach;
-exports.repeat = repeat;
-exports.until = until;
-exports.forOf = forOf;
-
-var _util = require("./util");
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function forEach(obj, callback, context) {
+var _require = require('./util'),
+    isArrayLike = _require.isArrayLike;
+
+exports.forEach = function (obj, callback, context) {
   var i = 0;
   var len;
 
-  if ((0, _util.isArrayLike)(obj)) {
+  if (isArrayLike(obj)) {
     len = obj.length;
     return {
       next: function next() {
@@ -344,9 +304,9 @@ function forEach(obj, callback, context) {
       return [false, value];
     }
   };
-}
+};
 
-function repeat(count, callback, context) {
+exports.repeat = function (count, callback, context) {
   var i;
   var step;
   var done;
@@ -373,18 +333,18 @@ function repeat(count, callback, context) {
       return [false, value];
     }
   };
-}
+};
 
-function until(callback, context) {
+exports.until = function (callback, context) {
   return {
     next: function next() {
       var value = callback.call(context);
       return [false, value];
     }
   };
-}
+};
 
-function forOf(iterable, callback, context) {
+exports.forOf = function (iterable, callback, context) {
   var it = iterable[Symbol.iterator]();
   return {
     next: function next() {
@@ -398,15 +358,10 @@ function forOf(iterable, callback, context) {
       return [false, value];
     }
   };
-}
+};
 
-},{"./util":6}],4:[function(require,module,exports){
+},{"./util":7}],5:[function(require,module,exports){
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -449,36 +404,24 @@ var nextTick = function () {
   };
 }();
 
-var _default = nextTick;
-exports["default"] = _default;
-
-},{}],5:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-var StopIteration = {};
-var _default = StopIteration;
-exports["default"] = _default;
+module.exports = nextTick;
 
 },{}],6:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isThenable = isThenable;
-exports.isArrayLike = isArrayLike;
+var StopIteration = {};
+module.exports = StopIteration;
 
-function isThenable(x) {
+},{}],7:[function(require,module,exports){
+"use strict";
+
+exports.isThenable = function isThenable(x) {
   return x != null && typeof x.then === 'function';
-}
+};
 
-function isArrayLike(x) {
+exports.isArrayLike = function isArrayLike(x) {
   return x != null && typeof x.length === 'number' && x.length >= 0;
-}
+};
 
-},{}]},{},[1])(1)
+},{}]},{},[2])(2)
 });
