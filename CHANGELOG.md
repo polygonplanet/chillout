@@ -1,5 +1,11 @@
 # Change Log
 
+## [Unreleased]
+
+### Removed
+
+* Drop bower support
+
 ## [4.0.3]
 
 ### Changed

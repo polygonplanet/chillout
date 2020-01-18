@@ -64,12 +64,6 @@ Chillout.js is a standalone library, and you can use it in the most of JavaScrip
 $ npm install chillout
 ```
 
-### bower
-
-```bash
-$ bower install chillout
-```
-
 ### CDN
 
 chillout.js is available on [jsdelivr.com](https://www.jsdelivr.com/package/npm/chillout) and [cdnjs.com](https://cdnjs.com/libraries/chillout).
