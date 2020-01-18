@@ -1,36 +1,36 @@
 const assert = require('assert');
 const chillout = require('../src/index');
 
-describe('forOf', function() {
+describe('forOf', () => {
   if (typeof Symbol === 'undefined') {
-    return it('skip', function() {
+    return it('skip', () => {
       assert(true);
     });
   }
 
-  it('array', function(done) {
-    var values = [];
-    chillout.forOf([1, 2, 3], function(value) {
+  it('array', done => {
+    const values = [];
+    chillout.forOf([1, 2, 3], value => {
       values.push(value);
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [1, 2, 3]);
       done();
     });
   });
 
-  it('string', function(done) {
-    var values = [];
-    chillout.forOf('abc', function(value) {
+  it('string', done => {
+    const values = [];
+    chillout.forOf('abc', value => {
       values.push(value);
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, ['a', 'b', 'c']);
       done();
     });
   });
 
-  it('TypedArray', function(done) {
-    var values = [];
-    var iterable = new Uint8Array([0x00, 0xff]);
+  it('TypedArray', done => {
+    const values = [];
+    const iterable = new Uint8Array([0x00, 0xff]);
 
     if (typeof iterable[Symbol.iterator] !== 'function') {
       // skip
@@ -39,71 +39,71 @@ describe('forOf', function() {
       return;
     }
 
-    chillout.forOf(iterable, function(value) {
+    chillout.forOf(iterable, value => {
       values.push(value);
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [0, 255]);
       done();
     });
   });
 
-  it('Map', function(done) {
-    var values = [];
-    var iterable = new Map([['a', 1], ['b', 2], ['c', 3]]);
-    chillout.forOf(iterable, function(value) {
+  it('Map', done => {
+    const values = [];
+    const iterable = new Map([['a', 1], ['b', 2], ['c', 3]]);
+    chillout.forOf(iterable, value => {
       values.push(value);
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [['a', 1], ['b', 2], ['c', 3]]);
       done();
     });
   });
 
-  it('Set', function(done) {
-    var values = [];
-    var iterable = new Set([1, 1, 2, 2, 3, 3]);
-    chillout.forOf(iterable, function(value) {
+  it('Set', done => {
+    const values = [];
+    const iterable = new Set([1, 1, 2, 2, 3, 3]);
+    chillout.forOf(iterable, value => {
       values.push(value);
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [1, 2, 3]);
       done();
     });
   });
 
-  it('specify context', function(done) {
-    var context = {
+  it('specify context', done => {
+    const context = {
       values: []
     };
     chillout.forOf([1, 2, 3], function(value) {
       this.values.push(value);
-    }, context).then(function() {
+    }, context).then(() => {
       assert.deepEqual(context.values, [1, 2, 3]);
       done();
     });
   });
 
-  it('stop iteration', function(done) {
-    var values = [];
-    chillout.forOf([1, 2, 3, 4, 5], function(value) {
+  it('stop iteration', done => {
+    const values = [];
+    chillout.forOf([1, 2, 3, 4, 5], value => {
       values.push(value);
       if (value === 3) {
         return chillout.StopIteration;
       }
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [1, 2, 3]);
       done();
     });
   });
 
-  it('stop nested Promise iteration', function(done) {
-    var values = [];
-    chillout.forOf([1, 2, 3, 4, 5], function(value) {
+  it('stop nested Promise iteration', done => {
+    const values = [];
+    chillout.forOf([1, 2, 3, 4, 5], value => {
       values.push(value);
       if (value === 3) {
-        return new Promise(function(resolve, reject) {
+        return new Promise((resolve, reject) => {
           resolve(chillout.StopIteration);
         });
       }
-    }).then(function() {
+    }).then(() => {
       assert.deepEqual(values, [1, 2, 3]);
       done();
     });
