@@ -3,7 +3,7 @@
 
 require('es6-shim');
 var chillout = require('../dist/chillout');
-var pusage = require('pidusage');
+var pidusage = require('pidusage');
 
 var REPEAT_COUNT = 100;
 var cpuLoads = {
@@ -14,7 +14,7 @@ var cpuLoads = {
 // Get CPU usage for the current node process
 function cpuStat(type) {
   return new Promise(function(resolve, reject) {
-    pusage.stat(process.pid, function(err, stat) {
+    pidusage.stat(process.pid, function(err, stat) {
       if (err) {
         console.log('[Error]');
         console.log(err);

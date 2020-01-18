@@ -25,9 +25,8 @@
     "karma-safari-launcher": "^1.0.0",
     "mocha": "^7.0.0",
     "package-json-versionify": "^1.0.4",
-    "pidusage": "2.0.17",
+    "pidusage": "1.0.2",
     "power-assert": "^1.6.1",
-    "semver": "^7.1.1",
     "uglify-js": "^3.7.5",
     "uglifyify": "^5.0.2",
     "watchify": "^3.11.1"
