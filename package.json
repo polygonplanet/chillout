@@ -70,8 +70,8 @@
     "build": "npm run compile && npm run minify",
     "compile": "browserify src/index.js -o dist/chillout.js -s chillout -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
     "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
-    "test": "npm run build && mocha test/**/*.spec.js && karma start karma.conf.js",
-    "travis": "npm run build && mocha test/**/*.spec.js && karma start karma.conf.js --single-run",
+    "test": "npm run build && mocha test/**/*.spec.js --timeout 10000 && karma start karma.conf.js",
+    "travis": "npm run build && mocha test/**/*.spec.js --timeout 10000 && karma start karma.conf.js --single-run",
     "watch": "watchify src/index.js -o dist/chillout.js -s chillout -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v"
   },
   "browserify": {
