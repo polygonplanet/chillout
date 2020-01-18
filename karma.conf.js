@@ -8,9 +8,11 @@ module.exports = function(config) {
       'detectBrowsers'
     ],
     files: [
-      './test/chillout.spec.js'
+      './test/**/*.spec.js'
     ],
-    exclude: [],
+    exclude: [
+      './test/async-await.spec.js'
+    ],
     preprocessors: {
       './test/**/*.js': ['browserify']
     },
