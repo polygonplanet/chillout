@@ -12,13 +12,13 @@ exports.version = require('../package.json').version;
  *  or an error occurs.
  * This method can be called like JavaScript `Array forEach`.
  *
- * @param {Array|Object} obj Target array or object
- * @param {Function} callback Function to execute for each element, taking three arguments:
+ * @param {array|object} obj Target array or object
+ * @param {function} callback Function to execute for each element, taking three arguments:
  * - value: The current element being processed in the array/object
  * - key: The key of the current element being processed in the array/object
  * - obj: The array/object that `forEach` is being applied to
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 exports.forEach = function forEach(obj, callback, context) {
   return iterate(iterator.forEach(obj, callback, context));
@@ -30,15 +30,15 @@ exports.forEach = function forEach(obj, callback, context) {
  *  or an error occurs.
  * This method can be called like JavaScript `for` statement.
  *
- * @param {number|Object} count The number of times or object for execute the
+ * @param {number|object} count The number of times or object for execute the
  *   function. Following parameters are available if specify object:
  * - start: The number of start
  * - step: The number of step
  * - end: The number of end
- * @param {Function} callback Function to execute for each times, taking one argument:
+ * @param {function} callback Function to execute for each times, taking one argument:
  * - i: The current number
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 exports.repeat = function repeat(count, callback, context) {
   return iterate(iterator.repeat(count, callback, context));
@@ -49,9 +49,9 @@ exports.repeat = function repeat(count, callback, context) {
  *  or an error occurs.
  * This method can be called like JavaScript `while (true) { ... }` statement.
  *
- * @param {Function} callback The function that is executed for each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {function} callback The function that is executed for each iteration
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 exports.until = function until(callback, context) {
   return iterate(iterator.until(callback, context));
@@ -68,9 +68,9 @@ const WAIT_UNTIL_INTERVAL = 13;
  *  than `until` to reduce CPU load.
  * This method is useful when you want to wait until some processing done.
  *
- * @param {Function} callback The function that is executed for each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {function} callback The function that is executed for each iteration
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 exports.waitUntil = function waitUntil(callback, context) {
   return iterate(iterator.until(callback, context), WAIT_UNTIL_INTERVAL);
@@ -82,11 +82,11 @@ exports.waitUntil = function waitUntil(callback, context) {
  * The iteration will break if the callback function returns `chillout.StopIteration`,
  *   or an error occurs.
  *
- * @param {Array|string|Object} iterable Target iterable objects
- * @param {Function} callback Function to execute for each element, taking one argument:
+ * @param {array|string|object} iterable Target iterable objects
+ * @param {function} callback Function to execute for each element, taking one argument:
  * - value: A value of a property on each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 exports.forOf = function forOf(iterable, callback, context) {
   return iterate(iterator.forOf(iterable, callback, context));
