@@ -66,7 +66,7 @@
     "url": "https://github.com/polygonplanet/chillout.git"
   },
   "scripts": {
-    "benchmark": "node test/benchmark",
+    "benchmark": "node benchmark/benchmark",
     "build": "npm run compile && npm run minify",
     "compile": "browserify src/index.js -o dist/chillout.js -s chillout -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
     "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
