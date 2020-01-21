@@ -2,6 +2,8 @@ const { isThenable } = require('./util');
 const StopIteration = require('./stop-iteration');
 const nextTick = require('./next-tick');
 
+const MAX_DELAY = 1500;
+
 module.exports = function iterate(it, interval = 0) {
   return new Promise((resolve, reject) => {
     let totalTime = 0;
@@ -44,21 +46,16 @@ module.exports = function iterate(it, interval = 0) {
           cycleEndTime = endTime - cycleStartTime;
           totalTime += cycleEndTime;
 
+          // Break the loop when the process is continued for more than 1s
           if (totalTime > 1000) {
-            // Break the loop when the process is continued for more than 1s
             break;
-          }
-          if (cycleEndTime < 10) {
-            // Delay is not required for fast iteration
-            continue;
           }
 
-          const risk = Math.min(10, Math.floor(cycleEndTime / 10));
-          const margin = endTime % (10 - risk);
-          if (!margin) {
-            // Break the loop if processing has exceeded the allowable
-            break;
+          // Delay is not required for fast iteration
+          if (cycleEndTime < 10) {
+            continue;
           }
+          break;
         }
       } catch (e) {
         reject(e);
@@ -68,12 +65,11 @@ module.exports = function iterate(it, interval = 0) {
       if (interval > 0) {
         // Short timeouts will throttled to >=4ms by the browser, so we execute tasks
         // slowly enough to reduce CPU load
-        const delay =  Math.min(1000, Date.now() - cycleStartTime + interval);
+        const delay =  Math.min(MAX_DELAY, Date.now() - cycleStartTime + interval);
         setTimeout(doIterate, delay);
       } else {
         // Add delay corresponding to the processing speed
-        const time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
-        const delay = Math.min(1000, Math.floor(time));
+        const delay = Math.min(MAX_DELAY, cycleEndTime / 3);
         totalTime = 0;
 
         if (delay > 10) {

@@ -30,13 +30,13 @@ exports.version = require('../package.json').version;
  *  or an error occurs.
  * This method can be called like JavaScript `Array forEach`.
  *
- * @param {Array|Object} obj Target array or object
- * @param {Function} callback Function to execute for each element, taking three arguments:
+ * @param {array|object} obj Target array or object
+ * @param {function} callback Function to execute for each element, taking three arguments:
  * - value: The current element being processed in the array/object
  * - key: The key of the current element being processed in the array/object
  * - obj: The array/object that `forEach` is being applied to
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 
 exports.forEach = function forEach(obj, callback, context) {
@@ -48,15 +48,15 @@ exports.forEach = function forEach(obj, callback, context) {
  *  or an error occurs.
  * This method can be called like JavaScript `for` statement.
  *
- * @param {number|Object} count The number of times or object for execute the
+ * @param {number|object} count The number of times or object for execute the
  *   function. Following parameters are available if specify object:
  * - start: The number of start
  * - step: The number of step
  * - end: The number of end
- * @param {Function} callback Function to execute for each times, taking one argument:
+ * @param {function} callback Function to execute for each times, taking one argument:
  * - i: The current number
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 
 
@@ -68,9 +68,9 @@ exports.repeat = function repeat(count, callback, context) {
  *  or an error occurs.
  * This method can be called like JavaScript `while (true) { ... }` statement.
  *
- * @param {Function} callback The function that is executed for each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {function} callback The function that is executed for each iteration
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 
 
@@ -88,9 +88,9 @@ var WAIT_UNTIL_INTERVAL = 13;
  *  than `until` to reduce CPU load.
  * This method is useful when you want to wait until some processing done.
  *
- * @param {Function} callback The function that is executed for each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {function} callback The function that is executed for each iteration
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 
 exports.waitUntil = function waitUntil(callback, context) {
@@ -102,11 +102,11 @@ exports.waitUntil = function waitUntil(callback, context) {
  * The iteration will break if the callback function returns `chillout.StopIteration`,
  *   or an error occurs.
  *
- * @param {Array|string|Object} iterable Target iterable objects
- * @param {Function} callback Function to execute for each element, taking one argument:
+ * @param {array|string|object} iterable Target iterable objects
+ * @param {function} callback Function to execute for each element, taking one argument:
  * - value: A value of a property on each iteration
- * @param {Object} [context] Value to use as `this` when executing callback
- * @return {Promise} Return new Promise
+ * @param {object} [context] Value to use as `this` when executing callback
+ * @return {promise} Return new Promise
  */
 
 
@@ -146,6 +146,8 @@ var _require = require('./util'),
 var StopIteration = require('./stop-iteration');
 
 var nextTick = require('./next-tick');
+
+var MAX_DELAY = 1500;
 
 module.exports = function iterate(it) {
   var interval = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -198,25 +200,18 @@ module.exports = function iterate(it) {
 
           var endTime = Date.now();
           cycleEndTime = endTime - cycleStartTime;
-          totalTime += cycleEndTime;
+          totalTime += cycleEndTime; // Break the loop when the process is continued for more than 1s
 
           if (totalTime > 1000) {
-            // Break the loop when the process is continued for more than 1s
             return "break";
-          }
+          } // Delay is not required for fast iteration
+
 
           if (cycleEndTime < 10) {
-            // Delay is not required for fast iteration
             return "continue";
           }
 
-          var risk = Math.min(10, Math.floor(cycleEndTime / 10));
-          var margin = endTime % (10 - risk);
-
-          if (!margin) {
-            // Break the loop if processing has exceeded the allowable
-            return "break";
-          }
+          return "break";
         };
 
         _loop: for (;;) {
@@ -241,13 +236,11 @@ module.exports = function iterate(it) {
       if (interval > 0) {
         // Short timeouts will throttled to >=4ms by the browser, so we execute tasks
         // slowly enough to reduce CPU load
-        var delay = Math.min(1000, Date.now() - cycleStartTime + interval);
+        var delay = Math.min(MAX_DELAY, Date.now() - cycleStartTime + interval);
         setTimeout(doIterate, delay);
       } else {
         // Add delay corresponding to the processing speed
-        var time = Math.sqrt(cycleEndTime) * Math.min(1000, cycleEndTime) / 80;
-
-        var _delay = Math.min(1000, Math.floor(time));
+        var _delay = Math.min(MAX_DELAY, cycleEndTime / 3);
 
         totalTime = 0;
 
