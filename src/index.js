@@ -92,10 +92,8 @@ exports.forOf = function forOf(iterable, callback, context) {
   return iterate(iterator.forOf(iterable, callback, context));
 };
 
-/**
- * If you want to stop the loops, return this StopIteration
- * It works like 'break' statement in JavaScript 'for' statement
- */
+// If you want to stop the loops, return this StopIteration
+// it works like 'break' statement in JavaScript 'for' statement
 exports.StopIteration = StopIteration;
 
 // Exports core methods for user defining other iterations by using chillout
