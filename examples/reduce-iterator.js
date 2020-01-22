@@ -1,7 +1,7 @@
 // Example for defining "reduce", extend chillout.js iterations
 // Reference: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
 
-chillout.iterator.reduce = function(array, callback /*, initialValue, context */) {
+function reduceIterator(array, callback /*, initialValue, context */) {
   var len = array.length;
   var i = 0;
   var value, context;
@@ -30,7 +30,7 @@ chillout.iterator.reduce = function(array, callback /*, initialValue, context */
 };
 
 chillout.reduce = function(/* array, callback, initialValue, context */) {
-  return chillout.iterate(chillout.iterator.reduce.apply(this, arguments));
+  return chillout.iterate(reduceIterator.apply(this, arguments));
 };
 
 
