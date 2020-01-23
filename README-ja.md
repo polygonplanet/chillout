@@ -22,7 +22,7 @@ chillout.js
   + [waitUntil](#waituntil)
   + [forOf](#forof)
 * [比較表](#比較表)
-* [貢献](#貢献)
+* [Pull Request](#pull-request)
 * [ライセンス](#ライセンス)
 
 ## 概要
@@ -62,13 +62,7 @@ chillout.js は、ループ処理が重いときにはCPUが休まるくらい�
 ### npm
 
 ```bash
-$ npm install chillout --save
-```
-
-### bower
-
-```bash
-$ bower install chillout
+$ npm install chillout
 ```
 
 ### CDN
@@ -173,7 +167,7 @@ chillout.js は、より低いCPU使用率と自然な速さでJavaScriptを実�
 
 JavaScriptのパフォーマンスにおいて最も重要なことの一つは、数値的な速度ではなく安定したレスポンスによってユーザーにストレスを与えずに実行することです。これはブラウザ上で実行される場合、体感的な高速化の手段として特に重要です。
 
-*(ベンチマーク: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
+*(ベンチマーク: chillout v3.1.2, Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
 
 ### ベンチマークを実行
 
@@ -196,14 +190,13 @@ JavaScriptのパフォーマンスにおいて最も重要なことの一つは�
 このメソッドは JavaScript の `Array forEach` のように使えます。
 
 * chillout.**forEach** ( obj, callback [, context ] )  
-  @param {_Array|Object_} _obj_ 対象の配列またはオブジェクト。  
-  @param {_Function_} *callback* 各要素に対して実行するコールバック関数で、3つの引数をとります。  
-  - value: 現在処理されている配列の要素、またはオブジェクトの値。
-  - key: 現在処理されている配列の要素のインデックス、またはオブジェクトのキー。
-  - obj: `forEach` が適用されている配列またはオブジェクト。
-
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
-  @return {_Promise_} Promiseオブジェクトを返します。
+  * @param {_array|object_} _obj_ 対象の配列またはオブジェクト。  
+  * @param {_function_} *callback* 各要素に対して実行するコールバック関数で、3つの引数をとります。  
+    - value: 現在処理されている配列の要素、またはオブジェクトの値。
+    - key: 現在処理されている配列の要素のインデックス、またはオブジェクトのキー。
+    - obj: `forEach` が適用されている配列またはオブジェクト。
+  * @param {_object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  * @return {_promise_} Promiseオブジェクトを返します。
 
 配列のループ例:
 
@@ -273,17 +266,15 @@ logFiles();
 このメソッドは JavaScript の `for` ステートメントのように使えます。
 
 * chillout.**repeat** ( count, callback [, context ] )  
-  @param {_number|Object_} _count_ 繰り返す回数またはオブジェクトで指定。  
-  オブジェクトで指定する場合は以下のキーが有効です。
-  - start: 開始する数。
-  - step: ステップ数。
-  - done: 終了する数。
-
-  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
-  - i: 現在の数。
-
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
-  @return {_Promise_} Promiseオブジェクトを返します。
+  * @param {_number|object_} _count_ 繰り返す回数またはオブジェクトで指定。  
+    オブジェクトで指定する場合は以下のキーが有効です。
+    - start: 開始する数。
+    - step: ステップ数。
+    - done: 終了する数。
+  * @param {_function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
+    - i: 現在の数。
+  * @param {_object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  * @return {_promise_} Promiseオブジェクトを返します。
 
 回数を指定する例:
 
@@ -349,9 +340,9 @@ logUsers();
 このメソッドは JavaScript の `while (true) { ... }` ステートメントのように使えます。
 
 * chillout.**until** ( callback [, context ] )  
-  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
-  @return {_Promise_} Promiseオブジェクトを返します。
+  * @param {_function_} _callback_ 各ループに対して実行するコールバック関数。  
+  * @param {_object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  * @return {_promise_} Promiseオブジェクトを返します。
 
 ```javascript
 var i = 0;
@@ -418,10 +409,9 @@ logNewFileContents();
 このメソッドは、何らかの処理が終わるまで待ちたいときに向いています。
 
 * chillout.**waitUntil** ( callback [, context ] )  
-  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数。  
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
-  @return {_Promise_} Promiseオブジェクトを返します。
-
+  * @param {_function_} _callback_ 各ループに対して実行するコールバック関数。  
+  * @param {_object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  * @return {_promise_} Promiseオブジェクトを返します。
 
 ```javascript
 chillout.waitUntil(function() {
@@ -456,12 +446,11 @@ chillout.waitUntil(function() {
 関数内で `chillout.StopIteration` を返すか、エラーが発生すると、それ以降のループは実行されません。
 
 * chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ 列挙可能なプロパティに対して、ループ処理を行うオブジェクト。  
-  @param {_Function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
-  - value: 各ループ処理におけるプロパティの値。
-
-  @param {_Object_} [_context_] 任意。コールバック内で `this` として使用する値。  
-  @return {_Promise_} Promiseオブジェクトを返します。
+  * @param {_array|string|object_} _iterable_ 列挙可能なプロパティに対して、ループ処理を行うオブジェクト。  
+  * @param {_function_} _callback_ 各ループに対して実行するコールバック関数で、1つの引数をとります。
+    - value: 各ループ処理におけるプロパティの値。
+  * @param {_object_} [_context_] 任意。コールバック内で `this` として使用する値。  
+  * @return {_promise_} Promiseオブジェクトを返します。
 
 配列のループ例:
 
@@ -508,15 +497,12 @@ chillout.forOf('abc', function(value) {
 | while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.until(function() {<br>&nbsp;&nbsp;if (!cond()) return chillout.StopIteration;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
-
-
 ※ `async/await` が使える環境ではより簡潔に書けます。 chillout.js のAPIはすべて Promise を返すので `async/await` で扱えるようになっています。
 
+## Pull Request
 
-## 貢献
-
-pull request または issues を歓迎します。  
-pull request の際は、 `npm test` を実行してエラーがないことを確認してください。
+バグレポートや機能要望などの Issues や、Pull Request を歓迎しています。
+Pull Requestの際は、 `npm run test` を実行してエラーがないことを確認していただけると助かります。
 
 ## ライセンス
 

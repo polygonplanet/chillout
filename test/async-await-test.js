@@ -1,30 +1,21 @@
-/*global describe, beforeEach, afterEach, it, assert*/
+const assert = require('assert');
+const chillout = require('../src/index');
 
-const chillout = require('../dist/chillout');
-const assert = require('power-assert');
-
-describe('async / await', function() {
-  'use strict';
-
-  this.timeout(10 * 1000);
-
-
-  function sleep(msec) {
-    return new Promise(resolve => setTimeout(resolve, msec));
-  }
+describe('async / await', () => {
+  const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 
   // Check whether the callback order does not change with async sleep
-  async function checkSleep() {
+  const checkSleep = async () => {
     const startTime = Date.now();
     await sleep(100);
     const elapsedTime = Date.now() - startTime;
     // Includes the time lag
     assert(elapsedTime >= 90);
-  }
+  };
 
   describe('forEach', () => {
     it('native forEach', done => {
-      async function test_native_forEach() {
+      const test_native_forEach = async () => {
         const logs = [];
         logs.push('start');
 
@@ -36,7 +27,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_native_forEach();
@@ -47,7 +38,7 @@ describe('async / await', function() {
     });
 
     it('chillout.forEach', done => {
-      async function test_chillout_forEach() {
+      const test_chillout_forEach = async () => {
         const logs = [];
         logs.push('start');
 
@@ -57,7 +48,7 @@ describe('async / await', function() {
         });
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_chillout_forEach();
@@ -71,7 +62,7 @@ describe('async / await', function() {
 
   describe('repeat', () => {
     it('native for loop', done => {
-      async function test_native_forLoop() {
+      const test_native_forLoop = async () => {
         const logs = [];
         logs.push('start');
 
@@ -82,7 +73,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_native_forLoop();
@@ -93,7 +84,7 @@ describe('async / await', function() {
     });
 
     it('chillout.repeat', done => {
-      async function test_chillout_repeat() {
+      const test_chillout_repeat = async () => {
         const logs = [];
         logs.push('start');
 
@@ -104,7 +95,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_chillout_repeat();
@@ -118,7 +109,7 @@ describe('async / await', function() {
 
   describe('until', () => {
     it('native while', done => {
-      async function test_native_whileLoop() {
+      const test_native_whileLoop = async () => {
         const logs = [];
         logs.push('start');
 
@@ -131,7 +122,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_native_whileLoop();
@@ -142,7 +133,7 @@ describe('async / await', function() {
     });
 
     it('chillout.until', done => {
-      async function test_chillout_until() {
+      const test_chillout_until = async () => {
         const logs = [];
         logs.push('start');
 
@@ -158,7 +149,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_chillout_until();
@@ -172,7 +163,7 @@ describe('async / await', function() {
 
   describe('waitUntil', () => {
     it('native while', done => {
-      async function test_native_whileLoop() {
+      const test_native_whileLoop = async () => {
         const logs = [];
         logs.push('start');
 
@@ -185,7 +176,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_native_whileLoop();
@@ -196,7 +187,7 @@ describe('async / await', function() {
     });
 
     it('chillout.waitUntil', done => {
-      async function test_chillout_waitUntil() {
+      const test_chillout_waitUntil = async () => {
         const logs = [];
         logs.push('start');
 
@@ -212,7 +203,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_chillout_waitUntil();
@@ -225,7 +216,7 @@ describe('async / await', function() {
 
   describe('forOf', () => {
     it('native for-of loop', done => {
-      async function test_native_forOfLoop() {
+      const test_native_forOfLoop = async () => {
         const logs = [];
         logs.push('start');
 
@@ -236,7 +227,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_native_forOfLoop();
@@ -247,7 +238,7 @@ describe('async / await', function() {
     });
 
     it('chillout.forOf', done => {
-      async function test_chillout_forOf() {
+      const test_chillout_forOf = async () => {
         const logs = [];
         logs.push('start');
 
@@ -258,7 +249,7 @@ describe('async / await', function() {
 
         logs.push('done');
         return logs;
-      }
+      };
 
       (async () => {
         const logs = await test_chillout_forOf();

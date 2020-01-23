@@ -2,17 +2,20 @@ module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: [
+      'es6-shim',
       'mocha',
+      'browserify',
       'detectBrowsers'
     ],
     files: [
-      './node_modules/es6-shim/es6-shim.js',
-      './node_modules/power-assert/build/power-assert.js',
-      './dist/chillout.js',
-      './test/test.js'
+      './test/**/*.spec.js'
     ],
-    exclude: [],
-    preprocessors: {},
+    exclude: [
+      './test/async-await.spec.js'
+    ],
+    preprocessors: {
+      './test/**/*.js': ['browserify']
+    },
     client: {
       mocha: {
         reporter: 'html',
@@ -44,6 +47,8 @@ module.exports = function(config) {
       }
     },
     plugins: [
+      'karma-browserify',
+      'karma-es6-shim',
       'karma-mocha',
       'karma-mocha-reporter',
       'karma-chrome-launcher',

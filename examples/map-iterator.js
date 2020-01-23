@@ -1,7 +1,7 @@
 // Example for defining "map", extend chillout.js iterations
 // Reference: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 
-chillout.iterator.map = function(array, callback, context) {
+function mapIterator(array, callback, context) {
   var len = array.length;
   var i = 0;
   var items = [];
@@ -21,7 +21,7 @@ chillout.iterator.map = function(array, callback, context) {
 };
 
 chillout.map = function(/* array, callback, context */) {
-  return chillout.iterate(chillout.iterator.map.apply(this, arguments));
+  return chillout.iterate(mapIterator.apply(this, arguments));
 };
 
 

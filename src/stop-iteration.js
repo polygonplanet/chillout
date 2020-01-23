@@ -1,2 +1,2 @@
 const StopIteration = {};
-export default StopIteration;
+module.exports = StopIteration;

@@ -1,6 +1,6 @@
-import { isArrayLike } from './util';
+const { isArrayLike } = require('./util');
 
-export function forEach(obj, callback, context) {
+exports.forEach = function(obj, callback, context) {
   let i = 0;
   let len;
 
@@ -34,9 +34,9 @@ export function forEach(obj, callback, context) {
       return [false, value];
     }
   };
-}
+};
 
-export function repeat(count, callback, context) {
+exports.repeat = function(count, callback, context) {
   let i;
   let step;
   let done;
@@ -62,18 +62,18 @@ export function repeat(count, callback, context) {
       return [false, value];
     }
   };
-}
+};
 
-export function until(callback, context) {
+exports.until = function(callback, context) {
   return {
     next() {
       const value = callback.call(context);
       return [false, value];
     }
   };
-}
+};
 
-export function forOf(iterable, callback, context) {
+exports.forOf = function(iterable, callback, context) {
   const it = iterable[Symbol.iterator]();
 
   return {
@@ -87,4 +87,4 @@ export function forOf(iterable, callback, context) {
       return [false, value];
     }
   };
-}
+};
