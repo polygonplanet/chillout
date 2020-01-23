@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [5.0.0]
 ### Changed
 - Changed delay time to run more slowly to reduce CPU than previously.
 
@@ -85,6 +85,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - First release.
 
+[5.0.0]: https://github.com/polygonplanet/chillout/compare/4.0.3...5.0.0
 [4.0.4]: https://github.com/polygonplanet/chillout/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/polygonplanet/chillout/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/polygonplanet/chillout/compare/4.0.0...4.0.2

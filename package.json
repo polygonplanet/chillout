@@ -1,7 +1,7 @@
 {
   "name": "chillout",
   "description": "Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript",
-  "version": "4.0.5",
+  "version": "5.0.0",
   "author": "polygon planet <polygon.planet.aqua@gmail.com>",
   "bugs": {
     "url": "https://github.com/polygonplanet/chillout/issues"
