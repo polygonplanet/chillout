@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [5.0.0]
+## [5.0.0] - 2020-01-24
 ### Changed
 - Changed delay time to run more slowly to reduce CPU than previously.
 
