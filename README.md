@@ -166,7 +166,7 @@ chillout.js can run JavaScript in a natural speed with low CPU usage, but proces
 One of the most important thing of performance in JavaScript, that is not numeric speed, but is to execute without causing stress to the user experience.
 
 
-*(Benchmarks: Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
+*(Benchmarks: chillout v3.1.2, Windows8.1 / Intel(R) Atom(TM) CPU Z3740 1.33GHz)*
 
 ### Run Benchmark
 
@@ -189,14 +189,13 @@ The iteration will break if the callback function returns `chillout.StopIteratio
 This method can be called like JavaScript `Array forEach`.
 
 * chillout.**forEach** ( obj, callback [, context ] )  
-  @param {_Array|Object_} _obj_ Target array or object  
-  @param {_Function_} *callback* Function to execute for each element, taking three arguments:  
-  - value: The current element being processed in the array/object
-  - key: The key of the current element being processed in the array/object
-  - obj: The array/object that `forEach` is being applied to
-
-  @param {_Object_} [_context_] Value to use as `this` when executing callback  
-  @return {_Promise_} Return new Promise
+  * @param {_array|object_} _obj_ Target array or object  
+  * @param {_function_} *callback* Function to execute for each element, taking three arguments:  
+    - value: The current element being processed in the array/object
+    - key: The key of the current element being processed in the array/object
+    - obj: The array/object that `forEach` is being applied to
+  * @param {_object_} [_context_] Value to use as `this` when executing callback  
+  * @return {_promise_} Return new Promise
 
 Example of array iteration:
 
@@ -269,17 +268,15 @@ The iteration will break if the callback function returns `chillout.StopIteratio
 This method can be called like JavaScript `for` statement.
 
 * chillout.**repeat** ( count, callback [, context ] )  
-  @param {_number|Object_} _count_ The number of times or object for execute the function  
+  * @param {_number|object_} _count_ The number of times or object for execute the function  
   Following parameters are available if specify object:
-  - start: The number of start
-  - step: The number of step
-  - done: The number of done
-
-  @param {_Function_} _callback_ Function to execute for each times, taking one argument:
-  - i: The current number
-
-  @param {_Object_} [_context_] Value to use as `this` when executing callback  
-  @return {_Promise_} Return new Promise
+    - start: The number of start
+    - step: The number of step
+    - done: The number of done
+  * @param {_function_} _callback_ Function to execute for each times, taking one argument:
+    - i: The current number
+  * @param {_object_} [_context_] Value to use as `this` when executing callback  
+  * @return {_promise_} Return new Promise
 
 Example of specify number:
 
@@ -344,9 +341,9 @@ Executes a provided function until the `callback` returns `chillout.StopIteratio
 This method can be called like JavaScript `while (true) { ... }` statement.
 
 * chillout.**until** ( callback [, context ] )  
-  @param {_Function_} _callback_ The function that is executed for each iteration  
-  @param {_Object_} [_context_] Value to use as `this` when executing callback  
-  @return {_Promise_} Return new Promise
+  * @param {_function_} _callback_ The function that is executed for each iteration  
+  * @param {_object_} [_context_] Value to use as `this` when executing callback  
+  * @return {_promise_} Return new Promise
 
 ```javascript
 var i = 0;
@@ -413,9 +410,9 @@ This method can be called like JavaScript `while (true) { ... }` statement, and 
 This method is useful when you want to wait until some processing done.
 
 * chillout.**waitUntil** ( callback [, context ] )  
-  @param {_Function_} _callback_ The function that is executed for each iteration  
-  @param {_Object_} [_context_] Value to use as `this` when executing callback  
-  @return {_Promise_} Return new Promise
+  * @param {_function_} _callback_ The function that is executed for each iteration  
+  * @param {_object_} [_context_] Value to use as `this` when executing callback  
+  * @return {_promise_} Return new Promise
 
 ```javascript
 chillout.waitUntil(function() {
@@ -450,12 +447,11 @@ Executes a provided function once per element.
 The iteration will break if the callback function returns `chillout.StopIteration`, or an error occurs.
 
 * chillout.**forOf** ( iterable, callback [, context ] )  
-  @param {_Array|string|Object_} _iterable_ Target iterable objects  
-  @param {_Function_} _callback_ Function to execute for each element, taking one argument:
-  - value: A value of a property on each iteration
-
-  @param {_Object_} [_context_] Value to use as `this` when executing callback  
-  @return {_Promise_} Return new Promise
+  * @param {_array|string|object_} _iterable_ Target iterable objects  
+  * @param {_function_} _callback_ Function to execute for each element, taking one argument:
+    - value: A value of a property on each iteration
+  * @param {_object_} [_context_] Value to use as `this` when executing callback  
+  * @return {_promise_} Return new Promise
 
 Example of iterate array:
 
@@ -491,7 +487,6 @@ chillout.forOf('abc', function(value) {
 
 You can reduce the CPU load by using the chillout.js API instead native JavaScript loops in your application.
 
-
 Examples:
 
 | JavaScript Statement                 | chillout                                                                      |
@@ -503,16 +498,13 @@ Examples:
 | while (cond()) {<br>&nbsp;&nbsp;doSomething();<br>}                    | chillout.until(function() {<br>&nbsp;&nbsp;if (!cond()) return chillout.StopIteration;<br>&nbsp;&nbsp;doSomething();<br>})    |
 | for (value of [1, 2, 3]) {}          | chillout.forOf([1, 2, 3], function(value) {})                                 |
 
-
 (You can write more simply using by `async / await` syntax because chillout.js' all APIs return Promise.)
-
 
 ## Contributing
 
-I'm waiting for your pull requests and issues.
-Don't forget to execute `npm test` before requesting.
+We're waiting for your pull requests and issues.
+Don't forget to execute `npm run test` before requesting.
 Accepted only requests without errors.
-
 
 ## License
 
