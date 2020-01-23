@@ -13,6 +13,7 @@
     "bannerify": "^1.0.1",
     "browserify": "^16.5.0",
     "es6-shim": "^0.35.5",
+    "eslint": "^6.8.0",
     "karma": "^4.4.1",
     "karma-browserify": "^6.1.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -70,7 +71,7 @@
     "build": "npm run compile && npm run minify",
     "compile": "browserify src/index.js -o dist/chillout.js -s chillout -p [ bannerify --file src/banner.js ] --no-bundle-external --bare",
     "minify": "uglifyjs dist/chillout.js -o dist/chillout.min.js --comments -c -m -b ascii_only=true,beautify=false",
-    "test": "npm run build && mocha test/**/*.spec.js --timeout 10000 && karma start karma.conf.js",
+    "test": "./node_modules/.bin/eslint . && npm run build && mocha test/**/*.spec.js --timeout 10000 && karma start karma.conf.js",
     "travis": "npm run build && mocha test/**/*.spec.js --timeout 10000 && karma start karma.conf.js --single-run",
     "watch": "watchify src/index.js -o dist/chillout.js -s chillout -p [ bannerify --file src/banner.js ] --no-bundle-external --bare --poll=200 -v"
   },
