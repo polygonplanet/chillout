@@ -6,7 +6,7 @@ chillout.js
 Reduce CPU usage by non-blocking asynchronous loop and psychologically speed up to improve the user experience in JavaScript.
 
 [![NPM Version](https://img.shields.io/npm/v/chillout.svg)](https://www.npmjs.com/package/chillout)
-[![Build Status](https://travis-ci.org/polygonplanet/chillout.svg?branch=master)](https://travis-ci.org/polygonplanet/chillout)
+[![Build Status](https://travis-ci.com/polygonplanet/chillout.svg?branch=master)](https://travis-ci.com/polygonplanet/chillout)
 [![Bundle Size (minified)](https://img.shields.io/github/size/polygonplanet/chillout/dist/chillout.min.js.svg)](https://github.com/polygonplanet/chillout/blob/master/dist/chillout.min.js)
 [![GitHub License](https://img.shields.io/github/license/polygonplanet/chillout.svg)](https://github.com/polygonplanet/chillout/blob/master/LICENSE)
 
