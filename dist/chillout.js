@@ -1,6 +1,6 @@
 /*!
  * chillout v5.0.0 - Reduce CPU usage by non-blocking async loop and psychologically speed up in JavaScript
- * Copyright (c) 2017-2020 polygon planet <polygon.planet.aqua@gmail.com>
+ * Copyright (c) 2017-2021 polygon planet <polygon.planet.aqua@gmail.com>
  * https://github.com/polygonplanet/chillout
  * @license MIT
  */
